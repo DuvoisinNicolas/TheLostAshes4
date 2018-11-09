@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0826ddd9-b585-48be-917c-3aff85dc4c7b" name="ssh-thelostashes4.alwaysdata.net" url="http://ssh-thelostashes4.alwaysdata.net">
+        <fileTransfer host="ssh-thelostashes4.alwaysdata.net" port="22" rootFolder="/home/thelostashes4" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
