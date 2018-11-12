@@ -34,8 +34,13 @@ public class DAOUser {
         return true;
     }
 
-    public boolean insert (User user) {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USER ")
+    public User insert (User user) throws Exception {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USER (USERNAME, PWD, MAIL) VALUES (?,?,?)");
+        preparedStatement.setString(1,user.getUsername());
+        preparedStatement.setString(2,Password.getSaltedHash(user.getPassword()));
+        preparedStatement.setString(3,user.getMail());
+        preparedStatement.executeUpdate();
+        return user;
     }
 
 

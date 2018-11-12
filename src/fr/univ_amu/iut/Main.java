@@ -85,6 +85,7 @@ public class Main extends Application {
             try {
                 DAOUser daoUser = new DAOUser();
                 User user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
+                System.out.println(user.getUsername());
             }
             catch (NoUserException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
