@@ -1,6 +1,7 @@
 package fr.univ_amu.iut.Exceptions;
 
 public class NoUserException extends Exception {
+
     public NoUserException () {
         super();
     }

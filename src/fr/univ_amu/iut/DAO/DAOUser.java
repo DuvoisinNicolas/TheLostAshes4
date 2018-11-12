@@ -23,13 +23,27 @@ public class DAOUser {
 
     }
 
+    public Boolean checkifNotExistsUsernameAndMail (String pseudo) throws Exception {
+
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = ?");
+        preparedStatement.setString(1,pseudo);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+                return false;
+        }
+        return true;
+    }
+
+    public boolean insert (User user) {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO USER ")
+    }
+
+
    public User findByUsernameAndPwd (String pseudo, String pwd) throws Exception {
 
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM USER WHERE USERNAME = ?");
         preparedStatement.setString(1,pseudo);
         ResultSet resultSet = preparedStatement.executeQuery();
-
-
         while (resultSet.next()) {
             if (Password.check(pwd, resultSet.getString("PWD"))) {
                 return UserMapper.mapRow(resultSet);

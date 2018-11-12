@@ -4,6 +4,7 @@ import fr.univ_amu.iut.DAO.DAOUser;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -56,6 +57,7 @@ public class Main extends Application {
         HBox top = new HBox();
         Label title = new Label("The Lost Ashes 4");
         title.setFont(fontTitle);
+        top.setPadding(new Insets(10,0,0,0));
         top.setAlignment(Pos.CENTER);
         top.getChildren().add(title);
         root.setTop(top);
@@ -65,6 +67,7 @@ public class Main extends Application {
 
         // Partie de gauche -> Connexion
         VBox login = new VBox();
+        login.setSpacing(10);
         login.setAlignment(Pos.CENTER);
 
         TextField loginField = new TextField();
@@ -74,6 +77,10 @@ public class Main extends Application {
         pwdField.setPromptText("Mot de Passe");
 
         Button connectButton = new Button("Connexion");
+
+        /**
+         * Bouton permettant de vérifier la connexion de l'utilisateur
+         */
         connectButton.setOnAction(event -> {
             try {
                 DAOUser daoUser = new DAOUser();
@@ -88,17 +95,59 @@ public class Main extends Application {
             catch (Exception e) {
                 e.printStackTrace();
             }
-
         });
+
+        center.setPadding(new Insets(150,0,0,150));
         login.getChildren().addAll(loginField,pwdField,connectButton);
 
         // Partie de droite -> Inscription
         VBox register = new VBox();
+        register.setSpacing(10);
+        register.setAlignment(Pos.CENTER);
+
+        TextField registerField = new TextField();
+        registerField.setPromptText("Identifiant");
+
+        PasswordField mdpField = new PasswordField();
+        mdpField.setPromptText("Mot de passe");
+
+        TextField mailField = new TextField();
+        mailField.setPromptText("Mail");
+
+        Button registerButton = new Button("Inscription");
+
+        /**
+         * Ajout d'une inscription
+         */
+        registerButton.setOnAction(event -> {
+            try {
+                DAOUser daoUser = new DAOUser();
+                if (daoUser.checkifNotExistsUsernameAndMail(registerField.getText())) {
+                    User user = new User();
+                    user.setUsername(registerField.getText());
+                    user.setPassword(mdpField.getText());
+                    user.setMail(mailField.getText());
+                    daoUser.insert(user);
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur !");
+                    alert.setContentText("Le pseudo ou le mail est déja pris");
+                    alert.showAndWait();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        register.setPadding(new Insets(0,0,0,200));
+
+        register.getChildren().addAll(registerField,mdpField,mailField,registerButton);
 
         center.add(login,0,0);
+        center.add(register,1,0);
 
         root.setCenter(center);
-
-
     }
 }
