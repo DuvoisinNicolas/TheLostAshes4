@@ -1,6 +1,8 @@
 package fr.univ_amu.iut;
 
 import fr.univ_amu.iut.DAO.DAOUser;
+import fr.univ_amu.iut.Exceptions.BadEntryException;
+import fr.univ_amu.iut.Exceptions.InvalidMailException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
@@ -16,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Main extends Application {
@@ -127,6 +131,14 @@ public class Main extends Application {
          */
         registerButton.setOnAction(event -> {
             try {
+                Pattern pattern = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+                Matcher matcher = pattern.matcher(mailField.getText());
+                if (!matcher.matches()) {
+                    throw new InvalidMailException();
+                }
+                if (registerField.getText().length() <= 4  && mdpField.getText().length() <= 4) {
+                    throw new BadEntryException();
+                }
                 DAOUser daoUser = new DAOUser();
                 if (daoUser.checkifNotExistsUsernameAndMail(registerField.getText())) {
                     User user = new User();
@@ -141,7 +153,20 @@ public class Main extends Application {
                     alert.setContentText("Le pseudo ou le mail est déja pris");
                     alert.showAndWait();
                 }
-            } catch (Exception e) {
+            }
+            catch (BadEntryException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur !");
+                alert.setContentText("Le pseudo ou le mot de passe est trop court");
+                alert.showAndWait();
+            }
+            catch (InvalidMailException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur !");
+                alert.setContentText("Le mail est invalide");
+                alert.showAndWait();
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
