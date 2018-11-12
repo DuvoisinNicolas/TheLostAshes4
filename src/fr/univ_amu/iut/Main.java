@@ -19,6 +19,12 @@ import java.sql.SQLException;
 
 
 public class Main extends Application {
+
+    /**
+     * Paramètres de l'utilisateur
+     */
+
+    private User user = new User();
     private BorderPane root = new BorderPane();
     /**
      * Hauteur et largeur de la fenètre
@@ -84,8 +90,7 @@ public class Main extends Application {
         connectButton.setOnAction(event -> {
             try {
                 DAOUser daoUser = new DAOUser();
-                User user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
-                System.out.println(user.getUsername());
+                user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
             }
             catch (NoUserException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
