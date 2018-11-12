@@ -1,17 +1,20 @@
 package fr.univ_amu.iut;
 
+import fr.univ_amu.iut.DAO.DAOUser;
+import fr.univ_amu.iut.Exceptions.NoUserException;
+import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 
 
 public class Main extends Application {
@@ -63,14 +66,31 @@ public class Main extends Application {
         // Partie de gauche -> Connexion
         VBox login = new VBox();
         login.setAlignment(Pos.CENTER);
-        Label loginText = new Label("Connexion");
-        loginText.setFont(fontText);
+
         TextField loginField = new TextField();
         loginField.setPromptText("Identifiant");
+
         PasswordField pwdField = new PasswordField();
         pwdField.setPromptText("Mot de Passe");
 
-        login.getChildren().addAll(loginText,loginField,pwdField);
+        Button connectButton = new Button("Connexion");
+        connectButton.setOnAction(event -> {
+            try {
+                DAOUser daoUser = new DAOUser();
+                User user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
+            }
+            catch (NoUserException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur !");
+                alert.setContentText("Mauvais identifiants !");
+                alert.showAndWait();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+        login.getChildren().addAll(loginField,pwdField,connectButton);
 
         // Partie de droite -> Inscription
         VBox register = new VBox();
