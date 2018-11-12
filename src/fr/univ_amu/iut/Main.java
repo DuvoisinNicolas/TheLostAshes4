@@ -19,14 +19,15 @@ public class Main extends Application {
     /**
      * Hauteur et largeur de la fenètre
      */
-    private int height = 800;
-    private int width = 600;
+    private int height = 600;
+    private int width = 800;
+
 
     /**
      * Taille et police des titres et des textes
      */
     private Font fontTitle = new Font("Arial",20);
-    private Font fontText = new Font("Arial",40);
+    private Font fontText = new Font("Arial",12);
 
     public static void main(String[] args) {
         launch(args);
@@ -63,6 +64,7 @@ public class Main extends Application {
         VBox login = new VBox();
         login.setAlignment(Pos.CENTER);
         Label loginText = new Label("Connexion");
+        loginText.setFont(fontText);
         TextField loginField = new TextField();
         loginField.setPromptText("Identifiant");
         PasswordField pwdField = new PasswordField();
