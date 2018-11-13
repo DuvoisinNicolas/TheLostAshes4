@@ -1,14 +1,19 @@
 package fr.univ_amu.iut;
 
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+import fr.univ_amu.iut.DAO.DAOSpell;
 import fr.univ_amu.iut.DAO.DAOUser;
 import fr.univ_amu.iut.Exceptions.BadEntryException;
 import fr.univ_amu.iut.Exceptions.InvalidMailException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.beans.Caracter;
+import fr.univ_amu.iut.beans.Spell;
 import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +25,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,13 +58,14 @@ public class Main extends Application {
     /**
      * Caracter
      */
-    Caracter cara = new Caracter();
+    private Caracter cara = new Caracter();
 
     /**
      * Taille et police des titres et des textes
      */
     private Font fontTitle = new Font("Arial",20);
     private Font fontText = new Font("Arial",12);
+    private Font fontSubText = new Font("Arial",10);
 
     public static void main(String[] args) {
         launch(args);
@@ -103,7 +112,7 @@ public class Main extends Application {
 
         Button connectButton = new Button("Connexion");
 
-        /**
+        /*
          * Bouton permettant de vérifier la connexion de l'utilisateur
          */
         connectButton.setOnAction(event -> {
@@ -116,6 +125,12 @@ public class Main extends Application {
                 else {
                     gameInterface();
                 }
+            }
+            catch (NullPointerException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Aucune connexion à internet");
+                alert.setContentText("Merci de relancer le jeu avec internet");
+                alert.showAndWait();
             }
             catch (NoUserException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -147,7 +162,7 @@ public class Main extends Application {
 
         Button registerButton = new Button("Inscription");
 
-        /**
+        /*
          * Ajout d'une inscription
          */
         registerButton.setOnAction(event -> {
@@ -175,6 +190,12 @@ public class Main extends Application {
                     alert.setContentText("Le pseudo ou le mail est déja pris");
                     alert.showAndWait();
                 }
+            }
+            catch (NullPointerException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Aucune connexion à internet");
+                alert.setContentText("Merci de relancer le jeu avec internet");
+                alert.showAndWait();
             }
             catch (BadEntryException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -207,7 +228,7 @@ public class Main extends Application {
     /**
      * Interface de création de perso et de répartition des stats
      */
-    public void createCaraInterface () {
+    private void createCaraInterface () {
 
         IntegerProperty nombreRestant = new SimpleIntegerProperty(MAXPTSALLOUER);
         IntegerProperty forceProperty = new SimpleIntegerProperty(PTSDEBASE);
@@ -395,7 +416,11 @@ public class Main extends Application {
                 System.out.println(nameField.getText().length());
                 if (nameField.getText().length() >= 4){
                     cara.setName(nameField.getText());
-                    interfaceChoixSorts();
+                    try {
+                        interfaceChoixSorts();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     Alert alert2 = new Alert(Alert.AlertType.WARNING);
@@ -412,10 +437,72 @@ public class Main extends Application {
         root.setCenter(center);
     }
 
-    public void interfaceChoixSorts () {
+    private void interfaceChoixSorts () throws SQLException {
+        root.getChildren().clear();
 
+        // Titre en haut de page
+        HBox top = new HBox();
+        Label title = new Label("Choix des sorts");
+        title.setPadding(new Insets(0,0,50,0));
+        title.setFont(fontTitle);
+        VBox sorts = new VBox();
+        sorts.setAlignment(Pos.CENTER);
+        Label nbPoints = new Label("Nombre de sorts à choisir :");
+        nbPoints.setFont(fontText);
+        Label valPoints = new Label();
+        valPoints.setFont(fontText);
+
+        IntegerProperty nbSpellPoints = new SimpleIntegerProperty(5);
+
+        valPoints.textProperty().bind(nbSpellPoints.asString());
+
+        top.setPadding(new Insets(10,0,0,0));
+        top.setAlignment(Pos.CENTER);
+        top.getChildren().addAll(nbPoints,valPoints);
+        sorts.getChildren().addAll(title,top);
+        root.setTop(sorts);
+
+        GridPane spells = new GridPane();
+        spells.setPadding(new Insets(50,0,0,0));
+        int column = 0;
+        int row = 0;
+        DAOSpell daoSpell = new DAOSpell();
+        List<Spell> spellList = daoSpell.findAll();
+        for (Spell spell : spellList) {
+            VBox spellBox = new VBox();
+            spellBox.setPadding(new Insets(20,0,0,120));
+            Label spellLabel = new Label(spell.getName());
+            spellLabel.setFont(fontText);
+            Label spellDesc = new Label(spell.getDescr());
+            spellDesc.setFont(fontSubText);
+            CheckBox checkBox = new CheckBox();
+            checkBox.setOnAction(event -> {
+                if (checkBox.selectedProperty().get()) {
+                    if (nbSpellPoints.get() <= 0) {
+                        checkBox.setSelected(false);
+                        nbSpellPoints.set(nbSpellPoints.get()+1);
+                    }
+                    nbSpellPoints.set(nbSpellPoints.get()-1);
+                }
+                else {
+                    checkBox.setSelected(false);
+                    nbSpellPoints.set(nbSpellPoints.get()+1);
+                }
+            });
+
+            spellBox.getChildren().addAll(spellLabel,spellDesc);
+            spells.add(spellBox,column,row);
+            spells.add(checkBox,column+1,row);
+            ++column;
+            ++column;
+            if (column == 4) {
+                column = 0;
+                ++row;
+            }
+        }
+        root.setCenter(spells);
     }
-    public void gameInterface () {
+    private void gameInterface () {
 
     }
 }
