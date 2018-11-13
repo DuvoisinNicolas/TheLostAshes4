@@ -4,8 +4,11 @@ import fr.univ_amu.iut.DAO.DAOUser;
 import fr.univ_amu.iut.Exceptions.BadEntryException;
 import fr.univ_amu.iut.Exceptions.InvalidMailException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
+import fr.univ_amu.iut.beans.Caracter;
 import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,12 +33,24 @@ public class Main extends Application {
 
     private User user = new User();
     private BorderPane root = new BorderPane();
+
+    /**
+     * Répartition des stats
+     */
+    private static int MAXPTSALLOUER = 10;
+    private static int PTSDEBASE = 1;
+
     /**
      * Hauteur et largeur de la fenètre
      */
     private int height = 600;
     private int width = 800;
 
+
+    /**
+     * Caracter
+     */
+    Caracter cara = new Caracter();
 
     /**
      * Taille et police des titres et des textes
@@ -95,6 +110,12 @@ public class Main extends Application {
             try {
                 DAOUser daoUser = new DAOUser();
                 user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
+                if (user.getIdCara() == 0) {
+                    createCaraInterface();
+                }
+                else {
+                    gameInterface();
+                }
             }
             catch (NoUserException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -146,6 +167,7 @@ public class Main extends Application {
                     user.setPassword(mdpField.getText());
                     user.setMail(mailField.getText());
                     daoUser.insert(user);
+                    createCaraInterface();
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -180,5 +202,220 @@ public class Main extends Application {
         center.add(register,1,0);
 
         root.setCenter(center);
+    }
+
+    /**
+     * Interface de création de perso et de répartition des stats
+     */
+    public void createCaraInterface () {
+
+        IntegerProperty nombreRestant = new SimpleIntegerProperty(MAXPTSALLOUER);
+        IntegerProperty forceProperty = new SimpleIntegerProperty(PTSDEBASE);
+        IntegerProperty agiliteProperty = new SimpleIntegerProperty(PTSDEBASE);
+        IntegerProperty endProperty = new SimpleIntegerProperty(PTSDEBASE);
+        IntegerProperty charismeProperty = new SimpleIntegerProperty(PTSDEBASE);
+        IntegerProperty magieProperty = new SimpleIntegerProperty(PTSDEBASE);
+        root.getChildren().clear();
+
+        VBox center = new VBox();
+        center.setSpacing(5);
+        center.setAlignment(Pos.CENTER);
+
+        HBox choixDeNom = new HBox();
+        choixDeNom.setAlignment(Pos.CENTER);
+        Label nameText = new Label("Entrez votre nom :  ");
+        TextField nameField = new TextField();
+        choixDeNom.getChildren().addAll(nameText,nameField);
+
+        HBox nbRestants = new HBox();
+        Label nombreDePointsAAllouer = new Label("Nombre de points restants : ");
+        Label nombreDePtsRestants = new Label();
+        nombreDePtsRestants.textProperty().bind(nombreRestant.asString());
+        nbRestants.setAlignment(Pos.CENTER);
+        nbRestants.getChildren().addAll(nombreDePointsAAllouer,nombreDePtsRestants);
+
+        HBox choixDeForce = new HBox();
+        choixDeForce.setSpacing(40);
+        Button moinsForce = new Button("-");
+        Label forceText = new Label("Force");
+        Label force = new Label();
+        force.textProperty().bind(forceProperty.asString());
+        Button plusForce = new Button("+");
+        moinsForce.setOnAction(event -> {
+            if (forceProperty.get() > 1 && MAXPTSALLOUER > nombreRestant.get()) {
+                forceProperty.set(forceProperty.get()-1);
+                nombreRestant.set(nombreRestant.get()+1);
+            }
+        });
+        plusForce.setOnAction(event -> {
+
+            if (nombreRestant.get() > 0 && forceProperty.get() < 10)
+            {
+                forceProperty.set(forceProperty.get() + 1);
+                nombreRestant.set(nombreRestant.get()-1);
+            }
+        });
+        choixDeForce.setAlignment(Pos.CENTER);
+        choixDeForce.getChildren().addAll(moinsForce,force,plusForce);
+
+
+        HBox choixDeDexterite = new HBox();
+        choixDeDexterite.setSpacing(40);
+        Button moinsDexterite = new Button("-");
+        Label dexteriteText = new Label("Dextérité");
+        Label dexterite = new Label();
+        dexterite.textProperty().bind(agiliteProperty.asString());
+        Button plusDexterite = new Button("+");
+        moinsDexterite.setOnAction(event -> {
+            if (agiliteProperty.get() > 1 && MAXPTSALLOUER > nombreRestant.get())
+            {
+                agiliteProperty.set(agiliteProperty.get()-1);
+                nombreRestant.set(nombreRestant.get()+1);
+            }
+        });
+        plusDexterite.setOnAction(event -> {
+
+            if (nombreRestant.get() > 0 && agiliteProperty.get() < 10)
+            {
+                agiliteProperty.set(agiliteProperty.get() + 1);
+                nombreRestant.set(nombreRestant.get()-1);
+            }
+        });
+        choixDeDexterite.setAlignment(Pos.CENTER);
+        choixDeDexterite.getChildren().addAll(moinsDexterite,dexterite,plusDexterite);
+
+
+
+        HBox choixDeEndurance = new HBox();
+        choixDeEndurance.setSpacing(40);
+        Button moinsEndurance = new Button("-");
+        Label enduranceText = new Label("Endurance");
+        Label endurance = new Label();
+        endurance.textProperty().bind(endProperty.asString());
+        Button plusEndurance = new Button("+");
+        moinsEndurance.setOnAction(event -> {
+            if (endProperty.get() > 1 && MAXPTSALLOUER > nombreRestant.get())
+            {
+                endProperty.set(endProperty.get()-1);
+                nombreRestant.set(nombreRestant.get()+1);
+            }
+        });
+        plusEndurance.setOnAction(event -> {
+
+            if (nombreRestant.get() > 0 && endProperty.get() < 10)
+            {
+                endProperty.set(endProperty.get() + 1);
+                nombreRestant.set(nombreRestant.get()-1);
+            }
+        });
+        choixDeEndurance.setAlignment(Pos.CENTER);
+        choixDeEndurance.getChildren().addAll(moinsEndurance,endurance,plusEndurance);
+
+
+        HBox choixDeMagie = new HBox();
+        choixDeMagie.setSpacing(40);
+        Button moinsMagie = new Button("-");
+        Label magieText = new Label("Magie");
+        Label magie = new Label();
+        magie.textProperty().bind(magieProperty.asString());
+        Button plusMagie = new Button("+");
+        moinsMagie.setOnAction(event -> {
+            if (magieProperty.get() > 1 && MAXPTSALLOUER > nombreRestant.get())
+            {
+                magieProperty.set(magieProperty.get()-1);
+                nombreRestant.set(nombreRestant.get()+1);
+            }
+        });
+        plusMagie.setOnAction(event -> {
+
+            if (nombreRestant.get() > 0 && magieProperty.get() < 10)
+            {
+                magieProperty.set(magieProperty.get() + 1);
+                nombreRestant.set(nombreRestant.get()-1);
+            }
+        });
+        choixDeMagie.setAlignment(Pos.CENTER);
+        choixDeMagie.getChildren().addAll(moinsMagie,magie,plusMagie);
+
+        HBox choixDeCharisme = new HBox();
+        choixDeCharisme.setSpacing(40);
+        Button moinsCharisme = new Button("-");
+        Label charismeText = new Label("Charisme");
+        Label charisme = new Label();
+        charisme.textProperty().bind(charismeProperty.asString());
+        Button plusCharisme = new Button("+");
+        moinsCharisme.setOnAction(event -> {
+            if (charismeProperty.get() > 1 && MAXPTSALLOUER > nombreRestant.get())
+            {
+                charismeProperty.set(charismeProperty.get()-1);
+                nombreRestant.set(nombreRestant.get()+1);
+            }
+        });
+        plusCharisme.setOnAction(event -> {
+            if (nombreRestant.get() > 0 && charismeProperty.get() < 10)
+            {
+                charismeProperty.set(charismeProperty.get() + 1);
+                nombreRestant.set(nombreRestant.get()-1);
+            }
+        });
+        choixDeCharisme.setAlignment(Pos.CENTER);
+        choixDeCharisme.getChildren().addAll(moinsCharisme,charisme,plusCharisme);
+
+        nbRestants.setPadding(new Insets(30,0,0,0));
+        forceText.setPadding(new Insets(30,0,0,0));
+        dexteriteText.setPadding(new Insets(30,0,0,0));
+        magieText.setPadding(new Insets(30,0,0,0));
+        enduranceText.setPadding(new Insets(30,0,0,0));
+        charismeText.setPadding(new Insets(30,0,0,0));
+
+
+
+        HBox stats = new HBox();
+        stats.setAlignment(Pos.CENTER);
+        stats.setSpacing(100);
+        VBox left = new VBox();
+        left.setAlignment(Pos.CENTER);
+        VBox right = new VBox();
+        right.setAlignment(Pos.CENTER);
+        stats.getChildren().addAll(left,right);
+
+
+        left.getChildren().addAll(forceText,choixDeForce,dexteriteText,choixDeDexterite);
+        right.getChildren().addAll(enduranceText,choixDeEndurance,magieText,choixDeMagie);
+        choixDeCharisme.setPadding(new Insets(0,0,50,0));
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Encore des points !");
+        alert.setContentText("Il reste des points à allouer :)");
+        Button choixArmes = new Button("Suivant");
+        choixArmes.setOnAction(event -> {
+            if (nombreRestant.get() == 0)
+            {
+                System.out.println(nameField.getText().length());
+                if (nameField.getText().length() >= 4){
+                    cara.setName(nameField.getText());
+                    interfaceChoixSorts();
+                }
+                else {
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                    alert2.setTitle("Erreur");
+                    alert2.setContentText("Le pseudo est trop court");
+                    alert2.showAndWait();
+                }
+            }
+            else
+                alert.showAndWait();
+        });
+
+        center.getChildren().addAll(choixDeNom,nbRestants,stats,charismeText,choixDeCharisme,choixArmes);
+        root.setCenter(center);
+    }
+
+    public void interfaceChoixSorts () {
+
+    }
+    public void gameInterface () {
+
     }
 }
