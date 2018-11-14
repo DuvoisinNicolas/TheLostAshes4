@@ -1,6 +1,7 @@
 package fr.univ_amu.iut;
 
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+import fr.univ_amu.iut.DAO.DAOCara;
 import fr.univ_amu.iut.DAO.DAOSpell;
 import fr.univ_amu.iut.DAO.DAOUser;
 import fr.univ_amu.iut.Exceptions.BadEntryException;
@@ -389,8 +390,6 @@ public class Main extends Application {
         enduranceText.setPadding(new Insets(30,0,0,0));
         charismeText.setPadding(new Insets(30,0,0,0));
 
-
-
         HBox stats = new HBox();
         stats.setAlignment(Pos.CENTER);
         stats.setSpacing(100);
@@ -413,9 +412,13 @@ public class Main extends Application {
         choixArmes.setOnAction(event -> {
             if (nombreRestant.get() == 0)
             {
-                System.out.println(nameField.getText().length());
                 if (nameField.getText().length() >= 4){
                     cara.setName(nameField.getText());
+                    cara.setFCE(forceProperty.get());
+                    cara.setAGI(agiliteProperty.get());
+                    cara.setCHARI(charismeProperty.get());
+                    cara.setEND(endProperty.get());
+                    cara.setMAG(magieProperty.get());
                     try {
                         interfaceChoixSorts();
                     } catch (SQLException e) {
@@ -443,7 +446,7 @@ public class Main extends Application {
         // Titre en haut de page
         HBox top = new HBox();
         Label title = new Label("Choix des sorts");
-        title.setPadding(new Insets(0,0,50,0));
+        title.setPadding(new Insets(0,0,20,0));
         title.setFont(fontTitle);
         VBox sorts = new VBox();
         sorts.setAlignment(Pos.CENTER);
@@ -463,14 +466,15 @@ public class Main extends Application {
         root.setTop(sorts);
 
         GridPane spells = new GridPane();
-        spells.setPadding(new Insets(50,0,0,0));
+        spells.setPadding(new Insets(20,0,0,0));
         int column = 0;
         int row = 0;
+        List<Spell> spellNames = new ArrayList<>();
         DAOSpell daoSpell = new DAOSpell();
         List<Spell> spellList = daoSpell.findAll();
         for (Spell spell : spellList) {
             VBox spellBox = new VBox();
-            spellBox.setPadding(new Insets(20,0,0,120));
+            spellBox.setPadding(new Insets(20,0,0,100));
             Label spellLabel = new Label(spell.getName());
             spellLabel.setFont(fontText);
             Label spellDesc = new Label(spell.getDescr());
@@ -478,13 +482,16 @@ public class Main extends Application {
             CheckBox checkBox = new CheckBox();
             checkBox.setOnAction(event -> {
                 if (checkBox.selectedProperty().get()) {
+                    spellNames.add(spell);
                     if (nbSpellPoints.get() <= 0) {
+                        spellNames.remove(spell);
                         checkBox.setSelected(false);
                         nbSpellPoints.set(nbSpellPoints.get()+1);
                     }
                     nbSpellPoints.set(nbSpellPoints.get()-1);
                 }
                 else {
+                    spellNames.remove(spell);
                     checkBox.setSelected(false);
                     nbSpellPoints.set(nbSpellPoints.get()+1);
                 }
@@ -500,7 +507,27 @@ public class Main extends Application {
                 ++row;
             }
         }
-        root.setCenter(spells);
+        Button benjamin = new Button("C'est parti !");
+        benjamin.setOnAction(event -> {
+            try {
+                DAOCara daoCara = new DAOCara();
+                daoCara.insert(cara,user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            for (Spell spell : spellNames) {
+                try {
+                    daoSpell.learnSpell(spell,cara,user);
+                } catch (SQLException e) {
+                    System.out.println("Euuuuh c'est cassé");
+                }
+            }
+        });
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(spells,benjamin);
+        root.setCenter(vBox);
     }
     private void gameInterface () {
 
