@@ -1,5 +1,6 @@
 package fr.univ_amu.iut.DAO;
 
+import fr.univ_amu.iut.Exceptions.NoConnectionException;
 import fr.univ_amu.iut.Mappers.SpellMapper;
 import fr.univ_amu.iut.UniqueConnection;
 import fr.univ_amu.iut.beans.Caracter;
@@ -18,7 +19,7 @@ public class DAOSpell {
     private Connection connection;
 
 
-    public DAOSpell() throws SQLException {
+    public DAOSpell() throws SQLException, NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
     }
 

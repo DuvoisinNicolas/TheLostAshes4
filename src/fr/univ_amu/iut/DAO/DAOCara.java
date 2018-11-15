@@ -1,5 +1,6 @@
 package fr.univ_amu.iut.DAO;
 
+import fr.univ_amu.iut.Exceptions.NoConnectionException;
 import fr.univ_amu.iut.UniqueConnection;
 import fr.univ_amu.iut.beans.Caracter;
 import fr.univ_amu.iut.beans.User;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 public class DAOCara {
 
     private Connection connection;
-    public DAOCara() throws SQLException {
+    public DAOCara() throws SQLException, NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
     }
 

@@ -1,5 +1,6 @@
 package fr.univ_amu.iut.DAO;
 
+import fr.univ_amu.iut.Exceptions.NoConnectionException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.Mappers.UserMapper;
 import fr.univ_amu.iut.Password;
@@ -18,7 +19,7 @@ public class DAOUser {
     private Connection connection;
 
 
-    public DAOUser() throws SQLException {
+    public DAOUser() throws SQLException, NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
 
     }

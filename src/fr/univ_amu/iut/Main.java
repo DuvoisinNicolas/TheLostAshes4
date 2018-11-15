@@ -6,6 +6,7 @@ import fr.univ_amu.iut.DAO.DAOSpell;
 import fr.univ_amu.iut.DAO.DAOUser;
 import fr.univ_amu.iut.Exceptions.BadEntryException;
 import fr.univ_amu.iut.Exceptions.InvalidMailException;
+import fr.univ_amu.iut.Exceptions.NoConnectionException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.beans.Caracter;
 import fr.univ_amu.iut.beans.Spell;
@@ -127,10 +128,10 @@ public class Main extends Application {
                     gameInterface();
                 }
             }
-            catch (NullPointerException e) {
+            catch (NoConnectionException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Aucune connexion à internet");
-                alert.setContentText("Merci de relancer le jeu avec internet");
+                alert.setContentText("Merci de vous connecter à internet");
                 alert.showAndWait();
             }
             catch (NoUserException e) {
@@ -192,10 +193,10 @@ public class Main extends Application {
                     alert.showAndWait();
                 }
             }
-            catch (NullPointerException e) {
+            catch (NoConnectionException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Aucune connexion à internet");
-                alert.setContentText("Merci de relancer le jeu avec internet");
+                alert.setContentText("Merci de vous connecter à internet" );
                 alert.showAndWait();
             }
             catch (BadEntryException e) {
@@ -442,8 +443,9 @@ public class Main extends Application {
 
     private void interfaceChoixSorts () throws SQLException {
         root.getChildren().clear();
+        try {
 
-        // Titre en haut de page
+            // Titre en haut de page
         HBox top = new HBox();
         Label title = new Label("Choix des sorts");
         title.setPadding(new Insets(0,0,20,0));
@@ -470,64 +472,71 @@ public class Main extends Application {
         int column = 0;
         int row = 0;
         List<Spell> spellNames = new ArrayList<>();
-        DAOSpell daoSpell = new DAOSpell();
-        List<Spell> spellList = daoSpell.findAll();
-        for (Spell spell : spellList) {
-            VBox spellBox = new VBox();
-            spellBox.setPadding(new Insets(20,0,0,100));
-            Label spellLabel = new Label(spell.getName());
-            spellLabel.setFont(fontText);
-            Label spellDesc = new Label(spell.getDescr());
-            spellDesc.setFont(fontSubText);
-            CheckBox checkBox = new CheckBox();
-            checkBox.setOnAction(event -> {
-                if (checkBox.selectedProperty().get()) {
-                    spellNames.add(spell);
-                    if (nbSpellPoints.get() <= 0) {
+            DAOSpell daoSpell = new DAOSpell();
+            List<Spell> spellList = daoSpell.findAll();
+            for (Spell spell : spellList) {
+                VBox spellBox = new VBox();
+                spellBox.setPadding(new Insets(20,0,0,100));
+                Label spellLabel = new Label(spell.getName());
+                spellLabel.setFont(fontText);
+                Label spellDesc = new Label(spell.getDescr());
+                spellDesc.setFont(fontSubText);
+                CheckBox checkBox = new CheckBox();
+                checkBox.setOnAction(event -> {
+                    if (checkBox.selectedProperty().get()) {
+                        spellNames.add(spell);
+                        if (nbSpellPoints.get() <= 0) {
+                            spellNames.remove(spell);
+                            checkBox.setSelected(false);
+                            nbSpellPoints.set(nbSpellPoints.get()+1);
+                        }
+                        nbSpellPoints.set(nbSpellPoints.get()-1);
+                    }
+                    else {
                         spellNames.remove(spell);
                         checkBox.setSelected(false);
                         nbSpellPoints.set(nbSpellPoints.get()+1);
                     }
-                    nbSpellPoints.set(nbSpellPoints.get()-1);
+                });
+
+                spellBox.getChildren().addAll(spellLabel,spellDesc);
+                spells.add(spellBox,column,row);
+                spells.add(checkBox,column+1,row);
+                ++column;
+                ++column;
+                if (column == 4) {
+                    column = 0;
+                    ++row;
                 }
-                else {
-                    spellNames.remove(spell);
-                    checkBox.setSelected(false);
-                    nbSpellPoints.set(nbSpellPoints.get()+1);
+            }
+            Button benjamin = new Button("C'est parti !");
+            benjamin.setOnAction(event -> {
+                try {
+                    DAOCara daoCara = new DAOCara();
+                    daoCara.insert(cara,user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                for (Spell spell : spellNames) {
+                    try {
+                        daoSpell.learnSpell(spell,cara,user);
+                    } catch (SQLException e) {
+                        System.out.println("Euuuuh c'est cassé");
+                    }
                 }
             });
-
-            spellBox.getChildren().addAll(spellLabel,spellDesc);
-            spells.add(spellBox,column,row);
-            spells.add(checkBox,column+1,row);
-            ++column;
-            ++column;
-            if (column == 4) {
-                column = 0;
-                ++row;
-            }
+            VBox vBox = new VBox();
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(spells,benjamin);
+            root.setCenter(vBox);
         }
-        Button benjamin = new Button("C'est parti !");
-        benjamin.setOnAction(event -> {
-            try {
-                DAOCara daoCara = new DAOCara();
-                daoCara.insert(cara,user);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            for (Spell spell : spellNames) {
-                try {
-                    daoSpell.learnSpell(spell,cara,user);
-                } catch (SQLException e) {
-                    System.out.println("Euuuuh c'est cassé");
-                }
-            }
-        });
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(spells,benjamin);
-        root.setCenter(vBox);
+        catch (NoConnectionException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Aucune connexion à internet");
+            alert.setContentText("Merci de vous connecter à internet");
+            alert.showAndWait();
+        }
     }
     private void gameInterface () {
 
