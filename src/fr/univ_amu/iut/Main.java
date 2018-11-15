@@ -442,41 +442,41 @@ public class Main extends Application {
     }
 
     private void interfaceChoixSorts () throws SQLException {
-        root.getChildren().clear();
         try {
 
+            root.getChildren().clear();
+
             // Titre en haut de page
-        HBox top = new HBox();
-        Label title = new Label("Choix des sorts");
-        title.setPadding(new Insets(0,0,20,0));
-        title.setFont(fontTitle);
-        VBox sorts = new VBox();
-        sorts.setAlignment(Pos.CENTER);
-        Label nbPoints = new Label("Nombre de sorts à choisir :");
-        nbPoints.setFont(fontText);
-        Label valPoints = new Label();
-        valPoints.setFont(fontText);
+            HBox top = new HBox();
+            Label title = new Label("Choix des sorts");
+            title.setPadding(new Insets(0,0,20,0));
+            title.setFont(fontTitle);
+            VBox sorts = new VBox();
+            sorts.setAlignment(Pos.CENTER);
+            Label nbPoints = new Label("Nombre de sorts à choisir :");
+            nbPoints.setFont(fontText);
+            Label valPoints = new Label();
+            valPoints.setFont(fontText);
 
-        IntegerProperty nbSpellPoints = new SimpleIntegerProperty(5);
+            IntegerProperty nbSpellPoints = new SimpleIntegerProperty(5);
 
-        valPoints.textProperty().bind(nbSpellPoints.asString());
+            valPoints.textProperty().bind(nbSpellPoints.asString());
 
-        top.setPadding(new Insets(10,0,0,0));
-        top.setAlignment(Pos.CENTER);
-        top.getChildren().addAll(nbPoints,valPoints);
-        sorts.getChildren().addAll(title,top);
-        root.setTop(sorts);
+            top.setPadding(new Insets(10,0,0,0));
+            top.setAlignment(Pos.CENTER);
+            top.getChildren().addAll(nbPoints,valPoints);
+            sorts.getChildren().addAll(title,top);
+            root.setTop(sorts);
 
-        GridPane spells = new GridPane();
-        spells.setPadding(new Insets(20,0,0,0));
-        int column = 0;
-        int row = 0;
-        List<Spell> spellNames = new ArrayList<>();
+            GridPane spells = new GridPane();
+            int column = 0;
+            int row = 0;
+            List<Spell> spellNames = new ArrayList<>();
             DAOSpell daoSpell = new DAOSpell();
             List<Spell> spellList = daoSpell.findAll();
             for (Spell spell : spellList) {
                 VBox spellBox = new VBox();
-                spellBox.setPadding(new Insets(20,0,0,100));
+                spellBox.setPadding(new Insets(20,0,0,120));
                 Label spellLabel = new Label(spell.getName());
                 spellLabel.setFont(fontText);
                 Label spellDesc = new Label(spell.getDescr());
@@ -514,6 +514,7 @@ public class Main extends Application {
                 try {
                     DAOCara daoCara = new DAOCara();
                     daoCara.insert(cara,user);
+                    daoCara.insert(daoCara.getSaveUser(cara),user);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

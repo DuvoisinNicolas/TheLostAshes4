@@ -1,6 +1,9 @@
 package fr.univ_amu.iut.DAO;
 
 import fr.univ_amu.iut.Exceptions.NoConnectionException;
+import fr.univ_amu.iut.Exceptions.NoUserException;
+import fr.univ_amu.iut.Mappers.CaracterMapper;
+import fr.univ_amu.iut.Mappers.UserMapper;
 import fr.univ_amu.iut.UniqueConnection;
 import fr.univ_amu.iut.beans.Caracter;
 import fr.univ_amu.iut.beans.User;
@@ -59,5 +62,15 @@ public class DAOCara {
         preparedStatement2.setInt(9,idCara);
         preparedStatement2.setInt(10,user.getIdUser());
         preparedStatement2.executeUpdate();
+    }
+
+    public Caracter getSaveUser (Caracter caracter) throws SQLException, NoUserException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE ID_CARA = ?");
+        preparedStatement.setInt(1,caracter.getIdCara());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            return CaracterMapper.mapRow(resultSet);
+        }
+        throw new NoUserException();
     }
 }
