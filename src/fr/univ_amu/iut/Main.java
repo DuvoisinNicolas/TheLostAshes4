@@ -536,6 +536,7 @@ public class Main extends Application {
             alert.setTitle("Aucune connexion à internet");
             alert.setContentText("Merci de vous connecter à internet");
             alert.showAndWait();
+            interfaceChoixSorts();
         }
     }
     private void gameInterface () {
