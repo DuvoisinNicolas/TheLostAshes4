@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class DAOCara {
 
     private Connection connection;
-    public DAOCara() throws SQLException, NoConnectionException {
+    public DAOCara() throws NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
     }
 

@@ -1,6 +1,5 @@
 package fr.univ_amu.iut;
 
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import fr.univ_amu.iut.DAO.DAOCara;
 import fr.univ_amu.iut.DAO.DAOSpell;
 import fr.univ_amu.iut.DAO.DAOUser;
@@ -14,8 +13,6 @@ import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,7 +24,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +43,7 @@ public class Main extends Application {
     /**
      * Répartition des stats
      */
-    private static int MAXPTSALLOUER = 10;
+    private static int MAXPTSALLOUER = 4;
     private static int PTSDEBASE = 1;
 
     /**
@@ -108,9 +104,11 @@ public class Main extends Application {
 
         TextField loginField = new TextField();
         loginField.setPromptText("Identifiant");
+        loginField.setText("totoo");
 
         PasswordField pwdField = new PasswordField();
         pwdField.setPromptText("Mot de Passe");
+        pwdField.setText("totoo");
 
         Button connectButton = new Button("Connexion");
 
@@ -455,6 +453,7 @@ public class Main extends Application {
             sorts.setAlignment(Pos.CENTER);
             Label nbPoints = new Label("Nombre de sorts à choisir :");
             nbPoints.setFont(fontText);
+            nbPoints.setPadding(new Insets(0,5,0,0));
             Label valPoints = new Label();
             valPoints.setFont(fontText);
 
@@ -476,10 +475,12 @@ public class Main extends Application {
             List<Spell> spellList = daoSpell.findAll();
             for (Spell spell : spellList) {
                 VBox spellBox = new VBox();
-                spellBox.setPadding(new Insets(20,0,0,120));
+                spellBox.setPadding(new Insets(0,0,0,width/9.0));
+                spellBox.setAlignment(Pos.CENTER);
                 Label spellLabel = new Label(spell.getName());
                 spellLabel.setFont(fontText);
                 Label spellDesc = new Label(spell.getDescr());
+                spellDesc.setPadding(new Insets(0,5,20,0));
                 spellDesc.setFont(fontSubText);
                 CheckBox checkBox = new CheckBox();
                 checkBox.setOnAction(event -> {
@@ -521,15 +522,30 @@ public class Main extends Application {
 
                 for (Spell spell : spellNames) {
                     try {
+                        DAOCara daoCara = new DAOCara();
                         daoSpell.learnSpell(spell,cara,user);
+                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara),user);
                     } catch (SQLException e) {
                         System.out.println("Euuuuh c'est cassé");
+                    } catch (NoUserException e) {
+                        e.printStackTrace();
+                    } catch (NoConnectionException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Aucune connexion à internet");
+                        alert.setContentText("Merci de vous connecter à internet");
+                        alert.showAndWait();
+                        try {
+                            interfaceChoixSorts();
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             });
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().addAll(spells,benjamin);
+            vBox.setPadding(new Insets(0,0,0,0));
             root.setCenter(vBox);
         }
         catch (NoConnectionException e) {
