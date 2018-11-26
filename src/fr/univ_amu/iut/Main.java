@@ -557,6 +557,37 @@ public class Main extends Application {
         }
     }
     private void gameInterface () {
+        try {
+            DAOUser daoUser = new DAOUser();
+            root.getChildren().clear();
 
+            // Gauche
+            VBox left = new VBox();
+            left.setAlignment(Pos.CENTER_LEFT);
+
+                //Pseudo
+            Label usernameText = new Label(cara.getName());
+
+                // Force
+            HBox force = new HBox();
+            Label forceText = new Label();
+            /**
+             * TODO : Les properties de la classe caracter
+             */
+            forceText.textProperty().bind();
+
+
+            root.setLeft(left);
+        }
+
+        catch (NoConnectionException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Aucune connexion à internet");
+            alert.setContentText("Merci de vous connecter à internet");
+            alert.showAndWait();
+            gameInterface();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
