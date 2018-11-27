@@ -597,21 +597,30 @@ public class Main extends Application {
 
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
+            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "4.png",800,600,false,false),
+                    BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             // Gauche
             VBox left = new VBox();
             left.setAlignment(Pos.CENTER_LEFT);
+            left.setPadding(new Insets(0,0,0,20));
 
                 //Pseudo
             Label usernameText = new Label(cara.getName());
 
                 // Force
             HBox force = new HBox();
-            Label forceText = new Label();
-            ImageView forceImage = new ImageView(new Image(imagePath + "0.png"));
-            force.getChildren().addAll(forceText,forceImage);
 
+
+            ImageView forceImage = new ImageView(new Image(imagePath + "FCE.png"));
+            forceImage.setFitHeight(20);
+            forceImage.setFitWidth(20);
+
+            Label forceText = new Label();
             forceText.textProperty().bind(cara.getFCE().asString());
+
+            force.getChildren().addAll(forceImage,forceText);
+
 
 
             left.getChildren().addAll(usernameText,force);
