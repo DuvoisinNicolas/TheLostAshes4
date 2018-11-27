@@ -18,10 +18,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,26 @@ public class Main extends Application {
     private Font fontText = new Font("Arial",12);
     private Font fontSubText = new Font("Arial",10);
 
+    /**
+     *  Caractere de separation et fichier de base
+     */
+    private static char caractereSeparation;
+    private static String filepath = "file:" + new File("").getAbsolutePath();
+
     public static void main(String[] args) {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            caractereSeparation = '\\';
+        }
+        else if (os.contains("mac")) {
+            caractereSeparation = '/';
+        }
+        else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            caractereSeparation = '/';
+        }
+
+        filepath +=  caractereSeparation + "src" + caractereSeparation +  "fr" + caractereSeparation + "univ_amu" + caractereSeparation + "iut" + caractereSeparation;
+
         launch(args);
     }
 
@@ -82,12 +103,12 @@ public class Main extends Application {
      */
     private void connectionInterface () {
         root.getChildren().clear();
-        root.setBackground(new Background(new BackgroundImage(new Image("/src/fr/univ_amu/iut/images/0.png",800,600,false,false),
+        root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
                 BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 
         // Titre en haut de page
         HBox top = new HBox();
-        Label title = new Label("The Lost Ashes 4");
+        Label title = new Label("The Lost Ashes");
         title.setFont(fontTitle);
         top.setPadding(new Insets(10,0,0,0));
         top.setAlignment(Pos.CENTER);
@@ -229,6 +250,10 @@ public class Main extends Application {
      * Interface de création de perso et de répartition des stats
      */
     private void createCaraInterface () {
+
+        root.getChildren().clear();
+        root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
+                BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 
         IntegerProperty nombreRestant = new SimpleIntegerProperty(MAXPTSALLOUER);
         IntegerProperty forceProperty = new SimpleIntegerProperty(PTSDEBASE);
@@ -443,6 +468,10 @@ public class Main extends Application {
         try {
 
             root.getChildren().clear();
+            root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
+                    BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
+
+            root.getChildren().clear();
 
             // Titre en haut de page
             HBox top = new HBox();
@@ -558,6 +587,7 @@ public class Main extends Application {
     }
     private void gameInterface () {
         try {
+
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
 
