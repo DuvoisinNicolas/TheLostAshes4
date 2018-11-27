@@ -1,17 +1,21 @@
 package fr.univ_amu.iut.beans;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.Objects;
 
 public class Caracter {
     private int idCara;
     private String name;
-    private int HP;
-    private int FCE;
-    private int AGI;
-    private int CHARI;
-    private int END;
-    private int MAG;
-    private int golds;
+    private IntegerProperty HP = new SimpleIntegerProperty();
+    private IntegerProperty CURRHP = new SimpleIntegerProperty();
+    private IntegerProperty FCE = new SimpleIntegerProperty();
+    private IntegerProperty AGI = new SimpleIntegerProperty();
+    private IntegerProperty CHARI = new SimpleIntegerProperty();
+    private IntegerProperty END = new SimpleIntegerProperty();
+    private IntegerProperty MAG = new SimpleIntegerProperty();
+    private IntegerProperty golds = new SimpleIntegerProperty();
     private int savedId;
     private int idUser;
 
@@ -31,60 +35,60 @@ public class Caracter {
         this.name = name;
     }
 
-    public int getHP() {
+    public IntegerProperty getHP() {
         return HP;
     }
 
     public void setHP(int HP) {
-        this.HP = HP;
+        this.HP.set(HP);
     }
 
-    public int getFCE() {
+    public IntegerProperty getFCE() {
         return FCE;
     }
 
     public void setFCE(int FCE) {
-        this.FCE = FCE;
+        this.FCE.set(FCE);
     }
 
-    public int getAGI() {
+    public IntegerProperty getAGI() {
         return AGI;
     }
 
     public void setAGI(int AGI) {
-        this.AGI = AGI;
+        this.AGI.set(AGI);
     }
 
-    public int getCHARI() {
+    public IntegerProperty getCHARI() {
         return CHARI;
     }
 
     public void setCHARI(int CHARI) {
-        this.CHARI = CHARI;
+        this.CHARI.set(CHARI);
     }
 
-    public int getEND() {
+    public IntegerProperty getEND() {
         return END;
     }
 
     public void setEND(int END) {
-        this.END = END;
+        this.END.set(END);
     }
 
-    public int getMAG() {
+    public IntegerProperty getMAG() {
         return MAG;
     }
 
     public void setMAG(int MAG) {
-        this.MAG = MAG;
+        this.MAG.set(MAG);
     }
 
-    public int getGolds() {
+    public IntegerProperty getGolds() {
         return golds;
     }
 
     public void setGolds(int golds) {
-        this.golds = golds;
+        this.golds.set(golds);
     }
 
     public int getSavedId() {
@@ -103,6 +107,13 @@ public class Caracter {
         this.idUser = idUser;
     }
 
+    public IntegerProperty getCURRHP() {
+        return CURRHP;
+    }
+
+    public void setCURRHP(int CURRHP) {
+        this.CURRHP.set(CURRHP);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -110,20 +121,22 @@ public class Caracter {
         if (o == null || getClass() != o.getClass()) return false;
         Caracter caracter = (Caracter) o;
         return idCara == caracter.idCara &&
-                HP == caracter.HP &&
-                FCE == caracter.FCE &&
-                AGI == caracter.AGI &&
-                CHARI == caracter.CHARI &&
-                END == caracter.END &&
-                MAG == caracter.MAG &&
-                golds == caracter.golds &&
                 savedId == caracter.savedId &&
                 idUser == caracter.idUser &&
-                Objects.equals(name, caracter.name);
+                Objects.equals(name, caracter.name) &&
+                Objects.equals(HP, caracter.HP) &&
+                Objects.equals(CURRHP, caracter.CURRHP) &&
+                Objects.equals(FCE, caracter.FCE) &&
+                Objects.equals(AGI, caracter.AGI) &&
+                Objects.equals(CHARI, caracter.CHARI) &&
+                Objects.equals(END, caracter.END) &&
+                Objects.equals(MAG, caracter.MAG) &&
+                Objects.equals(golds, caracter.golds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCara, name, HP, FCE, AGI, CHARI, END, MAG, golds, savedId, idUser);
+
+        return Objects.hash(idCara, name, HP, CURRHP, FCE, AGI, CHARI, END, MAG, golds, savedId, idUser);
     }
 }

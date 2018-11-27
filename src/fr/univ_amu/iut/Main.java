@@ -70,6 +70,7 @@ public class Main extends Application {
      */
     private static char caractereSeparation;
     private static String filepath = "file:" + new File("").getAbsolutePath();
+    private static String imagePath;
 
     public static void main(String[] args) {
         String os = System.getProperty("os.name").toLowerCase();
@@ -84,14 +85,18 @@ public class Main extends Application {
         }
 
         filepath +=  caractereSeparation + "src" + caractereSeparation +  "fr" + caractereSeparation + "univ_amu" + caractereSeparation + "iut" + caractereSeparation;
-
+        imagePath = filepath + "images" + caractereSeparation;
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("The Lost Ashes 4");
+        primaryStage.setTitle("The Lost Ashes");
         primaryStage.setResizable(false);
+        primaryStage.setMinWidth(width);
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMaxHeight(height);
+        primaryStage.setMinHeight(height);
         Scene scene = new Scene(root,width,height);
         primaryStage.setScene(scene);
         connectionInterface();
@@ -103,14 +108,14 @@ public class Main extends Application {
      */
     private void connectionInterface () {
         root.getChildren().clear();
-        root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
-                BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
+        root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+                BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         // Titre en haut de page
         HBox top = new HBox();
         Label title = new Label("The Lost Ashes");
         title.setFont(fontTitle);
-        top.setPadding(new Insets(10,0,0,0));
+        top.setPadding(new Insets(50,0,0,0));
         top.setAlignment(Pos.CENTER);
         top.getChildren().add(title);
         root.setTop(top);
@@ -144,6 +149,8 @@ public class Main extends Application {
                     createCaraInterface();
                 }
                 else {
+                    DAOCara daoCara = new DAOCara();
+                    cara = daoCara.getMyCara(user);
                     gameInterface();
                 }
             }
@@ -252,8 +259,8 @@ public class Main extends Application {
     private void createCaraInterface () {
 
         root.getChildren().clear();
-        root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
-                BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
+        root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+                BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         IntegerProperty nombreRestant = new SimpleIntegerProperty(MAXPTSALLOUER);
         IntegerProperty forceProperty = new SimpleIntegerProperty(PTSDEBASE);
@@ -468,8 +475,8 @@ public class Main extends Application {
         try {
 
             root.getChildren().clear();
-            root.setBackground(new Background(new BackgroundImage(new Image(filepath + "images" + caractereSeparation + "0.png",800,600,false,false),
-                    BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
+            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+                    BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             root.getChildren().clear();
 
@@ -543,8 +550,7 @@ public class Main extends Application {
             benjamin.setOnAction(event -> {
                 try {
                     DAOCara daoCara = new DAOCara();
-                    daoCara.insert(cara,user);
-                    daoCara.insert(daoCara.getSaveUser(cara),user);
+                    cara = daoCara.insert(cara,user);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -552,8 +558,8 @@ public class Main extends Application {
                 for (Spell spell : spellNames) {
                     try {
                         DAOCara daoCara = new DAOCara();
-                        daoSpell.learnSpell(spell,cara,user);
-                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara),user);
+                        daoSpell.learnSpell(spell,cara.getIdCara());
+                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara).getIdCara());
                     } catch (SQLException e) {
                         System.out.println("Euuuuh c'est cassé");
                     } catch (NoUserException e) {
@@ -569,6 +575,7 @@ public class Main extends Application {
                             e1.printStackTrace();
                         }
                     }
+                    gameInterface();
                 }
             });
             VBox vBox = new VBox();
@@ -601,10 +608,13 @@ public class Main extends Application {
                 // Force
             HBox force = new HBox();
             Label forceText = new Label();
+            ImageView forceImage = new ImageView(new Image(imagePath + "0.png"));
+            force.getChildren().addAll(forceText,forceImage);
 
-            /**
-             * TODO : Les properties de la classe caracter
-             */
+            forceText.textProperty().bind(cara.getFCE().asString());
+
+
+            left.getChildren().addAll(usernameText,force);
 
             root.setLeft(left);
         }

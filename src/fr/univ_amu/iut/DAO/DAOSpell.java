@@ -23,20 +23,7 @@ public class DAOSpell {
         connection = UniqueConnection.getInstance().getConnection();
     }
 
-    public void learnSpell (Spell spell , Caracter caracter , User user) throws SQLException {
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE NAME=? AND HP=? AND CURR_HP=? AND FCE=? AND AGI=? AND CHARI=? AND END=? AND MAG=? AND ID_USER=?");
-        preparedStatement1.setString(1,caracter.getName());
-        preparedStatement1.setInt(2,100);
-        preparedStatement1.setInt(3,100);
-        preparedStatement1.setInt(4,caracter.getFCE());
-        preparedStatement1.setInt(5,caracter.getAGI());
-        preparedStatement1.setInt(6,caracter.getCHARI());
-        preparedStatement1.setInt(7,caracter.getEND());
-        preparedStatement1.setInt(8,caracter.getMAG());
-        preparedStatement1.setInt(9,user.getIdUser());
-        ResultSet resultSet = preparedStatement1.executeQuery();
-        resultSet.next();
-        int idCara = resultSet.getInt("ID_CARA");
+    public void learnSpell (Spell spell , int idCara) throws SQLException {
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LEARNEDSPELLS (ID_SPELL, ID_CARA) VALUES (?,?)");
         preparedStatement.setInt(1,spell.getIdSpell());
