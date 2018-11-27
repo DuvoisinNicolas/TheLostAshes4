@@ -601,12 +601,9 @@ public class Main extends Application {
                 // Force
             HBox force = new HBox();
             Label forceText = new Label();
-            /**
-             * TODO : Les properties de la classe caracter
-             */
 
             /**
-             * TODO : Les putains d'images
+             * TODO : Les properties de la classe caracter
              */
 
             root.setLeft(left);
