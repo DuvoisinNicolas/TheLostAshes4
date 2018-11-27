@@ -1,13 +1,12 @@
 package fr.univ_amu.iut;
 
 import fr.univ_amu.iut.DAO.DAOCara;
+import fr.univ_amu.iut.DAO.DAOMap;
 import fr.univ_amu.iut.DAO.DAOSpell;
 import fr.univ_amu.iut.DAO.DAOUser;
-import fr.univ_amu.iut.Exceptions.BadEntryException;
-import fr.univ_amu.iut.Exceptions.InvalidMailException;
-import fr.univ_amu.iut.Exceptions.NoConnectionException;
-import fr.univ_amu.iut.Exceptions.NoUserException;
+import fr.univ_amu.iut.Exceptions.*;
 import fr.univ_amu.iut.beans.Caracter;
+import fr.univ_amu.iut.beans.Map;
 import fr.univ_amu.iut.beans.Spell;
 import fr.univ_amu.iut.beans.User;
 import javafx.application.Application;
@@ -61,9 +60,9 @@ public class Main extends Application {
     /**
      * Taille et police des titres et des textes
      */
-    private Font fontTitle = new Font("Arial",20);
-    private Font fontText = new Font("Arial",12);
-    private Font fontSubText = new Font("Arial",10);
+    private Font fontTitle = new Font("DejaVu Sans",20);
+    private Font fontText = new Font("DejaVu Sans",12);
+    private Font fontSubText = new Font("DejaVu Sans",10);
 
     /**
      *  Caractere de separation et fichier de base
@@ -71,6 +70,8 @@ public class Main extends Application {
     private static char caractereSeparation;
     private static String filepath = "file:" + new File("").getAbsolutePath();
     private static String imagePath;
+
+    private static ArrayList<Map> allMaps = new ArrayList<>();
 
     public static void main(String[] args) {
         String os = System.getProperty("os.name").toLowerCase();
@@ -90,7 +91,9 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws NoConnectionException, SQLException {
+        DAOMap daoMap = new DAOMap();
+        allMaps = (ArrayList<Map>) daoMap.findAll();
         primaryStage.setTitle("The Lost Ashes");
         primaryStage.setResizable(false);
         primaryStage.setMinWidth(width);
@@ -151,7 +154,10 @@ public class Main extends Application {
                 else {
                     DAOCara daoCara = new DAOCara();
                     cara = daoCara.getMyCara(user);
-                    gameInterface();
+                    /**
+                     * CHANGE ICI OMFG !
+                     */
+                    gameInterface(allMaps.get(0));
                 }
             }
             catch (NoConnectionException e) {
@@ -575,7 +581,7 @@ public class Main extends Application {
                             e1.printStackTrace();
                         }
                     }
-                    gameInterface();
+                    gameInterface(allMaps.get(0));
                 }
             });
             VBox vBox = new VBox();
@@ -592,50 +598,171 @@ public class Main extends Application {
             interfaceChoixSorts();
         }
     }
-    private void gameInterface () {
+    private void gameInterface (Map map) {
         try {
-
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
-            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "4.png",800,600,false,false),
+
+            //Permet de choisir le fond d'écran qu'il faut
+
+            int cpt = 0;
+            if (map.getChoix1() != null) {
+                ++cpt;
+            }
+            if (map.getChoix2() != null) {
+                ++cpt;
+            }
+            if (map.getChoix3() != null) {
+                ++cpt;
+            }
+            if (map.getChoix4() != null) {
+                ++cpt;
+            }
+
+            String filePath;
+            switch (cpt) {
+                case 1:
+                    filePath = "1.png";
+                    break;
+                case 2:
+                    filePath = "2.png";
+                    break;
+                case 3:
+                    filePath = "3.png";
+                    break;
+                case 4:
+                    filePath = "4.png";
+                    break;
+                 default:
+                     throw new MapErrorException();
+            }
+
+            // Initialisation du fond d'écran
+            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + filePath,800,600,false,false),
                     BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             // Gauche
             VBox left = new VBox();
+            left.setSpacing(20);
             left.setAlignment(Pos.CENTER_LEFT);
             left.setPadding(new Insets(0,0,0,20));
 
                 //Pseudo
             Label usernameText = new Label(cara.getName());
+            usernameText.setFont(fontText);
+
+                // HP
+            HBox hp = new HBox();
+            ImageView hpImage = new ImageView(new Image(imagePath + "HP.png"));
+            hpImage.setFitHeight(20);
+            hpImage.setFitWidth(20);
+
+            Label hpText = new Label();
+            hpText.setFont(fontText);
+            hpText.textProperty().bind(cara.getCURRHP().asString());
+
+            Label slash = new Label(" / ");
+
+            Label hpMaxText = new Label();
+            hpMaxText.setFont(fontText);
+            hpMaxText.textProperty().bind(cara.getHP().asString());
+            hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
 
                 // Force
             HBox force = new HBox();
-
-
             ImageView forceImage = new ImageView(new Image(imagePath + "FCE.png"));
             forceImage.setFitHeight(20);
             forceImage.setFitWidth(20);
 
             Label forceText = new Label();
+            forceText.setFont(fontText);
             forceText.textProperty().bind(cara.getFCE().asString());
-
             force.getChildren().addAll(forceImage,forceText);
 
+               // Agilité
+            HBox agilite = new HBox();
+            ImageView agiliteImage = new ImageView(new Image(imagePath + "AGI.png"));
+            agiliteImage.setFitHeight(20);
+            agiliteImage.setFitWidth(20);
+
+            Label agiliteText = new Label();
+            agiliteText.setFont(fontText);
+            agiliteText.textProperty().bind(cara.getAGI().asString());
+            agilite.getChildren().addAll(agiliteImage,agiliteText);
+
+                // Intelligence
+            HBox intel = new HBox();
+            ImageView intelImage = new ImageView(new Image(imagePath + "INT.png"));
+            intelImage.setFitHeight(20);
+            intelImage.setFitWidth(20);
+
+            Label intelText = new Label();
+            intelText.setFont(fontText);
+            intelText.textProperty().bind(cara.getMAG().asString());
+            intel.getChildren().addAll(intelImage,intelText);
+
+                // Endurance
+            HBox end = new HBox();
+            ImageView endImage = new ImageView(new Image(imagePath + "END.png"));
+            endImage.setFitHeight(20);
+            endImage.setFitWidth(20);
+
+            Label endText = new Label();
+            endText.setFont(fontText);
+            endText.textProperty().bind(cara.getEND().asString());
+            end.getChildren().addAll(endImage,endText);
+
+                // Charisme
+            HBox chari = new HBox();
+            ImageView chariImage = new ImageView(new Image(imagePath + "CHARI.png"));
+            chariImage.setFitHeight(20);
+            chariImage.setFitWidth(20);
+
+            Label chariText = new Label();
+            chariText.setFont(fontText);
+            chariText.textProperty().bind(cara.getCHARI().asString());
+            chari.getChildren().addAll(chariImage,chariText);
+
+            left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari);
 
 
-            left.getChildren().addAll(usernameText,force);
+            // Haut
 
+            VBox top = new VBox();
+            Label topText = new Label(map.getName());
+            topText.setFont(fontTitle);
+            top.getChildren().add(topText);
+            top.setAlignment(Pos.CENTER);
+            top.setPadding(new Insets(10,0,0,width/4.9));
+            if (map.isCheckpoint()) {
+                Label checkpoint = new Label("<Checkpoint>");
+                checkpoint.setFont(fontSubText);
+                top.getChildren().add(checkpoint);
+            }
+
+
+            // Centre
+
+            Label text = new Label(map.getText());
+            text.setWrapText(true);
+
+            root.setCenter(text);
+            root.setTop(top);
             root.setLeft(left);
         }
-
         catch (NoConnectionException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Aucune connexion à internet");
             alert.setContentText("Merci de vous connecter à internet");
             alert.showAndWait();
-            gameInterface();
+            gameInterface(map);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (MapErrorException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Les développeurs sont des tâches");
+            alert.setContentText("On as mal initialisé la map, sorry :'(");
+            alert.showAndWait();
         }
     }
 }

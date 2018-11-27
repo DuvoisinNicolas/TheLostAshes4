@@ -11,6 +11,7 @@ public class CaracterMapper {
         caracter.setIdCara(resultSet.getInt("ID_CARA"));
         caracter.setName(resultSet.getString("NAME"));
         caracter.setHP(resultSet.getInt("HP"));
+        caracter.setCURRHP(resultSet.getInt("CURR_HP"));
         caracter.setFCE(resultSet.getInt("FCE"));
         caracter.setAGI(resultSet.getInt("AGI"));
         caracter.setCHARI(resultSet.getInt("CHARI"));
