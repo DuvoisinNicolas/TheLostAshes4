@@ -14,12 +14,13 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -610,6 +611,7 @@ public class Main extends Application {
             //Permet de choisir le fond d'écran qu'il faut
 
             int cpt = 0;
+
             if (map.getChoix1() != null) {
                 ++cpt;
             }
@@ -670,6 +672,7 @@ public class Main extends Application {
 
             Label hpMaxText = new Label();
             hpMaxText.setFont(fontText);
+            hpMaxText.setPadding(new Insets(2,0,0,5));
             hpMaxText.textProperty().bind(cara.getHP().asString());
             hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
 
@@ -742,7 +745,7 @@ public class Main extends Application {
             topText.setFont(fontTitle);
             top.getChildren().add(topText);
             top.setAlignment(Pos.CENTER);
-            top.setPadding(new Insets(10,0,0,width/4.9));
+            top.setPadding(new Insets(20,0,0,width/4.9));
             if (map.isCheckpoint()) {
                 Label checkpoint = new Label("<Checkpoint>");
                 checkpoint.setFont(fontSubText);
@@ -758,7 +761,7 @@ public class Main extends Application {
             text.setLineSpacing(3);
             text.setWrappingWidth(500);
             center.getChildren().add(text);
-            center.setPadding(new Insets(0,0,100,60));
+            center.setPadding(new Insets(0,0,0,60));
 
             root.setCenter(center);
             root.setTop(top);
@@ -770,8 +773,23 @@ public class Main extends Application {
             StackPane button3 = new StackPane();
             StackPane button4 = new StackPane();
 
-            Rectangle rectangle = new Rectangle();
+            Rectangle rectangle1 = new Rectangle();
+            Rectangle rectangle2 = new Rectangle();
+            Rectangle rectangle3 = new Rectangle();
+            Rectangle rectangle4 = new Rectangle();
 
+            rectangle1.setHeight(50);
+            rectangle1.setWidth(240);
+            rectangle1.setFill(Color.TRANSPARENT);
+            rectangle2.setHeight(50);
+            rectangle2.setWidth(240);
+            rectangle2.setFill(Color.TRANSPARENT);
+            rectangle3.setHeight(50);
+            rectangle3.setWidth(240);
+            rectangle3.setFill(Color.TRANSPARENT);
+            rectangle4.setHeight(50);
+            rectangle4.setWidth(240);
+            rectangle4.setFill(Color.TRANSPARENT);
 
             button1.setAlignment(Pos.CENTER);
             button2.setAlignment(Pos.CENTER);
@@ -779,41 +797,75 @@ public class Main extends Application {
             button4.setAlignment(Pos.CENTER);
 
             Label label1 = new Label(map.getChoix1());
-            Label label2;
-            Label label3;
-            Label label4;
+            Label label2 = new Label("");
+            Label label3 = new Label("");
+            Label label4 = new Label("");
+
+            button1.getChildren().addAll(label1,rectangle1);
+
+            rectangle1.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+
+            rectangle1.setOnMouseEntered(event -> {
+                rectangle1.setCursor(Cursor.HAND);
+            });
+
 
             if (cpt == 2) {
                 label2 = new Label(map.getChoix2());
-                label3 = new Label();
-                label4 = new Label();
+                rectangle2.setOnMouseEntered(event -> {
+                    rectangle2.setCursor(Cursor.HAND);
+                });
             }
             else if (cpt == 3){
                 label2 = new Label(map.getChoix2());
                 label3 = new Label(map.getChoix3());
-                label4 = new Label();
+
+                rectangle2.setOnMouseEntered(event -> {
+                    rectangle2.setCursor(Cursor.HAND);
+                });
+
+                rectangle3.setOnMouseEntered(event -> {
+                    rectangle3.setCursor(Cursor.HAND);
+                });
             }
-            else {
+            else if (cpt != 1){
                 label2 = new Label(map.getChoix2());
                 label3 = new Label(map.getChoix3());
                 label4 = new Label(map.getChoix4());
+                rectangle2.setOnMouseEntered(event -> {
+                    rectangle2.setCursor(Cursor.HAND);
+                });
+
+                rectangle3.setOnMouseEntered(event -> {
+                    rectangle3.setCursor(Cursor.HAND);
+                });
+
+                rectangle4.setOnMouseEntered(event -> {
+                    rectangle4.setCursor(Cursor.HAND);
+                });
             }
 
-            button1.getChildren().add(label1);
-            button2.getChildren().add(label2);
-            button3.getChildren().add(label3);
-            button4.getChildren().add(label4);
+            button2.getChildren().addAll(label2,rectangle2);
+            button3.getChildren().addAll(label3,rectangle3);
+            button4.getChildren().addAll(label4,rectangle4);
 
             HBox ligneDuHaut = new HBox();
+            ligneDuHaut.setPadding(new Insets(0,0,21,0));
             ligneDuHaut.getChildren().addAll(button1,button2);
             HBox ligneDuBas = new HBox();
+            button2.setPadding(new Insets(0,0,0,96));
+            button4.setPadding(new Insets(0,0,0,96));
+            ligneDuBas.setPadding(new Insets(0,0,24,0));
             ligneDuBas.getChildren().addAll(button3,button4);
             VBox bottom = new VBox();
+            bottom.setPadding(new Insets(0,0,0,189));
             bottom.getChildren().addAll(ligneDuHaut,ligneDuBas);
 
-            /**
-             * TODO : Stackpane avec des rectangles et alignement des boutons
-             */
+
             root.setBottom(bottom);
         }
         catch (NoConnectionException e) {
@@ -822,13 +874,13 @@ public class Main extends Application {
             alert.setContentText("Merci de vous connecter à internet");
             alert.showAndWait();
             gameInterface(map);
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (MapErrorException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Les développeurs sont des tâches");
             alert.setContentText("On as mal initialisé la map, sorry :'(");
             alert.showAndWait();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
