@@ -800,18 +800,40 @@ public class Main extends Application {
         button3.getChildren().addAll(label3,rectangle3);
         button4.getChildren().addAll(label4,rectangle4);
 
-        HBox ligneDuHaut = new HBox();
-        ligneDuHaut.setPadding(new Insets(0,0,21,0));
-        ligneDuHaut.getChildren().addAll(button1,button2);
-        HBox ligneDuBas = new HBox();
-        button2.setPadding(new Insets(0,0,0,96));
-        button4.setPadding(new Insets(0,0,0,96));
-        ligneDuBas.setPadding(new Insets(0,0,24,0));
-        ligneDuBas.getChildren().addAll(button3,button4);
-        VBox bottom = new VBox();
-        bottom.setPadding(new Insets(0,0,0,189));
-        bottom.getChildren().addAll(ligneDuHaut,ligneDuBas);
-        return bottom;
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (!os.contains("win")) {
+            HBox ligneDuHaut = new HBox();
+            ligneDuHaut.setPadding(new Insets(0, 0, 21, 0));
+            ligneDuHaut.getChildren().addAll(button1, button2);
+            HBox ligneDuBas = new HBox();
+            button2.setPadding(new Insets(0, 0, 0, 96));
+            button4.setPadding(new Insets(0, 0, 0, 96));
+            ligneDuBas.setPadding(new Insets(0, 0, 24, 0));
+            ligneDuBas.getChildren().addAll(button3, button4);
+            VBox bottom = new VBox();
+            bottom.setPadding(new Insets(0, 0, 0, 189));
+            bottom.getChildren().addAll(ligneDuHaut, ligneDuBas);
+            return bottom;
+        }
+        else {
+            HBox ligneDuHaut = new HBox();
+            ligneDuHaut.setPadding(new Insets(0, 0, 21, 0));
+            ligneDuHaut.getChildren().addAll(button1, button2);
+            HBox ligneDuBas = new HBox();
+            button2.setPadding(new Insets(0, 0, 0, 96));
+            button4.setPadding(new Insets(0, 0, 0, 96));
+            ligneDuBas.setPadding(new Insets(0, 0, 13, 0));
+            ligneDuBas.getChildren().addAll(button3, button4);
+            VBox bottom = new VBox();
+            bottom.setPadding(new Insets(0, 0, 0, 185));
+            bottom.getChildren().addAll(ligneDuHaut, ligneDuBas);
+            return bottom;
+        }
+
+        /**
+         * TODO : Windows.
+         */
     }
 
     private VBox buildCenter(Map map) {
@@ -954,7 +976,7 @@ public class Main extends Application {
         Button sorts = new Button("Sorts");
 
         // Bouton Consommables
-        Button conso = new Button("Consommables");
+        Button conso = new Button("Objets");
 
         left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,armeNom,armureNom,inventaire,sorts,conso);
         return left;
