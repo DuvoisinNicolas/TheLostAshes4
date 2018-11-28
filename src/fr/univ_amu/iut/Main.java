@@ -571,7 +571,7 @@ public class Main extends Application {
                     try {
                         DAOCara daoCara = new DAOCara();
                         daoSpell.learnSpell(spell,cara.getIdCara());
-                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara).getIdCara());
+                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara,user).getIdCara());
                     } catch (SQLException e) {
                         System.out.println("Euuuuh c'est cassé");
                     } catch (NoUserException e) {
@@ -680,7 +680,7 @@ public class Main extends Application {
             alert.setTitle("Les développeurs sont des tâches");
             alert.setContentText("On as mal initialisé la map, sorry :'(");
             alert.showAndWait();
-        } catch (SQLException e) {
+        } catch (SQLException | NoUserException e) {
             e.printStackTrace();
         }
     }
@@ -845,7 +845,7 @@ public class Main extends Application {
         return center;
     }
 
-    private VBox buildTop(Map map) throws SQLException, NoConnectionException {
+    private VBox buildTop(Map map) throws SQLException, NoConnectionException, NoUserException {
         VBox top = new VBox();
         Label topText = new Label(map.getName());
         topText.setFont(fontTitle);
@@ -866,7 +866,7 @@ public class Main extends Application {
 
         if (map.isCheckpoint()) {
             DAOCara daoCara = new DAOCara();
-            daoCara.save(cara);
+            daoCara.save(cara,user);
             Label checkpoint = new Label("<Checkpoint>");
             checkpoint.setFont(fontSubText);
             top.getChildren().add(checkpoint);

@@ -84,23 +84,37 @@ public class DAOCara {
         throw new NoUserException();
     }
 
-    public void save (Caracter caracter) {
-        /**
+    public void save (Caracter caracter,User user) throws NoUserException, SQLException {
+        /*
          * TODO : Le checkpoint
          */
+
+        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE ID_USER=?");
+        preparedStatement1.setInt(1,user.getIdUser());
+        ResultSet resultSet = preparedStatement1.executeQuery();
+        resultSet.next();
+        int idCara = resultSet.getInt("ID_CARA");
+
+
+
+        Caracter savedUser = getSaveUser(caracter,user);
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=? , CURR_HP=? , FCE=? , AGI=? , CHARI=? , END=? , MAG=? , GOLDS=? WHERE ID_CARA=?");
+        preparedStatement.setInt(1,caracter.getHP().get());
+        preparedStatement.setInt(2,caracter.getCURRHP().get());
+        preparedStatement.setInt(3,caracter.getFCE().get());
+        preparedStatement.setInt(4,caracter.getAGI().get());
+        preparedStatement.setInt(5,caracter.getCHARI().get());
+        preparedStatement.setInt(6,caracter.getEND().get());
+        preparedStatement.setInt(7,caracter.getMAG().get());
+        preparedStatement.setInt(8,caracter.getGolds().get());
+        preparedStatement.setInt(9,savedUser.getIdCara());
+        preparedStatement.executeUpdate();
     }
 
-    public Caracter getSaveUser (Caracter caracter) throws SQLException, NoUserException {
+    public Caracter getSaveUser (Caracter caracter , User user) throws SQLException, NoUserException {
 
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE NAME=? AND HP=? AND CURR_HP=? AND FCE=? AND AGI=? AND CHARI=? AND END=? AND MAG=?");
-        preparedStatement1.setString(1,caracter.getName());
-        preparedStatement1.setInt(2,caracter.getHP().get());
-        preparedStatement1.setInt(3,caracter.getCURRHP().get());
-        preparedStatement1.setInt(4,caracter.getFCE().get());
-        preparedStatement1.setInt(5,caracter.getAGI().get());
-        preparedStatement1.setInt(6,caracter.getCHARI().get());
-        preparedStatement1.setInt(7,caracter.getEND().get());
-        preparedStatement1.setInt(8,caracter.getMAG().get());
+        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE ID_USER=?");
+        preparedStatement1.setInt(1,user.getIdUser());
         ResultSet resultSet = preparedStatement1.executeQuery();
 
         resultSet.next();
