@@ -65,6 +65,7 @@ public class Main extends Application {
      * Taille et police des titres et des textes
      */
     private Font fontTitle = new Font("DejaVu Sans",20);
+    private Font fontSubTitle = new Font ("DejaVu Sans" , 16);
     private Font fontText = new Font("DejaVu Sans",12);
     private Font fontSubText = new Font("DejaVu Sans",10);
 
@@ -611,6 +612,7 @@ public class Main extends Application {
             //Permet de choisir le fond d'écran qu'il faut
 
             int cpt = 0;
+            String filePath;
 
             if (map.getChoix1() != null) {
                 ++cpt;
@@ -625,7 +627,6 @@ public class Main extends Application {
                 ++cpt;
             }
 
-            String filePath;
             switch (cpt) {
                 case 1:
                     filePath = "1.png";
@@ -648,223 +649,22 @@ public class Main extends Application {
                     BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             // Gauche
-            VBox left = new VBox();
-            left.setSpacing(20);
-            left.setAlignment(Pos.CENTER_LEFT);
-            left.setPadding(new Insets(2,0,0,20));
-
-                //Pseudo
-            Label usernameText = new Label(cara.getName());
-            usernameText.setFont(fontText);
-
-                // HP
-            HBox hp = new HBox();
-            ImageView hpImage = new ImageView(new Image(imagePath + "HP.png"));
-            hpImage.setFitHeight(20);
-            hpImage.setFitWidth(20);
-
-            Label hpText = new Label();
-            hpText.setFont(fontText);
-            hpText.setPadding(new Insets(2,0,0,5));
-            hpText.textProperty().bind(cara.getCURRHP().asString());
-
-            Label slash = new Label(" / ");
-
-            Label hpMaxText = new Label();
-            hpMaxText.setFont(fontText);
-            hpMaxText.setPadding(new Insets(2,0,0,5));
-            hpMaxText.textProperty().bind(cara.getHP().asString());
-            hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
-
-                // Force
-            HBox force = new HBox();
-            ImageView forceImage = new ImageView(new Image(imagePath + "FCE.png"));
-            forceImage.setFitHeight(20);
-            forceImage.setFitWidth(20);
-
-            Label forceText = new Label();
-            forceText.setFont(fontText);
-            forceText.setPadding(new Insets(2,0,0,5));
-            forceText.textProperty().bind(cara.getFCE().asString());
-            force.getChildren().addAll(forceImage,forceText);
-
-               // Agilité
-            HBox agilite = new HBox();
-            ImageView agiliteImage = new ImageView(new Image(imagePath + "AGI.png"));
-            agiliteImage.setFitHeight(20);
-            agiliteImage.setFitWidth(20);
-
-            Label agiliteText = new Label();
-            agiliteText.setPadding(new Insets(2,0,0,5));
-            agiliteText.setFont(fontText);
-            agiliteText.textProperty().bind(cara.getAGI().asString());
-            agilite.getChildren().addAll(agiliteImage,agiliteText);
-
-                // Intelligence
-            HBox intel = new HBox();
-            ImageView intelImage = new ImageView(new Image(imagePath + "INT.png"));
-            intelImage.setFitHeight(20);
-            intelImage.setFitWidth(20);
-
-            Label intelText = new Label();
-            intelText.setFont(fontText);
-            intelText.setPadding(new Insets(2,0,0,5));
-            intelText.textProperty().bind(cara.getMAG().asString());
-            intel.getChildren().addAll(intelImage,intelText);
-
-                // Endurance
-            HBox end = new HBox();
-            ImageView endImage = new ImageView(new Image(imagePath + "END.png"));
-            endImage.setFitHeight(20);
-            endImage.setFitWidth(20);
-
-            Label endText = new Label();
-            endText.setPadding(new Insets(2,0,0,5));
-            endText.setFont(fontText);
-            endText.textProperty().bind(cara.getEND().asString());
-            end.getChildren().addAll(endImage,endText);
-
-                // Charisme
-            HBox chari = new HBox();
-            ImageView chariImage = new ImageView(new Image(imagePath + "CHARI.png"));
-            chariImage.setFitHeight(20);
-            chariImage.setFitWidth(20);
-
-            Label chariText = new Label();
-            chariText.setFont(fontText);
-            chariText.setPadding(new Insets(2,0,0,5));
-            chariText.textProperty().bind(cara.getCHARI().asString());
-            chari.getChildren().addAll(chariImage,chariText);
-
-            left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari);
+            VBox left = buildLeft();
 
 
             // Haut
-            VBox top = new VBox();
-            Label topText = new Label(map.getName());
-            topText.setFont(fontTitle);
-            top.getChildren().add(topText);
-            top.setAlignment(Pos.CENTER);
-            top.setPadding(new Insets(20,0,0,width/4.9));
-            if (map.isCheckpoint()) {
-                Label checkpoint = new Label("<Checkpoint>");
-                checkpoint.setFont(fontSubText);
-                top.getChildren().add(checkpoint);
-            }
+            VBox top = buildTop(map);
 
 
             // Centre
-            VBox center = new VBox();
-            center.setAlignment(Pos.CENTER);
-            Text text = new Text(map.getText());
-            text.setFont(fontText);
-            text.setLineSpacing(3);
-            text.setWrappingWidth(500);
-            center.getChildren().add(text);
-            center.setPadding(new Insets(0,0,0,60));
+            VBox center = buildCenter(map);
 
             root.setCenter(center);
             root.setTop(top);
             root.setLeft(left);
 
             // Bottom
-            StackPane button1 = new StackPane();
-            StackPane button2 = new StackPane();
-            StackPane button3 = new StackPane();
-            StackPane button4 = new StackPane();
-
-            Rectangle rectangle1 = new Rectangle();
-            Rectangle rectangle2 = new Rectangle();
-            Rectangle rectangle3 = new Rectangle();
-            Rectangle rectangle4 = new Rectangle();
-
-            rectangle1.setHeight(50);
-            rectangle1.setWidth(240);
-            rectangle1.setFill(Color.TRANSPARENT);
-            rectangle2.setHeight(50);
-            rectangle2.setWidth(240);
-            rectangle2.setFill(Color.TRANSPARENT);
-            rectangle3.setHeight(50);
-            rectangle3.setWidth(240);
-            rectangle3.setFill(Color.TRANSPARENT);
-            rectangle4.setHeight(50);
-            rectangle4.setWidth(240);
-            rectangle4.setFill(Color.TRANSPARENT);
-
-            button1.setAlignment(Pos.CENTER);
-            button2.setAlignment(Pos.CENTER);
-            button3.setAlignment(Pos.CENTER);
-            button4.setAlignment(Pos.CENTER);
-
-            Label label1 = new Label(map.getChoix1());
-            Label label2 = new Label("");
-            Label label3 = new Label("");
-            Label label4 = new Label("");
-
-            button1.getChildren().addAll(label1,rectangle1);
-
-            rectangle1.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
-
-            rectangle1.setOnMouseEntered(event -> {
-                rectangle1.setCursor(Cursor.HAND);
-            });
-
-
-            if (cpt == 2) {
-                label2 = new Label(map.getChoix2());
-                rectangle2.setOnMouseEntered(event -> {
-                    rectangle2.setCursor(Cursor.HAND);
-                });
-            }
-            else if (cpt == 3){
-                label2 = new Label(map.getChoix2());
-                label3 = new Label(map.getChoix3());
-
-                rectangle2.setOnMouseEntered(event -> {
-                    rectangle2.setCursor(Cursor.HAND);
-                });
-
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
-            }
-            else if (cpt != 1){
-                label2 = new Label(map.getChoix2());
-                label3 = new Label(map.getChoix3());
-                label4 = new Label(map.getChoix4());
-                rectangle2.setOnMouseEntered(event -> {
-                    rectangle2.setCursor(Cursor.HAND);
-                });
-
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
-
-                rectangle4.setOnMouseEntered(event -> {
-                    rectangle4.setCursor(Cursor.HAND);
-                });
-            }
-
-            button2.getChildren().addAll(label2,rectangle2);
-            button3.getChildren().addAll(label3,rectangle3);
-            button4.getChildren().addAll(label4,rectangle4);
-
-            HBox ligneDuHaut = new HBox();
-            ligneDuHaut.setPadding(new Insets(0,0,21,0));
-            ligneDuHaut.getChildren().addAll(button1,button2);
-            HBox ligneDuBas = new HBox();
-            button2.setPadding(new Insets(0,0,0,96));
-            button4.setPadding(new Insets(0,0,0,96));
-            ligneDuBas.setPadding(new Insets(0,0,24,0));
-            ligneDuBas.getChildren().addAll(button3,button4);
-            VBox bottom = new VBox();
-            bottom.setPadding(new Insets(0,0,0,189));
-            bottom.getChildren().addAll(ligneDuHaut,ligneDuBas);
-
+            VBox bottom = buildBottom(map, cpt);
 
             root.setBottom(bottom);
         }
@@ -882,5 +682,281 @@ public class Main extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private VBox buildBottom(Map map, int cpt) {
+        StackPane button1 = new StackPane();
+        StackPane button2 = new StackPane();
+        StackPane button3 = new StackPane();
+        StackPane button4 = new StackPane();
+
+        Rectangle rectangle1 = new Rectangle();
+        Rectangle rectangle2 = new Rectangle();
+        Rectangle rectangle3 = new Rectangle();
+        Rectangle rectangle4 = new Rectangle();
+
+        rectangle1.setHeight(50);
+        rectangle1.setWidth(240);
+        rectangle1.setFill(Color.TRANSPARENT);
+        rectangle2.setHeight(50);
+        rectangle2.setWidth(240);
+        rectangle2.setFill(Color.TRANSPARENT);
+        rectangle3.setHeight(50);
+        rectangle3.setWidth(240);
+        rectangle3.setFill(Color.TRANSPARENT);
+        rectangle4.setHeight(50);
+        rectangle4.setWidth(240);
+        rectangle4.setFill(Color.TRANSPARENT);
+
+        button1.setAlignment(Pos.CENTER);
+        button2.setAlignment(Pos.CENTER);
+        button3.setAlignment(Pos.CENTER);
+        button4.setAlignment(Pos.CENTER);
+
+        Label label1 = new Label(map.getChoix1());
+        Label label2 = new Label("");
+        Label label3 = new Label("");
+        Label label4 = new Label("");
+
+        button1.getChildren().addAll(label1,rectangle1);
+
+        rectangle1.setOnMouseClicked(event -> {
+            /**
+             * TODO : Rediriger vers la map correspondante
+             */
+        });
+
+        rectangle1.setOnMouseEntered(event -> {
+            rectangle1.setCursor(Cursor.HAND);
+        });
+
+
+        if (cpt == 2) {
+            label2 = new Label(map.getChoix2());
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+        }
+        else if (cpt == 3){
+            label2 = new Label(map.getChoix2());
+            label3 = new Label(map.getChoix3());
+
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+
+            rectangle3.setOnMouseEntered(event -> {
+                rectangle3.setCursor(Cursor.HAND);
+            });
+            rectangle3.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+        }
+        else if (cpt == 4){
+            label2 = new Label(map.getChoix2());
+            label3 = new Label(map.getChoix3());
+            label4 = new Label(map.getChoix4());
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+
+            rectangle3.setOnMouseEntered(event -> {
+                rectangle3.setCursor(Cursor.HAND);
+            });
+            rectangle3.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+
+            rectangle4.setOnMouseEntered(event -> {
+                rectangle4.setCursor(Cursor.HAND);
+            });
+            rectangle4.setOnMouseClicked(event -> {
+                /**
+                 * TODO : Rediriger vers la map correspondante
+                 */
+            });
+        }
+
+        button2.getChildren().addAll(label2,rectangle2);
+        button3.getChildren().addAll(label3,rectangle3);
+        button4.getChildren().addAll(label4,rectangle4);
+
+        HBox ligneDuHaut = new HBox();
+        ligneDuHaut.setPadding(new Insets(0,0,21,0));
+        ligneDuHaut.getChildren().addAll(button1,button2);
+        HBox ligneDuBas = new HBox();
+        button2.setPadding(new Insets(0,0,0,96));
+        button4.setPadding(new Insets(0,0,0,96));
+        ligneDuBas.setPadding(new Insets(0,0,24,0));
+        ligneDuBas.getChildren().addAll(button3,button4);
+        VBox bottom = new VBox();
+        bottom.setPadding(new Insets(0,0,0,189));
+        bottom.getChildren().addAll(ligneDuHaut,ligneDuBas);
+        return bottom;
+    }
+
+    private VBox buildCenter(Map map) {
+        VBox center = new VBox();
+        center.setAlignment(Pos.CENTER);
+        Text text = new Text(map.getText());
+        text.setFont(fontText);
+        text.setLineSpacing(3);
+        text.setWrappingWidth(500);
+        center.getChildren().add(text);
+        center.setPadding(new Insets(0,0,0,20));
+        return center;
+    }
+
+    private VBox buildTop(Map map) {
+        VBox top = new VBox();
+        Label topText = new Label(map.getName());
+        topText.setFont(fontTitle);
+        top.getChildren().add(topText);
+        top.setAlignment(Pos.CENTER);
+        top.setPadding(new Insets(20,0,0,width/4.9));
+        if (map.isCheckpoint()) {
+            Label checkpoint = new Label("<Checkpoint>");
+            checkpoint.setFont(fontSubText);
+            top.getChildren().add(checkpoint);
+        }
+        return top;
+    }
+
+    private VBox buildLeft() {
+        VBox left = new VBox();
+        left.setSpacing(5);
+        left.setAlignment(Pos.CENTER_LEFT);
+        left.setPadding(new Insets(2,0,0,20));
+
+        //Pseudo
+        Label usernameText = new Label(cara.getName());
+
+        // HP
+        HBox hp = new HBox();
+        ImageView hpImage = new ImageView(new Image(imagePath + "HP.png"));
+        hpImage.setFitHeight(20);
+        hpImage.setFitWidth(20);
+
+        Label hpText = new Label();
+        hpText.setFont(fontText);
+        hpText.setPadding(new Insets(2,0,0,5));
+        hpText.textProperty().bind(cara.getCURRHP().asString());
+
+        Label slash = new Label(" / ");
+
+        Label hpMaxText = new Label();
+        hpMaxText.setFont(fontText);
+        hpMaxText.setPadding(new Insets(2,0,0,0));
+        hpMaxText.textProperty().bind(cara.getHP().asString());
+
+        hp.setPadding(new Insets(0,0,10,0));
+        hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
+
+        // Force
+        HBox force = new HBox();
+        ImageView forceImage = new ImageView(new Image(imagePath + "FCE.png"));
+        forceImage.setFitHeight(20);
+        forceImage.setFitWidth(20);
+
+        Label forceText = new Label();
+        forceText.setFont(fontText);
+        forceText.setPadding(new Insets(2,0,0,5));
+        forceText.textProperty().bind(cara.getFCE().asString());
+        force.getChildren().addAll(forceImage,forceText);
+
+        // Agilité
+        HBox agilite = new HBox();
+        ImageView agiliteImage = new ImageView(new Image(imagePath + "AGI.png"));
+        agiliteImage.setFitHeight(20);
+        agiliteImage.setFitWidth(20);
+
+        Label agiliteText = new Label();
+        agiliteText.setPadding(new Insets(2,0,0,5));
+        agiliteText.setFont(fontText);
+        agiliteText.textProperty().bind(cara.getAGI().asString());
+        agilite.getChildren().addAll(agiliteImage,agiliteText);
+
+        // Intelligence
+        HBox intel = new HBox();
+        ImageView intelImage = new ImageView(new Image(imagePath + "INT.png"));
+        intelImage.setFitHeight(20);
+        intelImage.setFitWidth(20);
+
+        Label intelText = new Label();
+        intelText.setFont(fontText);
+        intelText.setPadding(new Insets(2,0,0,5));
+        intelText.textProperty().bind(cara.getMAG().asString());
+        intel.getChildren().addAll(intelImage,intelText);
+
+        // Endurance
+        HBox end = new HBox();
+        ImageView endImage = new ImageView(new Image(imagePath + "END.png"));
+        endImage.setFitHeight(20);
+        endImage.setFitWidth(20);
+
+        Label endText = new Label();
+        endText.setPadding(new Insets(2,0,0,5));
+        endText.setFont(fontText);
+        endText.textProperty().bind(cara.getEND().asString());
+        end.getChildren().addAll(endImage,endText);
+
+        // Charisme
+        HBox chari = new HBox();
+        ImageView chariImage = new ImageView(new Image(imagePath + "CHARI.png"));
+        chariImage.setFitHeight(20);
+        chariImage.setFitWidth(20);
+
+        Label chariText = new Label();
+        chariText.setFont(fontText);
+        chariText.setPadding(new Insets(2,0,0,5));
+        chariText.textProperty().bind(cara.getCHARI().asString());
+        chari.getChildren().addAll(chariImage,chariText);
+
+        // Arme
+        /*
+         * TODO : Afficher l'arme
+         */
+        Label armeNom = new Label("Une arme géniale");
+        armeNom.setPadding(new Insets(10,0,0,0));
+
+        // Armure
+        /*
+         * TODO : Afficher l'armure
+         */
+        Label armureNom = new Label("Une armure géniale");
+        armureNom.setPadding(new Insets(10,0,20,0));
+
+
+        // Bouton Inventaire
+        Button inventaire = new Button("Inventaire");
+
+
+        // Bouton Sorts
+        Button sorts = new Button("Sorts");
+
+        // Bouton Consommables
+        Button conso = new Button("Consommables");
+
+        left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,armeNom,armureNom,inventaire,sorts,conso);
+        return left;
     }
 }
