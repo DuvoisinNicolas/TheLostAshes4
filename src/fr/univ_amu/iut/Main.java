@@ -73,8 +73,11 @@ public class Main extends Application {
      *  Caractere de separation et fichier de base
      */
     private static char caractereSeparation;
-    private static String filepath = "file:" + new File("").getAbsolutePath();
-    private static String imagePath;
+
+    /**
+     *  Valeur de HP soignée au repos
+     */
+    private static int HP_REPOS = DAOCara.VALHPMAX/2;
 
     private static ArrayList<Map> allMaps = new ArrayList<>();
 
@@ -90,8 +93,6 @@ public class Main extends Application {
             caractereSeparation = '/';
         }
 
-        filepath +=  caractereSeparation + "src" + caractereSeparation +  "fr" + caractereSeparation + "univ_amu" + caractereSeparation + "iut" + caractereSeparation;
-        imagePath = filepath + "images" + caractereSeparation;
         launch(args);
     }
 
@@ -116,7 +117,7 @@ public class Main extends Application {
      */
     private void connectionInterface () {
         root.getChildren().clear();
-        root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+        root.setBackground(new Background(new BackgroundImage(new Image( "0.png",800,600,false,false),
                 BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         // Titre en haut de page
@@ -270,7 +271,7 @@ public class Main extends Application {
     private void createCaraInterface () {
 
         root.getChildren().clear();
-        root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+        root.setBackground(new Background(new BackgroundImage(new Image("0.png",800,600,false,false),
                 BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         IntegerProperty nombreRestant = new SimpleIntegerProperty(MAXPTSALLOUER);
@@ -486,7 +487,7 @@ public class Main extends Application {
         try {
 
             root.getChildren().clear();
-            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + "0.png",800,600,false,false),
+            root.setBackground(new Background(new BackgroundImage(new Image("0.png",800,600,false,false),
                     BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             root.getChildren().clear();
@@ -645,7 +646,7 @@ public class Main extends Application {
             }
 
             // Initialisation du fond d'écran
-            root.setBackground(new Background(new BackgroundImage(new Image(imagePath + filePath,800,600,false,false),
+            root.setBackground(new Background(new BackgroundImage(new Image(filePath,800,600,false,false),
                     BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
             // Gauche
@@ -830,10 +831,6 @@ public class Main extends Application {
             bottom.getChildren().addAll(ligneDuHaut, ligneDuBas);
             return bottom;
         }
-
-        /**
-         * TODO : Windows.
-         */
     }
 
     private VBox buildCenter(Map map) {
@@ -848,14 +845,28 @@ public class Main extends Application {
         return center;
     }
 
-    private VBox buildTop(Map map) {
+    private VBox buildTop(Map map) throws SQLException, NoConnectionException {
         VBox top = new VBox();
         Label topText = new Label(map.getName());
         topText.setFont(fontTitle);
         top.getChildren().add(topText);
         top.setAlignment(Pos.CENTER);
         top.setPadding(new Insets(20,0,0,width/4.9));
+        if (map.isRest()) {
+            DAOSpell daoSpell = new DAOSpell();
+            daoSpell.resetSpells(cara);
+            cara.setCURRHP(cara.getCURRHP().get() + HP_REPOS);
+            if ( cara.getCURRHP().get() > DAOCara.VALHPMAX ) {
+                cara.setCURRHP(DAOCara.VALHPMAX);
+            }
+                Label checkpoint = new Label("<Repos>");
+            checkpoint.setFont(fontSubText);
+            top.getChildren().add(checkpoint);
+        }
+
         if (map.isCheckpoint()) {
+            DAOCara daoCara = new DAOCara();
+            daoCara.save(cara);
             Label checkpoint = new Label("<Checkpoint>");
             checkpoint.setFont(fontSubText);
             top.getChildren().add(checkpoint);
@@ -874,7 +885,7 @@ public class Main extends Application {
 
         // HP
         HBox hp = new HBox();
-        ImageView hpImage = new ImageView(new Image(imagePath + "HP.png"));
+        ImageView hpImage = new ImageView(new Image("HP.png"));
         hpImage.setFitHeight(20);
         hpImage.setFitWidth(20);
 
@@ -895,7 +906,7 @@ public class Main extends Application {
 
         // Force
         HBox force = new HBox();
-        ImageView forceImage = new ImageView(new Image(imagePath + "FCE.png"));
+        ImageView forceImage = new ImageView(new Image("FCE.png"));
         forceImage.setFitHeight(20);
         forceImage.setFitWidth(20);
 
@@ -907,7 +918,7 @@ public class Main extends Application {
 
         // Agilité
         HBox agilite = new HBox();
-        ImageView agiliteImage = new ImageView(new Image(imagePath + "AGI.png"));
+        ImageView agiliteImage = new ImageView(new Image("AGI.png"));
         agiliteImage.setFitHeight(20);
         agiliteImage.setFitWidth(20);
 
@@ -919,7 +930,7 @@ public class Main extends Application {
 
         // Intelligence
         HBox intel = new HBox();
-        ImageView intelImage = new ImageView(new Image(imagePath + "INT.png"));
+        ImageView intelImage = new ImageView(new Image("INT.png"));
         intelImage.setFitHeight(20);
         intelImage.setFitWidth(20);
 
@@ -931,7 +942,7 @@ public class Main extends Application {
 
         // Endurance
         HBox end = new HBox();
-        ImageView endImage = new ImageView(new Image(imagePath + "END.png"));
+        ImageView endImage = new ImageView(new Image("END.png"));
         endImage.setFitHeight(20);
         endImage.setFitWidth(20);
 
@@ -943,7 +954,7 @@ public class Main extends Application {
 
         // Charisme
         HBox chari = new HBox();
-        ImageView chariImage = new ImageView(new Image(imagePath + "CHARI.png"));
+        ImageView chariImage = new ImageView(new Image("CHARI.png"));
         chariImage.setFitHeight(20);
         chariImage.setFitWidth(20);
 
@@ -970,7 +981,6 @@ public class Main extends Application {
 
         // Bouton Inventaire
         Button inventaire = new Button("Inventaire");
-
 
         // Bouton Sorts
         Button sorts = new Button("Sorts");

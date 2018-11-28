@@ -5,6 +5,7 @@ public class Map {
     private int idMap;
     private String name;
     private boolean checkpoint;
+    private boolean rest;
     private String text;
     private int idWeapon;
     private int idArmor;
@@ -42,6 +43,14 @@ public class Map {
 
     public void setCheckpoint(boolean checkpoint) {
         this.checkpoint = checkpoint;
+    }
+
+    public boolean isRest() {
+        return rest;
+    }
+
+    public void setRest(boolean rest) {
+        this.rest = rest;
     }
 
     public String getText() {

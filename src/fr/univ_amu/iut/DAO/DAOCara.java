@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class DAOCara {
 
     private Connection connection;
-    private static int VALHPMAX = 100;
+    public static int VALHPMAX = 100;
     public DAOCara() throws NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
     }
@@ -34,9 +34,6 @@ public class DAOCara {
         preparedStatement.setInt(8,caracter.getMAG().get());
         preparedStatement.setInt(9,user.getIdUser());
         preparedStatement.executeUpdate();
-
-
-
 
         PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE NAME=? AND HP=? AND CURR_HP=? AND FCE=? AND AGI=? AND CHARI=? AND END=? AND MAG=? AND ID_USER=?");
         preparedStatement1.setString(1,caracter.getName());
@@ -85,6 +82,12 @@ public class DAOCara {
             return CaracterMapper.mapRow(resultSet1);
         }
         throw new NoUserException();
+    }
+
+    public void save (Caracter caracter) {
+        /**
+         * TODO : Le checkpoint
+         */
     }
 
     public Caracter getSaveUser (Caracter caracter) throws SQLException, NoUserException {

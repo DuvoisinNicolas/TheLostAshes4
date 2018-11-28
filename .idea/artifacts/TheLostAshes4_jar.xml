@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="TheLostAshes4:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TheLostAshes4_jar</output-path>
+    <root id="archive" name="TheLostAshes4.jar">
+      <element id="module-output" name="TheLostAshes4" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

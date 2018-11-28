@@ -11,6 +11,7 @@ public class MapMapper {
         map.setIdMap(resultSet.getInt("ID_MAP"));
         map.setName(resultSet.getString("NAME"));
         map.setCheckpoint(resultSet.getBoolean("CHECKPOINT"));
+        map.setRest(resultSet.getBoolean("REST"));
         map.setText(resultSet.getString("TEXT"));
         map.setIdWeapon(resultSet.getInt("ID_WEAPON"));
         map.setIdArmor(resultSet.getInt("ID_ARMOR"));

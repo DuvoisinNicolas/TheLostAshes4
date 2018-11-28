@@ -28,11 +28,17 @@ public class DAOSpell {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LEARNEDSPELLS (ID_SPELL, ID_CARA) VALUES (?,?)");
         preparedStatement.setInt(1,spell.getIdSpell());
         preparedStatement.setInt(2,idCara);
-        System.out.println(preparedStatement);
         int rset = preparedStatement.executeUpdate();
         if (rset != 1) {
             throw new SQLException("Problème de requete");
         }
+    }
+
+    public void resetSpells (Caracter caracter) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LEARNEDSPELLS SET USED=? WHERE ID_CARA=?");
+        preparedStatement.setInt(1,0);
+        preparedStatement.setInt(2,caracter.getIdCara());
+        preparedStatement.executeUpdate();
     }
 
     public List<Spell> findByUser(User user) throws SQLException {
