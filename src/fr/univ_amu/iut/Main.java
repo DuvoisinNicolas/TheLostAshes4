@@ -14,12 +14,15 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -598,6 +601,7 @@ public class Main extends Application {
             interfaceChoixSorts();
         }
     }
+
     private void gameInterface (Map map) {
         try {
             DAOUser daoUser = new DAOUser();
@@ -645,7 +649,7 @@ public class Main extends Application {
             VBox left = new VBox();
             left.setSpacing(20);
             left.setAlignment(Pos.CENTER_LEFT);
-            left.setPadding(new Insets(0,0,0,20));
+            left.setPadding(new Insets(2,0,0,20));
 
                 //Pseudo
             Label usernameText = new Label(cara.getName());
@@ -659,6 +663,7 @@ public class Main extends Application {
 
             Label hpText = new Label();
             hpText.setFont(fontText);
+            hpText.setPadding(new Insets(2,0,0,5));
             hpText.textProperty().bind(cara.getCURRHP().asString());
 
             Label slash = new Label(" / ");
@@ -676,6 +681,7 @@ public class Main extends Application {
 
             Label forceText = new Label();
             forceText.setFont(fontText);
+            forceText.setPadding(new Insets(2,0,0,5));
             forceText.textProperty().bind(cara.getFCE().asString());
             force.getChildren().addAll(forceImage,forceText);
 
@@ -686,6 +692,7 @@ public class Main extends Application {
             agiliteImage.setFitWidth(20);
 
             Label agiliteText = new Label();
+            agiliteText.setPadding(new Insets(2,0,0,5));
             agiliteText.setFont(fontText);
             agiliteText.textProperty().bind(cara.getAGI().asString());
             agilite.getChildren().addAll(agiliteImage,agiliteText);
@@ -698,6 +705,7 @@ public class Main extends Application {
 
             Label intelText = new Label();
             intelText.setFont(fontText);
+            intelText.setPadding(new Insets(2,0,0,5));
             intelText.textProperty().bind(cara.getMAG().asString());
             intel.getChildren().addAll(intelImage,intelText);
 
@@ -708,6 +716,7 @@ public class Main extends Application {
             endImage.setFitWidth(20);
 
             Label endText = new Label();
+            endText.setPadding(new Insets(2,0,0,5));
             endText.setFont(fontText);
             endText.textProperty().bind(cara.getEND().asString());
             end.getChildren().addAll(endImage,endText);
@@ -720,6 +729,7 @@ public class Main extends Application {
 
             Label chariText = new Label();
             chariText.setFont(fontText);
+            chariText.setPadding(new Insets(2,0,0,5));
             chariText.textProperty().bind(cara.getCHARI().asString());
             chari.getChildren().addAll(chariImage,chariText);
 
@@ -727,7 +737,6 @@ public class Main extends Application {
 
 
             // Haut
-
             VBox top = new VBox();
             Label topText = new Label(map.getName());
             topText.setFont(fontTitle);
@@ -742,13 +751,70 @@ public class Main extends Application {
 
 
             // Centre
+            VBox center = new VBox();
+            center.setAlignment(Pos.CENTER);
+            Text text = new Text(map.getText());
+            text.setFont(fontText);
+            text.setLineSpacing(3);
+            text.setWrappingWidth(500);
+            center.getChildren().add(text);
+            center.setPadding(new Insets(0,0,100,60));
 
-            Label text = new Label(map.getText());
-            text.setWrapText(true);
-
-            root.setCenter(text);
+            root.setCenter(center);
             root.setTop(top);
             root.setLeft(left);
+
+            // Bottom
+            StackPane button1 = new StackPane();
+            StackPane button2 = new StackPane();
+            StackPane button3 = new StackPane();
+            StackPane button4 = new StackPane();
+
+            Rectangle rectangle = new Rectangle();
+
+
+            button1.setAlignment(Pos.CENTER);
+            button2.setAlignment(Pos.CENTER);
+            button3.setAlignment(Pos.CENTER);
+            button4.setAlignment(Pos.CENTER);
+
+            Label label1 = new Label(map.getChoix1());
+            Label label2;
+            Label label3;
+            Label label4;
+
+            if (cpt == 2) {
+                label2 = new Label(map.getChoix2());
+                label3 = new Label();
+                label4 = new Label();
+            }
+            else if (cpt == 3){
+                label2 = new Label(map.getChoix2());
+                label3 = new Label(map.getChoix3());
+                label4 = new Label();
+            }
+            else {
+                label2 = new Label(map.getChoix2());
+                label3 = new Label(map.getChoix3());
+                label4 = new Label(map.getChoix4());
+            }
+
+            button1.getChildren().add(label1);
+            button2.getChildren().add(label2);
+            button3.getChildren().add(label3);
+            button4.getChildren().add(label4);
+
+            HBox ligneDuHaut = new HBox();
+            ligneDuHaut.getChildren().addAll(button1,button2);
+            HBox ligneDuBas = new HBox();
+            ligneDuBas.getChildren().addAll(button3,button4);
+            VBox bottom = new VBox();
+            bottom.getChildren().addAll(ligneDuHaut,ligneDuBas);
+
+            /**
+             * TODO : Stackpane avec des rectangles et alignement des boutons
+             */
+            root.setBottom(bottom);
         }
         catch (NoConnectionException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
