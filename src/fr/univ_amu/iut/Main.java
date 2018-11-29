@@ -640,8 +640,6 @@ public class Main extends Application {
         if (map.getGolds() != 0) {
             cara.setGolds(cara.getGolds().get() + map.getGolds());
         }
-
-
     }
 
     private void gameInterface (Map map) {
