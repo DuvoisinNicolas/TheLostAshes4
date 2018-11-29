@@ -21,13 +21,24 @@ public class DAOWeapon {
         connection = UniqueConnection.getInstance().getConnection();
     }
 
+    public Weapon getWeaponById (int idWeapon) throws SQLException {
+        Weapon weapon = new Weapon();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM WEAPON WHERE ID_WEAPON=?");
+        preparedStatement.setInt(1,idWeapon);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            weapon = WeaponMapper.mapRow(resultSet);
+        }
+        return weapon;
+    }
+
     public Weapon getEquipedWeapon(Caracter caracter) throws SQLException {
         Weapon weapon = new Weapon();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM WEAPONINVENTORY WHERE ID_CARA=? AND EQUIPED = 0");
         preparedStatement.setInt(1,caracter.getIdCara());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            weapon = WeaponMapper.mapRow(resultSet);
+            weapon = getWeaponById(resultSet.getInt("ID_WEAPON"));
         }
         return weapon;
     }
@@ -38,11 +49,25 @@ public class DAOWeapon {
         preparedStatement.setInt(1,caracter.getIdCara());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
+            weapons.add(getWeaponById(resultSet.getInt("ID_WEAPON")));
+        }
+        return weapons;
+    }
+
+    public List<Weapon> findAll () throws SQLException {
+        List<Weapon> weapons = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM WEAPON");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
             weapons.add(WeaponMapper.mapRow(resultSet));
         }
         return weapons;
     }
 
+    /**
+     * Probablement useless
+     */
+    /*
     public void obtainWeapon (Weapon weapon,Caracter caracter) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO WEAPONINVENTORY (ID_CARA, ID_WEAPON) VALUES (?,?)");
         preparedStatement.setInt(1, caracter.getIdCara());
@@ -61,5 +86,6 @@ public class DAOWeapon {
         preparedStatement.executeUpdate();
     }
 
+*/
 
 }

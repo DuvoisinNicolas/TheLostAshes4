@@ -1,5 +1,8 @@
 package fr.univ_amu.iut.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Weapon {
 
     private int idWeapon;
@@ -12,6 +15,7 @@ public class Weapon {
     private int chari;
     private int end;
     private int mag;
+    private static List<Weapon> allWeapons = new ArrayList<>();
 
     public int getIdWeapon() {
         return idWeapon;
@@ -91,5 +95,13 @@ public class Weapon {
 
     public void setMag(int mag) {
         this.mag = mag;
+    }
+
+    public static List<Weapon> getAllWeapons() {
+        return allWeapons;
+    }
+
+    public static void setAllWeapons(List<Weapon> allWeapons) {
+        Weapon.allWeapons = allWeapons;
     }
 }

@@ -103,7 +103,7 @@ public class Main extends Application {
         DAOMap daoMap = new DAOMap();
         DAOWeapon daoWeapon = new DAOWeapon();
         allMaps = (ArrayList<Map>) daoMap.findAll();
-        weapons = daoWeapon.getMyWeapons(cara);
+        Weapon.setAllWeapons(daoWeapon.findAll());
 
         primaryStage.setTitle("The Lost Ashes");
         primaryStage.setResizable(false);
@@ -1178,7 +1178,7 @@ public class Main extends Application {
     }
 
     private Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
-        for (Weapon weapon : weapons) {
+        for (Weapon weapon : Weapon.getAllWeapons()) {
             if (weapon.getIdWeapon() == idWeapon) {
                 return weapon;
             }
