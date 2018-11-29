@@ -614,18 +614,28 @@ public class Main extends Application {
     private void modifsStatsAndGolds (Map map) {
         if (map.getFCE() != 0) {
             cara.setFCE(cara.getFCE().get() + map.getFCE());
+            if (cara.getFCE().get() > 10)
+                cara.setFCE(10);
         }
         if (map.getAGI() != 0) {
             cara.setAGI(cara.getAGI().get() + map.getAGI());
+            if (cara.getAGI().get() > 10)
+                cara.setAGI(10);
         }
         if (map.getINT() != 0) {
             cara.setMAG(cara.getMAG().get() + map.getINT());
+            if (cara.getMAG().get() > 10)
+                cara.setMAG(10);
         }
         if (map.getEND() != 0) {
             cara.setEND(cara.getEND().get() + map.getEND());
+            if (cara.getEND().get() > 10)
+                cara.setEND(10);
         }
         if (map.getCHARI() != 0) {
             cara.setCHARI(cara.getCHARI().get() + map.getCHARI());
+            if (cara.getCHARI().get() > 10)
+                cara.setCHARI(10);
         }
         if (map.getGolds() != 0) {
             cara.setGolds(cara.getGolds().get() + map.getGolds());
@@ -793,8 +803,6 @@ public class Main extends Application {
     }
 
     private void initMapWithTest (Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
-
-
         int random = (int) (Math.random() * 10);
         boolean sucess = false;
 
