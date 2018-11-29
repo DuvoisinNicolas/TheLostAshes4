@@ -23,11 +23,11 @@ public class DAOSpell {
         connection = UniqueConnection.getInstance().getConnection();
     }
 
-    public void learnSpell (Spell spell , int idCara) throws SQLException {
+    public void learnSpell (Spell spell , Caracter caracter) throws SQLException {
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LEARNEDSPELLS (ID_SPELL, ID_CARA) VALUES (?,?)");
         preparedStatement.setInt(1,spell.getIdSpell());
-        preparedStatement.setInt(2,idCara);
+        preparedStatement.setInt(2,caracter.getIdCara());
         int rset = preparedStatement.executeUpdate();
         if (rset != 1) {
             throw new SQLException("Problème de requete");

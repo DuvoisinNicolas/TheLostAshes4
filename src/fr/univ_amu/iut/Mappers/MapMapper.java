@@ -17,6 +17,11 @@ public class MapMapper {
         map.setIdArmor(resultSet.getInt("ID_ARMOR"));
         map.setIdEnnemi(resultSet.getInt("ID_ENNEMI"));
         map.setGolds(resultSet.getInt("GOLDS"));
+        map.setFCE(resultSet.getInt("FCE"));
+        map.setAGI(resultSet.getInt("AGI"));
+        map.setINT(resultSet.getInt("INTEL"));
+        map.setEND(resultSet.getInt("END"));
+        map.setCHARI(resultSet.getInt("CHARI"));
         map.setTestStat(resultSet.getString("TESTSTAT"));
         map.setChoix1(resultSet.getString("CHOIX1"));
         map.setChoix2(resultSet.getString("CHOIX2"));

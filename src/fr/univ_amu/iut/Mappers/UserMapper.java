@@ -12,7 +12,6 @@ public class UserMapper {
         user.setUsername(resultSet.getString("USERNAME"));
         user.setPassword(resultSet.getString("PWD"));
         user.setMail(resultSet.getString("MAIL"));
-        user.setIdCara(resultSet.getInt("ID_CARA"));
         return user;
     }
 }

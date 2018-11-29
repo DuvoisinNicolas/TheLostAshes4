@@ -18,7 +18,6 @@ public class CaracterMapper {
         caracter.setEND(resultSet.getInt("END"));
         caracter.setMAG(resultSet.getInt("MAG"));
         caracter.setGolds(resultSet.getInt("GOLDS"));
-        caracter.setSavedId(resultSet.getInt("SAVED_ID"));
         caracter.setIdUser(resultSet.getInt("ID_USER"));
         return caracter;
     }

@@ -152,13 +152,13 @@ public class Main extends Application {
          */
         connectButton.setOnAction(event -> {
             try {
+                DAOCara daoCara = new DAOCara();
                 DAOUser daoUser = new DAOUser();
                 user = daoUser.findByUsernameAndPwd(loginField.getText(),pwdField.getText());
-                if (user.getIdCara() == 0) {
+                if (!daoCara.hasACara(user)) {
                     createCaraInterface();
                 }
                 else {
-                    DAOCara daoCara = new DAOCara();
                     cara = daoCara.getMyCara(user);
                     /**
                      * CHANGE ICI OMFG !
@@ -495,7 +495,7 @@ public class Main extends Application {
             // Titre en haut de page
             HBox top = new HBox();
             Label title = new Label("Choix des sorts");
-            title.setPadding(new Insets(0,0,20,0));
+            title.setPadding(new Insets(10,0,20,0));
             title.setFont(fontTitle);
             VBox sorts = new VBox();
             sorts.setAlignment(Pos.CENTER);
@@ -570,11 +570,9 @@ public class Main extends Application {
                 for (Spell spell : spellNames) {
                     try {
                         DAOCara daoCara = new DAOCara();
-                        daoSpell.learnSpell(spell,cara.getIdCara());
-                        daoSpell.learnSpell(spell,daoCara.getSaveUser(cara,user).getIdCara());
-                    } catch (SQLException e) {
-                        System.out.println("Euuuuh c'est cassé");
-                    } catch (NoUserException e) {
+                        cara = daoCara.getMyCara(user);
+                        daoSpell.learnSpell(spell,cara);
+                    } catch (SQLException | NoUserException e) {
                         e.printStackTrace();
                     } catch (NoConnectionException e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -605,8 +603,43 @@ public class Main extends Application {
         }
     }
 
+    private String editTextMap (Map map) {
+        String betterStr = map.getText().replace("#NOM",cara.getName());
+        /*
+         * TODO:Replacer le texte pour le nom des armes , des armures
+         */
+        return betterStr;
+    }
+
+    private void modifsStatsAndGolds (Map map) {
+        if (map.getFCE() != 0) {
+            cara.setFCE(cara.getFCE().get() + map.getFCE());
+        }
+        if (map.getAGI() != 0) {
+            cara.setAGI(cara.getAGI().get() + map.getAGI());
+        }
+        if (map.getINT() != 0) {
+            cara.setMAG(cara.getMAG().get() + map.getINT());
+        }
+        if (map.getEND() != 0) {
+            cara.setEND(cara.getEND().get() + map.getEND());
+        }
+        if (map.getCHARI() != 0) {
+            cara.setCHARI(cara.getCHARI().get() + map.getCHARI());
+        }
+        if (map.getGolds() != 0) {
+            cara.setGolds(cara.getGolds().get() + map.getGolds());
+        }
+
+
+    }
+
     private void gameInterface (Map map) {
         try {
+            // Toutes les modifs à faire vis à vis de la map
+            map.setText(editTextMap(map));
+            modifsStatsAndGolds(map);
+
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
 
@@ -652,10 +685,8 @@ public class Main extends Application {
             // Gauche
             VBox left = buildLeft();
 
-
             // Haut
             VBox top = buildTop(map);
-
 
             // Centre
             VBox center = buildCenter(map);
@@ -721,85 +752,13 @@ public class Main extends Application {
 
         button1.getChildren().addAll(label1,rectangle1);
 
-        rectangle1.setOnMouseClicked(event -> {
-            /**
-             * TODO : Rediriger vers la map correspondante
-             */
-        });
 
-        rectangle1.setOnMouseEntered(event -> {
-            rectangle1.setCursor(Cursor.HAND);
-        });
-
-
-        if (cpt == 2) {
-            label2 = new Label(map.getChoix2());
-            rectangle2.setOnMouseEntered(event -> {
-                rectangle2.setCursor(Cursor.HAND);
-            });
-            rectangle2.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
+        if (map.getTestStat() == null) {
+            initMapIfNoTest(map, cpt, button2, button3, button4, rectangle1, rectangle2, rectangle3, rectangle4, label2, label3, label4);
         }
-        else if (cpt == 3){
-            label2 = new Label(map.getChoix2());
-            label3 = new Label(map.getChoix3());
-
-            rectangle2.setOnMouseEntered(event -> {
-                rectangle2.setCursor(Cursor.HAND);
-            });
-            rectangle2.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
-
-            rectangle3.setOnMouseEntered(event -> {
-                rectangle3.setCursor(Cursor.HAND);
-            });
-            rectangle3.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
+        else {
+            initMapWithTest(map, cpt, button2, button3, button4, rectangle1, rectangle2, rectangle3, rectangle4, label2, label3, label4);
         }
-        else if (cpt == 4){
-            label2 = new Label(map.getChoix2());
-            label3 = new Label(map.getChoix3());
-            label4 = new Label(map.getChoix4());
-            rectangle2.setOnMouseEntered(event -> {
-                rectangle2.setCursor(Cursor.HAND);
-            });
-            rectangle2.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
-
-            rectangle3.setOnMouseEntered(event -> {
-                rectangle3.setCursor(Cursor.HAND);
-            });
-            rectangle3.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
-
-            rectangle4.setOnMouseEntered(event -> {
-                rectangle4.setCursor(Cursor.HAND);
-            });
-            rectangle4.setOnMouseClicked(event -> {
-                /**
-                 * TODO : Rediriger vers la map correspondante
-                 */
-            });
-        }
-
-        button2.getChildren().addAll(label2,rectangle2);
-        button3.getChildren().addAll(label3,rectangle3);
-        button4.getChildren().addAll(label4,rectangle4);
 
         String os = System.getProperty("os.name").toLowerCase();
 
@@ -833,6 +792,165 @@ public class Main extends Application {
         }
     }
 
+    private void initMapWithTest (Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
+
+
+        int random = (int) (Math.random() * 10);
+        boolean sucess = false;
+
+        switch (map.getTestStat()) {
+            case "FCE":
+                if (cara.getFCE().get() >= random) {
+                    sucess = true;
+                }
+                break;
+            case "AGI":
+                if (cara.getAGI().get() >= random) {
+                    sucess = true;
+                }
+                break;
+            case "INT":
+                if (cara.getMAG().get() >= random) {
+                    sucess = true;
+                }
+                break;
+            case "END":
+                if (cara.getEND().get() >= random) {
+                    sucess = true;
+                }
+                break;
+            case "CHARI":
+                if (cara.getCHARI().get() >= random) {
+                    sucess = true;
+                }
+                break;
+        }
+
+
+        boolean finalSucess = sucess;
+        rectangle1.setOnMouseClicked(event -> {
+            try {
+                if(finalSucess) {
+                    gameInterface(findMapById(map.getMap1()));
+                }
+                else {
+                    gameInterface(findMapById(map.getMap2()));
+                }
+            } catch (NoMapFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+        rectangle1.setOnMouseEntered(event -> {
+            rectangle1.setCursor(Cursor.HAND);
+        });
+
+        label2 = new Label("");
+        label3 = new Label("");
+        label4 = new Label("");
+
+
+        button2.getChildren().addAll(label2,rectangle2);
+        button3.getChildren().addAll(label3,rectangle3);
+        button4.getChildren().addAll(label4,rectangle4);
+    }
+
+    private void initMapIfNoTest(Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
+        rectangle1.setOnMouseClicked(event -> {
+            try {
+                gameInterface(findMapById(map.getMap1()));
+            } catch (NoMapFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
+        rectangle1.setOnMouseEntered(event -> {
+            rectangle1.setCursor(Cursor.HAND);
+        });
+
+
+        if (cpt == 2) {
+            label2 = new Label(map.getChoix2());
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap2()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        else if (cpt == 3){
+            label2 = new Label(map.getChoix2());
+            label3 = new Label(map.getChoix3());
+
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap2()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            rectangle3.setOnMouseEntered(event -> {
+                rectangle3.setCursor(Cursor.HAND);
+            });
+            rectangle3.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap3()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        else if (cpt == 4){
+            label2 = new Label(map.getChoix2());
+            label3 = new Label(map.getChoix3());
+            label4 = new Label(map.getChoix4());
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap2()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            rectangle3.setOnMouseEntered(event -> {
+                rectangle3.setCursor(Cursor.HAND);
+            });
+            rectangle3.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap3()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            rectangle4.setOnMouseEntered(event -> {
+                rectangle4.setCursor(Cursor.HAND);
+            });
+            rectangle4.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(findMapById(map.getMap4()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        button2.getChildren().addAll(label2,rectangle2);
+        button3.getChildren().addAll(label3,rectangle3);
+        button4.getChildren().addAll(label4,rectangle4);
+    }
+
     private VBox buildCenter(Map map) {
         VBox center = new VBox();
         center.setAlignment(Pos.CENTER);
@@ -852,24 +970,27 @@ public class Main extends Application {
         top.getChildren().add(topText);
         top.setAlignment(Pos.CENTER);
         top.setPadding(new Insets(20,0,0,width/4.9));
+        if (map.isCheckpoint()) {
+            Label checkpoint = new Label("<Checkpoint>");
+            checkpoint.setFont(fontSubText);
+            top.getChildren().add(checkpoint);
+        }
+
         if (map.isRest()) {
             DAOSpell daoSpell = new DAOSpell();
             daoSpell.resetSpells(cara);
             cara.setCURRHP(cara.getCURRHP().get() + HP_REPOS);
-            if ( cara.getCURRHP().get() > DAOCara.VALHPMAX ) {
+            if (cara.getCURRHP().get() > DAOCara.VALHPMAX) {
                 cara.setCURRHP(DAOCara.VALHPMAX);
             }
-                Label checkpoint = new Label("<Repos>");
+            Label checkpoint = new Label("<Repos>");
             checkpoint.setFont(fontSubText);
             top.getChildren().add(checkpoint);
         }
 
         if (map.isCheckpoint()) {
             DAOCara daoCara = new DAOCara();
-            daoCara.save(cara,user);
-            Label checkpoint = new Label("<Checkpoint>");
-            checkpoint.setFont(fontSubText);
-            top.getChildren().add(checkpoint);
+            daoCara.save(cara);
         }
         return top;
     }
@@ -964,6 +1085,18 @@ public class Main extends Application {
         chariText.textProperty().bind(cara.getCHARI().asString());
         chari.getChildren().addAll(chariImage,chariText);
 
+        // Charisme
+        HBox golds = new HBox();
+        ImageView goldsImage = new ImageView(new Image("GOLDS.png"));
+        goldsImage.setFitHeight(20);
+        goldsImage.setFitWidth(20);
+
+        Label goldsText = new Label();
+        goldsText.setFont(fontText);
+        goldsText.setPadding(new Insets(2,0,0,5));
+        goldsText.textProperty().bind(cara.getGolds().asString());
+        golds.getChildren().addAll(goldsImage,goldsText);
+
         // Arme
         /*
          * TODO : Afficher l'arme
@@ -988,7 +1121,17 @@ public class Main extends Application {
         // Bouton Consommables
         Button conso = new Button("Objets");
 
-        left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,armeNom,armureNom,inventaire,sorts,conso);
+        left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,golds,armeNom,armureNom,inventaire,sorts,conso);
         return left;
     }
+
+    private Map findMapById(int idMap) throws NoMapFoundException {
+        for (Map map : allMaps) {
+            if (map.getIdMap() == idMap) {
+                return map;
+            }
+        }
+        throw new NoMapFoundException();
+    }
+
 }

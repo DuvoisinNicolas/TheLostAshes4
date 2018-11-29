@@ -33,50 +33,14 @@ public class DAOCara {
         preparedStatement.setInt(7,caracter.getEND().get());
         preparedStatement.setInt(8,caracter.getMAG().get());
         preparedStatement.setInt(9,user.getIdUser());
+        System.out.println(preparedStatement);
         preparedStatement.executeUpdate();
-
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE NAME=? AND HP=? AND CURR_HP=? AND FCE=? AND AGI=? AND CHARI=? AND END=? AND MAG=? AND ID_USER=?");
-        preparedStatement1.setString(1,caracter.getName());
-        preparedStatement1.setInt(2,VALHPMAX);
-        preparedStatement1.setInt(3,VALHPMAX);
-        preparedStatement1.setInt(4,caracter.getFCE().get());
-        preparedStatement1.setInt(5,caracter.getAGI().get());
-        preparedStatement1.setInt(6,caracter.getCHARI().get());
-        preparedStatement1.setInt(7,caracter.getEND().get());
-        preparedStatement1.setInt(8,caracter.getMAG().get());
-        preparedStatement1.setInt(9,user.getIdUser());
-        ResultSet resultSet = preparedStatement1.executeQuery();
-        resultSet.next();
-        int idCara = resultSet.getInt("ID_CARA");
-
-        //J'ai pas pu résister
-        PreparedStatement preparedStatement666 = connection.prepareStatement("UPDATE USER SET ID_CARA=?");
-        preparedStatement666.setInt(1,idCara);
-        preparedStatement666.executeUpdate();
-
-        PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO CARACTER (NAME, HP , CURR_HP , FCE, AGI, CHARI, END, MAG, SAVED_ID ,ID_USER) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)");
-        preparedStatement2.setString(1,caracter.getName());
-        preparedStatement2.setInt(2,VALHPMAX);
-        preparedStatement2.setInt(3,VALHPMAX);
-        preparedStatement2.setInt(4,caracter.getFCE().get());
-        preparedStatement2.setInt(5,caracter.getAGI().get());
-        preparedStatement2.setInt(6,caracter.getCHARI().get());
-        preparedStatement2.setInt(7,caracter.getEND().get());
-        preparedStatement2.setInt(8,caracter.getMAG().get());
-        preparedStatement2.setInt(9,idCara);
-        preparedStatement2.setInt(10,user.getIdUser());
-        preparedStatement2.executeUpdate();
-
-        caracter.setIdCara(idCara);
-        caracter.setHP(VALHPMAX);
-        caracter.setCURRHP(caracter.getHP().get());
         return caracter;
     }
 
     public Caracter getMyCara (User user) throws SQLException, NoUserException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE ID_CARA = ?");
-        preparedStatement.setInt(1,user.getIdCara());
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE ID_USER = ?");
+        preparedStatement.setInt(1,user.getIdUser());
         ResultSet resultSet1 = preparedStatement.executeQuery();
         if (resultSet1.next()) {
             return CaracterMapper.mapRow(resultSet1);
@@ -84,20 +48,14 @@ public class DAOCara {
         throw new NoUserException();
     }
 
-    public void save (Caracter caracter,User user) throws NoUserException, SQLException {
-        /*
-         * TODO : Le checkpoint
-         */
+    public boolean hasACara (User user) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE ID_USER = ?");
+        preparedStatement.setInt(1,user.getIdUser());
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        return resultSet1.next();
+    }
 
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE ID_USER=?");
-        preparedStatement1.setInt(1,user.getIdUser());
-        ResultSet resultSet = preparedStatement1.executeQuery();
-        resultSet.next();
-        int idCara = resultSet.getInt("ID_CARA");
-
-
-
-        Caracter savedUser = getSaveUser(caracter,user);
+    public void save (Caracter caracter) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=? , CURR_HP=? , FCE=? , AGI=? , CHARI=? , END=? , MAG=? , GOLDS=? WHERE ID_CARA=?");
         preparedStatement.setInt(1,caracter.getHP().get());
         preparedStatement.setInt(2,caracter.getCURRHP().get());
@@ -107,27 +65,8 @@ public class DAOCara {
         preparedStatement.setInt(6,caracter.getEND().get());
         preparedStatement.setInt(7,caracter.getMAG().get());
         preparedStatement.setInt(8,caracter.getGolds().get());
-        preparedStatement.setInt(9,savedUser.getIdCara());
+        preparedStatement.setInt(9,caracter.getIdCara());
         preparedStatement.executeUpdate();
     }
 
-    public Caracter getSaveUser (Caracter caracter , User user) throws SQLException, NoUserException {
-
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_CARA FROM CARACTER WHERE ID_USER=?");
-        preparedStatement1.setInt(1,user.getIdUser());
-        ResultSet resultSet = preparedStatement1.executeQuery();
-
-        resultSet.next();
-        int idCara = resultSet.getInt("ID_CARA");
-
-
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE SAVED_ID = ?");
-        preparedStatement.setInt(1,idCara);
-        ResultSet resultSet1 = preparedStatement.executeQuery();
-        System.out.println(preparedStatement);
-        if (resultSet1.next()) {
-            return CaracterMapper.mapRow(resultSet1);
-        }
-        throw new NoUserException();
-    }
 }

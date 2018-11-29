@@ -8,7 +8,6 @@ public class User {
     private String username;
     private String password;
     private String mail;
-    private int idCara;
 
     public int getIdUser() {
         return idUser;
@@ -42,13 +41,6 @@ public class User {
         this.mail = mail;
     }
 
-    public int getIdCara() {
-        return idCara;
-    }
-
-    public void setIdCara(int idCara) {
-        this.idCara = idCara;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,7 +48,6 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return idUser == user.idUser &&
-                idCara == user.idCara &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(mail, user.mail);
@@ -64,6 +55,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, username, password, mail, idCara);
+        return Objects.hash(idUser, username, password, mail);
     }
 }

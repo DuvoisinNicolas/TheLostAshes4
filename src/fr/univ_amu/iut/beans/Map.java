@@ -11,6 +11,11 @@ public class Map {
     private int idArmor;
     private int idEnnemi;
     private int golds;
+    private int FCE;
+    private int AGI;
+    private int INT;
+    private int END;
+    private int CHARI;
     private String testStat;
     private String choix1;
     private String choix2;
@@ -99,6 +104,46 @@ public class Map {
 
     public void setTestStat(String testStat) {
         this.testStat = testStat;
+    }
+
+    public int getFCE() {
+        return FCE;
+    }
+
+    public void setFCE(int FCE) {
+        this.FCE = FCE;
+    }
+
+    public int getAGI() {
+        return AGI;
+    }
+
+    public void setAGI(int AGI) {
+        this.AGI = AGI;
+    }
+
+    public int getINT() {
+        return INT;
+    }
+
+    public void setINT(int INT) {
+        this.INT = INT;
+    }
+
+    public int getEND() {
+        return END;
+    }
+
+    public void setEND(int END) {
+        this.END = END;
+    }
+
+    public int getCHARI() {
+        return CHARI;
+    }
+
+    public void setCHARI(int CHARI) {
+        this.CHARI = CHARI;
     }
 
     public String getChoix1() {

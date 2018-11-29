@@ -16,7 +16,6 @@ public class Caracter {
     private IntegerProperty END = new SimpleIntegerProperty();
     private IntegerProperty MAG = new SimpleIntegerProperty();
     private IntegerProperty golds = new SimpleIntegerProperty();
-    private int savedId;
     private int idUser;
 
     public int getIdCara() {
@@ -91,14 +90,6 @@ public class Caracter {
         this.golds.set(golds);
     }
 
-    public int getSavedId() {
-        return savedId;
-    }
-
-    public void setSavedId(int savedId) {
-        this.savedId = savedId;
-    }
-
     public int getIdUser() {
         return idUser;
     }
@@ -121,7 +112,6 @@ public class Caracter {
         if (o == null || getClass() != o.getClass()) return false;
         Caracter caracter = (Caracter) o;
         return idCara == caracter.idCara &&
-                savedId == caracter.savedId &&
                 idUser == caracter.idUser &&
                 Objects.equals(name, caracter.name) &&
                 Objects.equals(HP, caracter.HP) &&
@@ -137,6 +127,6 @@ public class Caracter {
     @Override
     public int hashCode() {
 
-        return Objects.hash(idCara, name, HP, CURRHP, FCE, AGI, CHARI, END, MAG, golds, savedId, idUser);
+        return Objects.hash(idCara, name, HP, CURRHP, FCE, AGI, CHARI, END, MAG, golds, idUser);
     }
 }
