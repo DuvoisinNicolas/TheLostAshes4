@@ -41,10 +41,10 @@ public class DAOSpell {
         preparedStatement.executeUpdate();
     }
 
-    public List<Spell> findByUser(User user) throws SQLException {
+    public List<Spell> findByCara(Caracter caracter) throws SQLException {
         ArrayList<Integer> idSpells = new ArrayList<>();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT ID_SPELL FROM LEARNEDSPELLS WHERE ID_CARA = ?");
-        preparedStatement.setInt(1,user.getIdUser());
+        preparedStatement.setInt(1,caracter.getIdUser());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
              idSpells.add(resultSet.getInt("ID_SPELL"));

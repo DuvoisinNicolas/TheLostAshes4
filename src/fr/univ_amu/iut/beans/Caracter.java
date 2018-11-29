@@ -3,6 +3,7 @@ package fr.univ_amu.iut.beans;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Caracter {
@@ -17,6 +18,11 @@ public class Caracter {
     private IntegerProperty MAG = new SimpleIntegerProperty();
     private IntegerProperty golds = new SimpleIntegerProperty();
     private int idUser;
+    private Weapon weapon;
+    private Armor armor;
+    private List<Weapon> weapons;
+    private List<Armor> armors;
+    private List<Spell> spells;
 
     public int getIdCara() {
         return idCara;
@@ -104,6 +110,46 @@ public class Caracter {
 
     public void setCURRHP(int CURRHP) {
         this.CURRHP.set(CURRHP);
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    public Armor getArmor() {
+        return armor;
+    }
+
+    public void setArmor(Armor armor) {
+        this.armor = armor;
+    }
+
+    public List<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public void setWeapons(List<Weapon> weapons) {
+        this.weapons = weapons;
+    }
+
+    public List<Armor> getArmors() {
+        return armors;
+    }
+
+    public void setArmors(List<Armor> armors) {
+        this.armors = armors;
+    }
+
+    public List<Spell> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(List<Spell> spells) {
+        this.spells = spells;
     }
 
     @Override

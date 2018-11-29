@@ -1,14 +1,8 @@
 package fr.univ_amu.iut;
 
-import fr.univ_amu.iut.DAO.DAOCara;
-import fr.univ_amu.iut.DAO.DAOMap;
-import fr.univ_amu.iut.DAO.DAOSpell;
-import fr.univ_amu.iut.DAO.DAOUser;
+import fr.univ_amu.iut.DAO.*;
 import fr.univ_amu.iut.Exceptions.*;
-import fr.univ_amu.iut.beans.Caracter;
-import fr.univ_amu.iut.beans.Map;
-import fr.univ_amu.iut.beans.Spell;
-import fr.univ_amu.iut.beans.User;
+import fr.univ_amu.iut.beans.*;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +20,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +72,15 @@ public class Main extends Application {
      */
     private static int HP_REPOS = DAOCara.VALHPMAX/2;
 
+
+    /**
+     * Inventaire
+     */
+    private static List<Weapon> weapons = new ArrayList<Weapon>();
+    private static List<Armor> armors = new ArrayList<Armor>();
+
+
+
     private static ArrayList<Map> allMaps = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -99,7 +101,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws NoConnectionException, SQLException {
         DAOMap daoMap = new DAOMap();
+        DAOWeapon daoWeapon = new DAOWeapon();
         allMaps = (ArrayList<Map>) daoMap.findAll();
+        weapons = daoWeapon.getMyWeapons(cara);
+
         primaryStage.setTitle("The Lost Ashes");
         primaryStage.setResizable(false);
         primaryStage.setMinWidth(width);
@@ -159,9 +164,18 @@ public class Main extends Application {
                     createCaraInterface();
                 }
                 else {
+                    DAOWeapon daoWeapon = new DAOWeapon();
+                    DAOSpell daoSpell = new DAOSpell();
                     cara = daoCara.getMyCara(user);
+                    cara.setWeapons(daoWeapon.getMyWeapons(cara));
+                    cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
+                    cara.setSpells(daoSpell.findByCara(cara));
+                    /**
+                     * TODO : Erreur d'ajout de personnage
+                     */
                     /**
                      * CHANGE ICI OMFG !
+                     * Faut charger toutes les infos de l'inventaire , des armes , des armures , des sorts
                      */
                     gameInterface(allMaps.get(0));
                 }
@@ -483,6 +497,10 @@ public class Main extends Application {
         root.setCenter(center);
     }
 
+    /**
+     * Interface de choix des sorts
+     * @throws SQLException
+     */
     private void interfaceChoixSorts () throws SQLException {
         try {
 
@@ -563,6 +581,10 @@ public class Main extends Application {
                 try {
                     DAOCara daoCara = new DAOCara();
                     cara = daoCara.insert(cara,user);
+                    cara.setWeapon(findWeaponById(1));
+                    /**
+                     * Ajouter l'arme de base et l'armure de base
+                     */
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -603,6 +625,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Edite le texte de la map pour remplacer les mot clefs
+     * @param map Map actuelle
+     * @return String
+     */
     private String editTextMap (Map map) {
         String betterStr = map.getText().replace("#NOM",cara.getName());
         /*
@@ -611,6 +638,10 @@ public class Main extends Application {
         return betterStr;
     }
 
+    /**
+     * Effectue les changements à faire
+     * @param map Map actuelle
+     */
     private void modifsStatsAndGolds (Map map) {
         if (map.getFCE() != 0) {
             cara.setFCE(cara.getFCE().get() + map.getFCE());
@@ -642,11 +673,16 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Interface du jeu
+     * @param map Map actuelle
+     */
     private void gameInterface (Map map) {
         try {
             // Toutes les modifs à faire vis à vis de la map
             map.setText(editTextMap(map));
             modifsStatsAndGolds(map);
+
 
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
@@ -719,10 +755,11 @@ public class Main extends Application {
             alert.setTitle("Les développeurs sont des tâches");
             alert.setContentText("On as mal initialisé la map, sorry :'(");
             alert.showAndWait();
-        } catch (SQLException | NoUserException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     private VBox buildBottom(Map map, int cpt) {
         StackPane button1 = new StackPane();
@@ -798,6 +835,180 @@ public class Main extends Application {
             bottom.getChildren().addAll(ligneDuHaut, ligneDuBas);
             return bottom;
         }
+    }
+
+    private VBox buildCenter(Map map) {
+        VBox center = new VBox();
+        center.setAlignment(Pos.CENTER);
+        Text text = new Text(map.getText());
+        text.setFont(fontText);
+        text.setLineSpacing(3);
+        text.setWrappingWidth(500);
+        center.getChildren().add(text);
+        center.setPadding(new Insets(0,0,0,20));
+        return center;
+    }
+
+    private VBox buildTop(Map map) throws SQLException, NoConnectionException {
+        VBox top = new VBox();
+        Label topText = new Label(map.getName());
+        topText.setFont(fontTitle);
+        top.getChildren().add(topText);
+        top.setAlignment(Pos.CENTER);
+        top.setPadding(new Insets(20,0,0,width/4.9));
+        if (map.isCheckpoint()) {
+            Label checkpoint = new Label("<Checkpoint>");
+            checkpoint.setFont(fontSubText);
+            top.getChildren().add(checkpoint);
+        }
+
+        if (map.isRest()) {
+            DAOSpell daoSpell = new DAOSpell();
+            daoSpell.resetSpells(cara);
+            cara.setCURRHP(cara.getCURRHP().get() + HP_REPOS);
+            if (cara.getCURRHP().get() > DAOCara.VALHPMAX) {
+                cara.setCURRHP(DAOCara.VALHPMAX);
+            }
+            Label checkpoint = new Label("<Repos>");
+            checkpoint.setFont(fontSubText);
+            top.getChildren().add(checkpoint);
+        }
+
+        if (map.isCheckpoint()) {
+            DAOCara daoCara = new DAOCara();
+            daoCara.save(cara);
+        }
+        return top;
+    }
+
+    private VBox buildLeft() {
+        VBox left = new VBox();
+        left.setSpacing(5);
+        left.setAlignment(Pos.CENTER_LEFT);
+        left.setPadding(new Insets(2,0,0,20));
+
+        //Pseudo
+        Label usernameText = new Label(cara.getName());
+
+        // HP
+        HBox hp = new HBox();
+        ImageView hpImage = new ImageView(new Image("HP.png"));
+        hpImage.setFitHeight(20);
+        hpImage.setFitWidth(20);
+
+        Label hpText = new Label();
+        hpText.setFont(fontText);
+        hpText.setPadding(new Insets(2,0,0,5));
+        hpText.textProperty().bind(cara.getCURRHP().asString());
+
+        Label slash = new Label(" / ");
+
+        Label hpMaxText = new Label();
+        hpMaxText.setFont(fontText);
+        hpMaxText.setPadding(new Insets(2,0,0,0));
+        hpMaxText.textProperty().bind(cara.getHP().asString());
+
+        hp.setPadding(new Insets(0,0,10,0));
+        hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
+
+        // Force
+        HBox force = new HBox();
+        ImageView forceImage = new ImageView(new Image("FCE.png"));
+        forceImage.setFitHeight(20);
+        forceImage.setFitWidth(20);
+
+        Label forceText = new Label();
+        forceText.setFont(fontText);
+        forceText.setPadding(new Insets(2,0,0,5));
+        forceText.textProperty().bind(cara.getFCE().asString());
+        force.getChildren().addAll(forceImage,forceText);
+
+        // Agilité
+        HBox agilite = new HBox();
+        ImageView agiliteImage = new ImageView(new Image("AGI.png"));
+        agiliteImage.setFitHeight(20);
+        agiliteImage.setFitWidth(20);
+
+        Label agiliteText = new Label();
+        agiliteText.setPadding(new Insets(2,0,0,5));
+        agiliteText.setFont(fontText);
+        agiliteText.textProperty().bind(cara.getAGI().asString());
+        agilite.getChildren().addAll(agiliteImage,agiliteText);
+
+        // Intelligence
+        HBox intel = new HBox();
+        ImageView intelImage = new ImageView(new Image("INT.png"));
+        intelImage.setFitHeight(20);
+        intelImage.setFitWidth(20);
+
+        Label intelText = new Label();
+        intelText.setFont(fontText);
+        intelText.setPadding(new Insets(2,0,0,5));
+        intelText.textProperty().bind(cara.getMAG().asString());
+        intel.getChildren().addAll(intelImage,intelText);
+
+        // Endurance
+        HBox end = new HBox();
+        ImageView endImage = new ImageView(new Image("END.png"));
+        endImage.setFitHeight(20);
+        endImage.setFitWidth(20);
+
+        Label endText = new Label();
+        endText.setPadding(new Insets(2,0,0,5));
+        endText.setFont(fontText);
+        endText.textProperty().bind(cara.getEND().asString());
+        end.getChildren().addAll(endImage,endText);
+
+        // Charisme
+        HBox chari = new HBox();
+        ImageView chariImage = new ImageView(new Image("CHARI.png"));
+        chariImage.setFitHeight(20);
+        chariImage.setFitWidth(20);
+
+        Label chariText = new Label();
+        chariText.setFont(fontText);
+        chariText.setPadding(new Insets(2,0,0,5));
+        chariText.textProperty().bind(cara.getCHARI().asString());
+        chari.getChildren().addAll(chariImage,chariText);
+
+        // Charisme
+        HBox golds = new HBox();
+        ImageView goldsImage = new ImageView(new Image("GOLDS.png"));
+        goldsImage.setFitHeight(20);
+        goldsImage.setFitWidth(20);
+
+        Label goldsText = new Label();
+        goldsText.setFont(fontText);
+        goldsText.setPadding(new Insets(2,0,0,5));
+        goldsText.textProperty().bind(cara.getGolds().asString());
+        golds.getChildren().addAll(goldsImage,goldsText);
+
+        // Arme
+        /*
+         * TODO : Afficher l'arme
+         */
+        Label armeNom = new Label(cara.getWeapon().getName());
+        armeNom.setPadding(new Insets(10,0,0,0));
+
+        // Armure
+        /*
+         * TODO : Afficher l'armure
+         */
+        Label armureNom = new Label("Une armure géniale");
+        armureNom.setPadding(new Insets(10,0,20,0));
+
+
+        // Bouton Inventaire
+        Button inventaire = new Button("Inventaire");
+
+        // Bouton Sorts
+        Button sorts = new Button("Sorts");
+
+        // Bouton Consommables
+        Button conso = new Button("Objets");
+
+        left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,golds,armeNom,armureNom,inventaire,sorts,conso);
+        return left;
     }
 
     private void initMapWithTest (Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
@@ -957,180 +1168,6 @@ public class Main extends Application {
         button4.getChildren().addAll(label4,rectangle4);
     }
 
-    private VBox buildCenter(Map map) {
-        VBox center = new VBox();
-        center.setAlignment(Pos.CENTER);
-        Text text = new Text(map.getText());
-        text.setFont(fontText);
-        text.setLineSpacing(3);
-        text.setWrappingWidth(500);
-        center.getChildren().add(text);
-        center.setPadding(new Insets(0,0,0,20));
-        return center;
-    }
-
-    private VBox buildTop(Map map) throws SQLException, NoConnectionException, NoUserException {
-        VBox top = new VBox();
-        Label topText = new Label(map.getName());
-        topText.setFont(fontTitle);
-        top.getChildren().add(topText);
-        top.setAlignment(Pos.CENTER);
-        top.setPadding(new Insets(20,0,0,width/4.9));
-        if (map.isCheckpoint()) {
-            Label checkpoint = new Label("<Checkpoint>");
-            checkpoint.setFont(fontSubText);
-            top.getChildren().add(checkpoint);
-        }
-
-        if (map.isRest()) {
-            DAOSpell daoSpell = new DAOSpell();
-            daoSpell.resetSpells(cara);
-            cara.setCURRHP(cara.getCURRHP().get() + HP_REPOS);
-            if (cara.getCURRHP().get() > DAOCara.VALHPMAX) {
-                cara.setCURRHP(DAOCara.VALHPMAX);
-            }
-            Label checkpoint = new Label("<Repos>");
-            checkpoint.setFont(fontSubText);
-            top.getChildren().add(checkpoint);
-        }
-
-        if (map.isCheckpoint()) {
-            DAOCara daoCara = new DAOCara();
-            daoCara.save(cara);
-        }
-        return top;
-    }
-
-    private VBox buildLeft() {
-        VBox left = new VBox();
-        left.setSpacing(5);
-        left.setAlignment(Pos.CENTER_LEFT);
-        left.setPadding(new Insets(2,0,0,20));
-
-        //Pseudo
-        Label usernameText = new Label(cara.getName());
-
-        // HP
-        HBox hp = new HBox();
-        ImageView hpImage = new ImageView(new Image("HP.png"));
-        hpImage.setFitHeight(20);
-        hpImage.setFitWidth(20);
-
-        Label hpText = new Label();
-        hpText.setFont(fontText);
-        hpText.setPadding(new Insets(2,0,0,5));
-        hpText.textProperty().bind(cara.getCURRHP().asString());
-
-        Label slash = new Label(" / ");
-
-        Label hpMaxText = new Label();
-        hpMaxText.setFont(fontText);
-        hpMaxText.setPadding(new Insets(2,0,0,0));
-        hpMaxText.textProperty().bind(cara.getHP().asString());
-
-        hp.setPadding(new Insets(0,0,10,0));
-        hp.getChildren().addAll(hpImage,hpText,slash,hpMaxText);
-
-        // Force
-        HBox force = new HBox();
-        ImageView forceImage = new ImageView(new Image("FCE.png"));
-        forceImage.setFitHeight(20);
-        forceImage.setFitWidth(20);
-
-        Label forceText = new Label();
-        forceText.setFont(fontText);
-        forceText.setPadding(new Insets(2,0,0,5));
-        forceText.textProperty().bind(cara.getFCE().asString());
-        force.getChildren().addAll(forceImage,forceText);
-
-        // Agilité
-        HBox agilite = new HBox();
-        ImageView agiliteImage = new ImageView(new Image("AGI.png"));
-        agiliteImage.setFitHeight(20);
-        agiliteImage.setFitWidth(20);
-
-        Label agiliteText = new Label();
-        agiliteText.setPadding(new Insets(2,0,0,5));
-        agiliteText.setFont(fontText);
-        agiliteText.textProperty().bind(cara.getAGI().asString());
-        agilite.getChildren().addAll(agiliteImage,agiliteText);
-
-        // Intelligence
-        HBox intel = new HBox();
-        ImageView intelImage = new ImageView(new Image("INT.png"));
-        intelImage.setFitHeight(20);
-        intelImage.setFitWidth(20);
-
-        Label intelText = new Label();
-        intelText.setFont(fontText);
-        intelText.setPadding(new Insets(2,0,0,5));
-        intelText.textProperty().bind(cara.getMAG().asString());
-        intel.getChildren().addAll(intelImage,intelText);
-
-        // Endurance
-        HBox end = new HBox();
-        ImageView endImage = new ImageView(new Image("END.png"));
-        endImage.setFitHeight(20);
-        endImage.setFitWidth(20);
-
-        Label endText = new Label();
-        endText.setPadding(new Insets(2,0,0,5));
-        endText.setFont(fontText);
-        endText.textProperty().bind(cara.getEND().asString());
-        end.getChildren().addAll(endImage,endText);
-
-        // Charisme
-        HBox chari = new HBox();
-        ImageView chariImage = new ImageView(new Image("CHARI.png"));
-        chariImage.setFitHeight(20);
-        chariImage.setFitWidth(20);
-
-        Label chariText = new Label();
-        chariText.setFont(fontText);
-        chariText.setPadding(new Insets(2,0,0,5));
-        chariText.textProperty().bind(cara.getCHARI().asString());
-        chari.getChildren().addAll(chariImage,chariText);
-
-        // Charisme
-        HBox golds = new HBox();
-        ImageView goldsImage = new ImageView(new Image("GOLDS.png"));
-        goldsImage.setFitHeight(20);
-        goldsImage.setFitWidth(20);
-
-        Label goldsText = new Label();
-        goldsText.setFont(fontText);
-        goldsText.setPadding(new Insets(2,0,0,5));
-        goldsText.textProperty().bind(cara.getGolds().asString());
-        golds.getChildren().addAll(goldsImage,goldsText);
-
-        // Arme
-        /*
-         * TODO : Afficher l'arme
-         */
-        Label armeNom = new Label("Une arme géniale");
-        armeNom.setPadding(new Insets(10,0,0,0));
-
-        // Armure
-        /*
-         * TODO : Afficher l'armure
-         */
-        Label armureNom = new Label("Une armure géniale");
-        armureNom.setPadding(new Insets(10,0,20,0));
-
-
-        // Bouton Inventaire
-        Button inventaire = new Button("Inventaire");
-
-        // Bouton Sorts
-        Button sorts = new Button("Sorts");
-
-        // Bouton Consommables
-        Button conso = new Button("Objets");
-
-        left.getChildren().addAll(usernameText,hp,force,agilite,intel,end,chari,golds,armeNom,armureNom,inventaire,sorts,conso);
-        return left;
-    }
-
     private Map findMapById(int idMap) throws NoMapFoundException {
         for (Map map : allMaps) {
             if (map.getIdMap() == idMap) {
@@ -1138,6 +1175,15 @@ public class Main extends Application {
             }
         }
         throw new NoMapFoundException();
+    }
+
+    private Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
+        for (Weapon weapon : weapons) {
+            if (weapon.getIdWeapon() == idWeapon) {
+                return weapon;
+            }
+        }
+        throw new NoWeaponFoundException();
     }
 
 }
