@@ -34,7 +34,7 @@ public class DAOWeapon {
 
     public Weapon getEquipedWeapon(Caracter caracter) throws SQLException {
         Weapon weapon = new Weapon();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM WEAPONINVENTORY WHERE ID_CARA=? AND EQUIPED = 0");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM WEAPONINVENTORY WHERE ID_CARA=? AND EQUIPED = 1");
         preparedStatement.setInt(1,caracter.getIdCara());
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
@@ -67,7 +67,7 @@ public class DAOWeapon {
     /**
      * Probablement useless
      */
-    /*
+
     public void obtainWeapon (Weapon weapon,Caracter caracter) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO WEAPONINVENTORY (ID_CARA, ID_WEAPON) VALUES (?,?)");
         preparedStatement.setInt(1, caracter.getIdCara());
@@ -86,6 +86,6 @@ public class DAOWeapon {
         preparedStatement.executeUpdate();
     }
 
-*/
+
 
 }

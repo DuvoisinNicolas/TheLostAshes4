@@ -166,7 +166,10 @@ public class Main extends Application {
                 else {
                     DAOWeapon daoWeapon = new DAOWeapon();
                     DAOSpell daoSpell = new DAOSpell();
+                    DAOArmor daoArmor = new DAOArmor();
                     cara = daoCara.getMyCara(user);
+                    cara.setArmor(daoArmor.getMyArmor(cara));
+                    cara.setArmors(daoArmor.getmyArmors(cara));
                     cara.setWeapons(daoWeapon.getMyWeapons(cara));
                     cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
                     cara.setSpells(daoSpell.findByCara(cara));
@@ -580,9 +583,15 @@ public class Main extends Application {
             benjamin.setOnAction(event -> {
                 try {
                     DAOCara daoCara = new DAOCara();
-                    cara = daoCara.insert(cara,user);
+                    DAOWeapon daoWeapon = new DAOWeapon();
+
+                    cara.setSpells(daoSpell.findByCara(cara));
                     cara.setWeapon(findWeaponById(1));
+                    cara = daoCara.insert(cara,user);
+                    cara.setWeapons(daoWeapon.getMyWeapons(cara));
+                    cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
                     /**
+                     * TODO : enlever l'erreur de ocnnexion
                      * Ajouter l'arme de base et l'armure de base
                      */
                 } catch (Exception e) {
@@ -594,7 +603,7 @@ public class Main extends Application {
                         DAOCara daoCara = new DAOCara();
                         cara = daoCara.getMyCara(user);
                         daoSpell.learnSpell(spell,cara);
-                    } catch (SQLException | NoUserException e) {
+                    } catch (SQLException | NoWeaponFoundException e) {
                         e.printStackTrace();
                     } catch (NoConnectionException e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -883,7 +892,7 @@ public class Main extends Application {
 
     private VBox buildLeft() {
         VBox left = new VBox();
-        left.setSpacing(5);
+        left.setSpacing(2);
         left.setAlignment(Pos.CENTER_LEFT);
         left.setPadding(new Insets(2,0,0,20));
 
@@ -1177,7 +1186,7 @@ public class Main extends Application {
         throw new NoMapFoundException();
     }
 
-    private Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
+    public static Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
         for (Weapon weapon : Weapon.getAllWeapons()) {
             if (weapon.getIdWeapon() == idWeapon) {
                 return weapon;
