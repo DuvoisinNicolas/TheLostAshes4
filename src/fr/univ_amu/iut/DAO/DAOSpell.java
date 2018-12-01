@@ -5,7 +5,6 @@ import fr.univ_amu.iut.Mappers.SpellMapper;
 import fr.univ_amu.iut.UniqueConnection;
 import fr.univ_amu.iut.beans.Caracter;
 import fr.univ_amu.iut.beans.Spell;
-import fr.univ_amu.iut.beans.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,10 +60,10 @@ public class DAOSpell {
         }
         return list;
     }
-    public List<Spell> findAll() throws SQLException {
+    public ArrayList<Spell> findAll() throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM SPELL");
         ResultSet resultSet = preparedStatement.executeQuery();
-        List<Spell> list = new ArrayList<>();
+        ArrayList<Spell> list = new ArrayList<>();
         while (resultSet.next()) {
             list.add(SpellMapper.mapRow(resultSet));
         }

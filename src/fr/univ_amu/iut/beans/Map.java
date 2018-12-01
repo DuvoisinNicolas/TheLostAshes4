@@ -1,5 +1,7 @@
 package fr.univ_amu.iut.beans;
 
+import java.util.ArrayList;
+
 public class Map {
 
     private int idMap;
@@ -25,6 +27,16 @@ public class Map {
     private int map2;
     private int map3;
     private int map4;
+
+    private static ArrayList<Map> allMaps = new ArrayList<>();
+
+    public static ArrayList<Map> getAllMaps() {
+        return allMaps;
+    }
+
+    public static void setAllMaps(ArrayList<Map> allMaps) {
+        Map.allMaps = allMaps;
+    }
 
     public int getIdMap() {
         return idMap;

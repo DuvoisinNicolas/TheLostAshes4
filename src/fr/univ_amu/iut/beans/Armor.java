@@ -1,5 +1,7 @@
 package fr.univ_amu.iut.beans;
 
+import java.util.ArrayList;
+
 public class Armor {
     private int idArmor;
     private String name;
@@ -10,6 +12,17 @@ public class Armor {
     private int chari;
     private int end;
     private int mag;
+
+    private static ArrayList<Armor> allArmors = new ArrayList<>();
+
+
+    public static ArrayList<Armor> getAllArmors() {
+        return allArmors;
+    }
+
+    public static void setAllArmors(ArrayList<Armor> allArmors) {
+        Armor.allArmors = allArmors;
+    }
 
     public int getIdArmor() {
         return idArmor;

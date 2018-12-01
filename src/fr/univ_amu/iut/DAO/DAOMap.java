@@ -20,10 +20,10 @@ public class DAOMap {
         connection = UniqueConnection.getInstance().getConnection();
     }
 
-    public List<Map> findAll() throws SQLException {
+    public ArrayList<Map> findAll() throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM MAP");
         ResultSet resultSet = preparedStatement.executeQuery();
-        List<Map> list = new ArrayList<>();
+        ArrayList<Map> list = new ArrayList<>();
         while (resultSet.next()) {
             list.add(MapMapper.mapRow(resultSet));
         }

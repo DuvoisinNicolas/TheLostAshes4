@@ -1,5 +1,6 @@
 package fr.univ_amu.iut.beans;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Spell {
@@ -7,6 +8,16 @@ public class Spell {
     private int idSpell;
     private String name;
     private String descr;
+
+    private static ArrayList<Spell> allSpells = new ArrayList<>();
+
+    public static ArrayList<Spell> getAllSpells() {
+        return allSpells;
+    }
+
+    public static void setAllSpells(ArrayList<Spell> allSpells) {
+        Spell.allSpells = allSpells;
+    }
 
     public int getIdSpell() {
         return idSpell;

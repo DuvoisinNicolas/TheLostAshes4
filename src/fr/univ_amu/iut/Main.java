@@ -76,13 +76,6 @@ public class Main extends Application {
     /**
      * Inventaire
      */
-    private static List<Weapon> weapons = new ArrayList<Weapon>();
-    private static List<Armor> armors = new ArrayList<Armor>();
-
-
-
-    private static ArrayList<Map> allMaps = new ArrayList<>();
-
     public static void main(String[] args) {
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
@@ -98,13 +91,44 @@ public class Main extends Application {
         launch(args);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws NoConnectionException, SQLException {
+    private void initGame () throws NoConnectionException, SQLException {
+        // Ajout des armes , armures , maps
         DAOMap daoMap = new DAOMap();
         DAOWeapon daoWeapon = new DAOWeapon();
-        allMaps = (ArrayList<Map>) daoMap.findAll();
-        Weapon.setAllWeapons(daoWeapon.findAll());
+        DAOArmor daoArmor = new DAOArmor();
+        DAOSpell daoSpell = new DAOSpell();
 
+        Map.setAllMaps(daoMap.findAll());
+        Weapon.setAllWeapons(daoWeapon.findAll());
+        Armor.setAllArmors(daoArmor.findAll());
+        Spell.setAllSpells(daoSpell.findAll());
+        /*
+         * TODO : Objets , Ennemis
+         */
+    }
+
+    private void initCaracter () throws NoConnectionException, SQLException, NoWeaponFoundException {
+        DAOWeapon daoWeapon = new DAOWeapon();
+        DAOSpell daoSpell = new DAOSpell();
+        DAOArmor daoArmor = new DAOArmor();
+        DAOCara daoCara = new DAOCara();
+
+        cara = daoCara.getMyCara(user);
+        cara.setArmor(daoArmor.getEquipedArmor(cara));
+        cara.setArmors(daoArmor.getMyArmors(cara));
+        cara.setWeapons(daoWeapon.getMyWeapons(cara));
+        cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
+        cara.setSpells(daoSpell.findByCara(cara));
+
+        /*
+         * TODO : Objets
+         */
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws NoConnectionException, SQLException {
+
+        initGame();
         primaryStage.setTitle("The Lost Ashes");
         primaryStage.setResizable(false);
         primaryStage.setMinWidth(width);
@@ -164,23 +188,8 @@ public class Main extends Application {
                     createCaraInterface();
                 }
                 else {
-                    DAOWeapon daoWeapon = new DAOWeapon();
-                    DAOSpell daoSpell = new DAOSpell();
-                    DAOArmor daoArmor = new DAOArmor();
-                    cara = daoCara.getMyCara(user);
-                    cara.setArmor(daoArmor.getMyArmor(cara));
-                    cara.setArmors(daoArmor.getmyArmors(cara));
-                    cara.setWeapons(daoWeapon.getMyWeapons(cara));
-                    cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
-                    cara.setSpells(daoSpell.findByCara(cara));
-                    /**
-                     * TODO : Erreur d'ajout de personnage
-                     */
-                    /**
-                     * CHANGE ICI OMFG !
-                     * Faut charger toutes les infos de l'inventaire , des armes , des armures , des sorts
-                     */
-                    gameInterface(allMaps.get(0));
+                    initCaracter();
+                    gameInterface(Map.getAllMaps().get(0));
                 }
             }
             catch (NoConnectionException e) {
@@ -239,6 +248,7 @@ public class Main extends Application {
                     user.setPassword(mdpField.getText());
                     user.setMail(mailField.getText());
                     daoUser.insert(user);
+                    this.user = daoUser.findByUsernameAndPwd(registerField.getText(),mdpField.getText());
                     createCaraInterface();
                 }
                 else {
@@ -507,11 +517,11 @@ public class Main extends Application {
     private void interfaceChoixSorts () throws SQLException {
         try {
 
+            DAOSpell daoSpell = new DAOSpell();
+
             root.getChildren().clear();
             root.setBackground(new Background(new BackgroundImage(new Image("0.png",800,600,false,false),
                     BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
-
-            root.getChildren().clear();
 
             // Titre en haut de page
             HBox top = new HBox();
@@ -539,10 +549,8 @@ public class Main extends Application {
             GridPane spells = new GridPane();
             int column = 0;
             int row = 0;
-            List<Spell> spellNames = new ArrayList<>();
-            DAOSpell daoSpell = new DAOSpell();
-            List<Spell> spellList = daoSpell.findAll();
-            for (Spell spell : spellList) {
+            List<Spell> chosenSpells = new ArrayList<>();
+            for (Spell spell : Spell.getAllSpells()) {
                 VBox spellBox = new VBox();
                 spellBox.setPadding(new Insets(0,0,0,width/9.0));
                 spellBox.setAlignment(Pos.CENTER);
@@ -553,17 +561,18 @@ public class Main extends Application {
                 spellDesc.setFont(fontSubText);
                 CheckBox checkBox = new CheckBox();
                 checkBox.setOnAction(event -> {
+                    System.out.println(spell.getName());
                     if (checkBox.selectedProperty().get()) {
-                        spellNames.add(spell);
+                        chosenSpells.add(spell);
                         if (nbSpellPoints.get() <= 0) {
-                            spellNames.remove(spell);
+                            chosenSpells.remove(spell);
                             checkBox.setSelected(false);
                             nbSpellPoints.set(nbSpellPoints.get()+1);
                         }
                         nbSpellPoints.set(nbSpellPoints.get()-1);
                     }
                     else {
-                        spellNames.remove(spell);
+                        chosenSpells.remove(spell);
                         checkBox.setSelected(false);
                         nbSpellPoints.set(nbSpellPoints.get()+1);
                     }
@@ -579,45 +588,37 @@ public class Main extends Application {
                     ++row;
                 }
             }
+
+
+
             Button benjamin = new Button("C'est parti !");
             benjamin.setOnAction(event -> {
                 try {
                     DAOCara daoCara = new DAOCara();
-                    DAOWeapon daoWeapon = new DAOWeapon();
-
-                    cara.setSpells(daoSpell.findByCara(cara));
-                    cara.setWeapon(findWeaponById(1));
-                    cara = daoCara.insert(cara,user);
-                    cara.setWeapons(daoWeapon.getMyWeapons(cara));
-                    cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
-                    /**
-                     * TODO : enlever l'erreur de ocnnexion
-                     * Ajouter l'arme de base et l'armure de base
+                    /*
+                     * TODO : Insérer aussi l'armure et les objets (si y en a) :)
                      */
+
+                    cara.setSpells(chosenSpells);
+                    cara.setWeapon(findWeaponById(1));
+                    cara = daoCara.insert(cara, user);
+
+                    cara = daoCara.getMyCara(user);
+
+                    gameInterface(Map.getAllMaps().get(0));
+
+                }
+                catch (SQLException | NoWeaponFoundException e) {
+                    e.printStackTrace();
+                } catch (NoConnectionException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Aucune connexion à internet");
+                    alert.setContentText("Merci de vous connecter à internet");
+                    alert.showAndWait();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                for (Spell spell : spellNames) {
-                    try {
-                        DAOCara daoCara = new DAOCara();
-                        cara = daoCara.getMyCara(user);
-                        daoSpell.learnSpell(spell,cara);
-                    } catch (SQLException | NoWeaponFoundException e) {
-                        e.printStackTrace();
-                    } catch (NoConnectionException e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Aucune connexion à internet");
-                        alert.setContentText("Merci de vous connecter à internet");
-                        alert.showAndWait();
-                        try {
-                            interfaceChoixSorts();
-                        } catch (SQLException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                    gameInterface(allMaps.get(0));
-                }
             });
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
@@ -1178,7 +1179,7 @@ public class Main extends Application {
     }
 
     private Map findMapById(int idMap) throws NoMapFoundException {
-        for (Map map : allMaps) {
+        for (Map map : Map.getAllMaps()) {
             if (map.getIdMap() == idMap) {
                 return map;
             }
