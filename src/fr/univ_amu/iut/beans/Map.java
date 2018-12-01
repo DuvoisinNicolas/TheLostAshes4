@@ -1,5 +1,7 @@
 package fr.univ_amu.iut.beans;
 
+import fr.univ_amu.iut.Exceptions.NoMapFoundException;
+
 import java.util.ArrayList;
 
 public class Map {
@@ -29,6 +31,15 @@ public class Map {
     private int map4;
 
     private static ArrayList<Map> allMaps = new ArrayList<>();
+
+    public static Map findMapById(int idMap) throws NoMapFoundException {
+        for (Map map : Map.getAllMaps()) {
+            if (map.getIdMap() == idMap) {
+                return map;
+            }
+        }
+        throw new NoMapFoundException();
+    }
 
     public static ArrayList<Map> getAllMaps() {
         return allMaps;

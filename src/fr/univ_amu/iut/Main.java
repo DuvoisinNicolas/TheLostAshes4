@@ -123,6 +123,7 @@ public class Main extends Application {
         /*
          * TODO : Objets
          */
+
     }
 
     @Override
@@ -600,8 +601,9 @@ public class Main extends Application {
                      */
 
                     cara.setSpells(chosenSpells);
-                    cara.setWeapon(findWeaponById(1));
-                    cara = daoCara.insert(cara, user);
+                    cara.setWeapon(Weapon.findWeaponById(1));
+                    cara.setArmor(Armor.findArmorById(1));
+                    cara = daoCara.insert(cara,user);
 
                     cara = daoCara.getMyCara(user);
 
@@ -1004,7 +1006,7 @@ public class Main extends Application {
         /*
          * TODO : Afficher l'armure
          */
-        Label armureNom = new Label("Une armure géniale");
+        Label armureNom = new Label(cara.getArmor().getName());
         armureNom.setPadding(new Insets(10,0,20,0));
 
 
@@ -1058,10 +1060,10 @@ public class Main extends Application {
         rectangle1.setOnMouseClicked(event -> {
             try {
                 if(finalSucess) {
-                    gameInterface(findMapById(map.getMap1()));
+                    gameInterface(Map.findMapById(map.getMap1()));
                 }
                 else {
-                    gameInterface(findMapById(map.getMap2()));
+                    gameInterface(Map.findMapById(map.getMap2()));
                 }
             } catch (NoMapFoundException e) {
                 e.printStackTrace();
@@ -1085,7 +1087,7 @@ public class Main extends Application {
     private void initMapIfNoTest(Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
         rectangle1.setOnMouseClicked(event -> {
             try {
-                gameInterface(findMapById(map.getMap1()));
+                gameInterface(Map.findMapById(map.getMap1()));
             } catch (NoMapFoundException e) {
                 e.printStackTrace();
             }
@@ -1103,7 +1105,7 @@ public class Main extends Application {
             });
             rectangle2.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap2()));
+                    gameInterface(Map.findMapById(map.getMap2()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1118,7 +1120,7 @@ public class Main extends Application {
             });
             rectangle2.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap2()));
+                    gameInterface(Map.findMapById(map.getMap2()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1129,7 +1131,7 @@ public class Main extends Application {
             });
             rectangle3.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap3()));
+                    gameInterface(Map.findMapById(map.getMap3()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1144,7 +1146,7 @@ public class Main extends Application {
             });
             rectangle2.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap2()));
+                    gameInterface(Map.findMapById(map.getMap2()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1155,7 +1157,7 @@ public class Main extends Application {
             });
             rectangle3.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap3()));
+                    gameInterface(Map.findMapById(map.getMap3()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1166,7 +1168,7 @@ public class Main extends Application {
             });
             rectangle4.setOnMouseClicked(event -> {
                 try {
-                    gameInterface(findMapById(map.getMap4()));
+                    gameInterface(Map.findMapById(map.getMap4()));
                 } catch (NoMapFoundException e) {
                     e.printStackTrace();
                 }
@@ -1178,22 +1180,8 @@ public class Main extends Application {
         button4.getChildren().addAll(label4,rectangle4);
     }
 
-    private Map findMapById(int idMap) throws NoMapFoundException {
-        for (Map map : Map.getAllMaps()) {
-            if (map.getIdMap() == idMap) {
-                return map;
-            }
-        }
-        throw new NoMapFoundException();
-    }
 
-    public static Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
-        for (Weapon weapon : Weapon.getAllWeapons()) {
-            if (weapon.getIdWeapon() == idWeapon) {
-                return weapon;
-            }
-        }
-        throw new NoWeaponFoundException();
-    }
+
+
 
 }

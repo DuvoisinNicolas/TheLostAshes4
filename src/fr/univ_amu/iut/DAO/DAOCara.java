@@ -59,6 +59,9 @@ public class DAOCara {
         daoWeapon.obtainWeapon(caracter.getWeapon(),caracter);
         daoWeapon.equipWeapon(caracter.getWeapon(),caracter);
 
+        DAOArmor daoArmor = new DAOArmor();
+        daoArmor.obtainArmor(caracter.getArmor(),caracter);
+        daoArmor.equipArmor(caracter.getArmor(),caracter);
         /**
          * TODO: Insérer l'armure et les objets
          */
@@ -81,7 +84,7 @@ public class DAOCara {
         preparedStatement1.setInt(2,1);
         ResultSet resultSet2 = preparedStatement1.executeQuery();
         if (resultSet2.next()) {
-            caracter.setWeapon(Main.findWeaponById(resultSet2.getInt("ID_WEAPON")));
+            caracter.setWeapon(Weapon.findWeaponById(resultSet2.getInt("ID_WEAPON")));
         }
 
         // Récupération des armes de l'inventaire
@@ -90,7 +93,7 @@ public class DAOCara {
         preparedStatement2.setInt(1,caracter.getIdCara());
         ResultSet resultSet3 = preparedStatement2.executeQuery();
         while (resultSet3.next()) {
-            weapons.add(Main.findWeaponById(resultSet2.getInt("ID_WEAPON")));
+            weapons.add(Weapon.findWeaponById(resultSet2.getInt("ID_WEAPON")));
         }
         caracter.setWeapons(weapons);
 

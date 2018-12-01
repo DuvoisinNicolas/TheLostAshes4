@@ -26,7 +26,7 @@ public class DAOArmor {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ARMOR WHERE ID_ARMOR=?");
         preparedStatement.setInt(1, idArmor);
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
+        if (resultSet.next()) {
             armor = ArmorMapper.mapRow(resultSet);
         }
         return armor;

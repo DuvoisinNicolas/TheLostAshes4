@@ -43,16 +43,18 @@ public class DAOSpell {
     public List<Spell> findByCara(Caracter caracter) throws SQLException {
         ArrayList<Integer> idSpells = new ArrayList<>();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT ID_SPELL FROM LEARNEDSPELLS WHERE ID_CARA = ?");
-        preparedStatement.setInt(1,caracter.getIdUser());
+        preparedStatement.setInt(1,caracter.getIdCara());
         ResultSet resultSet = preparedStatement.executeQuery();
+
         while (resultSet.next()) {
-             idSpells.add(resultSet.getInt("ID_SPELL"));
+            idSpells.add(resultSet.getInt("ID_SPELL"));
         }
+
 
         List<Spell> list = new ArrayList<>();
         for (int idSpell : idSpells) {
             PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT * FROM SPELL WHERE ID_SPELL = ?");
-            preparedStatement.setInt(1,idSpell);
+            preparedStatement1.setInt(1,idSpell);
             ResultSet resultSet1 = preparedStatement1.executeQuery();
             while (resultSet1.next()) {
                 list.add(SpellMapper.mapRow(resultSet1));

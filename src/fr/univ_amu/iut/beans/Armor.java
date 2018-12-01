@@ -1,5 +1,7 @@
 package fr.univ_amu.iut.beans;
 
+import fr.univ_amu.iut.Exceptions.NoWeaponFoundException;
+
 import java.util.ArrayList;
 
 public class Armor {
@@ -15,6 +17,15 @@ public class Armor {
 
     private static ArrayList<Armor> allArmors = new ArrayList<>();
 
+
+    public static Armor findArmorById (int idArmor) throws NoWeaponFoundException {
+        for (Armor armor : Armor.getAllArmors()) {
+            if (armor.getIdArmor() == idArmor) {
+                return armor;
+            }
+        }
+        throw new NoWeaponFoundException();
+    }
 
     public static ArrayList<Armor> getAllArmors() {
         return allArmors;
