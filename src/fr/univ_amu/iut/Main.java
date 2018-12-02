@@ -567,8 +567,7 @@ public class Main extends Application {
                     cara.setWeapon(Weapon.findWeaponById(1));
                     cara.setArmor(Armor.findArmorById(1));
                     cara.setCurrentMap(Map.getAllMaps().get(0));
-                    cara = daoCara.insert(cara, user);
-
+                    cara = daoCara.insert(cara,user);
                     cara = daoCara.getMyCara(user);
 
                     gameInterface(cara.getCurrentMap());
@@ -615,7 +614,6 @@ public class Main extends Application {
 
     /**
      * Effectue les changements à faire
-     *
      * @param map Map actuelle
      */
     private void modifsStatsAndGolds(Map map) {
@@ -727,6 +725,11 @@ public class Main extends Application {
     private void gameInterface(Map map) {
         try {
 
+            if (map.isCheckpoint()) {
+                DAOCara daoCara = new DAOCara();
+                daoCara.save(cara);
+            }
+
             /*
              *  TODO : Les combats , une fonction qui renvoie vrai si tu gagne et faux si tu pers :)
              *  TODO : Si l'ennemi n'est pas léthal , mettre les HP à 1 , sinon rediriger vers l'écran en mode t'as perdu go au checkpoint
@@ -829,6 +832,7 @@ public class Main extends Application {
             }
 
 
+
             // Initialisation du fond d'écran
             root.setBackground(new Background(new BackgroundImage(new Image(filePath, 800, 600, false, false),
                     BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
@@ -850,6 +854,7 @@ public class Main extends Application {
             VBox bottom = buildBottom(map, cpt, spellUnlocking, itemUnlocking, enoughtGolds1, enoughtGolds2, enoughtGolds3, enoughtGolds4);
 
             root.setBottom(bottom);
+
         } catch (NoConnectionException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Aucune connexion à internet");
@@ -979,11 +984,6 @@ public class Main extends Application {
             Label checkpoint = new Label("<Repos>");
             checkpoint.setFont(fontSubText);
             top.getChildren().add(checkpoint);
-        }
-
-        if (map.isCheckpoint()) {
-            DAOCara daoCara = new DAOCara();
-            daoCara.save(cara);
         }
         return top;
     }

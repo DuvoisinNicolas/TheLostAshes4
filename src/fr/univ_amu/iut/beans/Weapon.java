@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Weapon {
 
@@ -19,8 +20,8 @@ public class Weapon {
     private IntegerProperty chari = new SimpleIntegerProperty();
     private IntegerProperty end = new SimpleIntegerProperty();
     private IntegerProperty mag = new SimpleIntegerProperty();
-    private static List<Weapon> allWeapons = new ArrayList<>();
 
+    private static List<Weapon> allWeapons = new ArrayList<>();
 
     public static Weapon findWeaponById (int idWeapon) throws NoWeaponFoundException {
         for (Weapon weapon : Weapon.getAllWeapons()) {
@@ -140,12 +141,41 @@ public class Weapon {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Weapon weapon = (Weapon) o;
+        return idWeapon == weapon.idWeapon &&
+                dmg == weapon.dmg &&
+                prec == weapon.prec &&
+                price == weapon.price &&
+                Objects.equals(name, weapon.name) &&
+                Objects.equals(fce, weapon.fce) &&
+                Objects.equals(agi, weapon.agi) &&
+                Objects.equals(chari, weapon.chari) &&
+                Objects.equals(end, weapon.end) &&
+                Objects.equals(mag, weapon.mag);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idWeapon, name, dmg, prec, price, fce, agi, chari, end, mag);
+    }
+
+    @Override
     public String toString() {
         return "Weapon{" +
                 "idWeapon=" + idWeapon +
                 ", name='" + name + '\'' +
                 ", dmg=" + dmg +
                 ", prec=" + prec +
+                ", price=" + price +
+                ", fce=" + fce +
+                ", agi=" + agi +
+                ", chari=" + chari +
+                ", end=" + end +
+                ", mag=" + mag +
                 '}';
     }
 }

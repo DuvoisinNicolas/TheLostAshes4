@@ -92,7 +92,7 @@ public class DAOCara {
 
     public void save (Caracter caracter) throws SQLException {
         //Actualisation du caracter
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=? , CURR_HP=? , FCE=? , AGI=? , CHARI=? , END=? , MAG=? , GOLDS=? , CURR_MAP =? WHERE ID_CARA=?");
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=?, CURR_HP=?, FCE=?, AGI=?, CHARI=?, END=?, MAG=?, GOLDS=?, CURR_MAP =? WHERE ID_CARA=?");
         preparedStatement.setInt(1,caracter.getHP().get());
         preparedStatement.setInt(2,caracter.getCURRHP().get());
         preparedStatement.setInt(3,caracter.getFCE().get());
@@ -104,8 +104,24 @@ public class DAOCara {
         preparedStatement.setInt(9,caracter.getIdCara());
         preparedStatement.setInt(10,caracter.getCurrentMap().getIdMap());
         preparedStatement.executeUpdate();
+
+        // Suppression des anciennes armes
+        PreparedStatement preparedStatement1 = connection.prepareStatement("DELETE FROM WEAPONINVENTORY WHERE ID_CARA = ?");
+        preparedStatement1.setInt(1,caracter.getIdCara());
+        preparedStatement1.executeUpdate();
+
+        //Ajout des armes
+        for (Weapon weapon : caracter.getWeapons()) {
+            PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO WEAPONINVENTORY (ID_CARA, ID_WEAPON, EQUIPED) VALUES (?,?,?)");
+            preparedStatement2.setInt(1, caracter.getIdCara());
+            preparedStatement2.setInt(2, weapon.getIdWeapon());
+            preparedStatement2.setBoolean(3, caracter.getWeapon() == weapon);
+            //preparedStatement2.executeUpdate();
+        }
+
+
         /*
-         * TODO : Sauvegarder aussi les armes , les armures , les items , et la map actuelle
+         * TODO : Sauvegarder aussiles armures , les items , et la map actuelle
          */
     }
 }
