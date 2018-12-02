@@ -706,12 +706,16 @@ public class Main extends Application {
         return true;
     }
 
-    private void obtenirArmeArmureItem(Map map) throws NoWeaponFoundException, NoArmorFoundException {
+    private void obtenirArmeArmureItem(Map map) throws NoWeaponFoundException, NoArmorFoundException, NoItemFoundException {
         if (map.getIdWeapon() != 0) {
             cara.getWeapons().add(Weapon.findWeaponById(map.getIdWeapon()));
         }
         if (map.getIdArmor() != 0) {
             cara.getArmors().add(Armor.findArmorById(map.getIdArmor()));
+        }
+        if (map.getIdItem() != 0) {
+            Pair<Item,Integer> pair = new Pair<>(Item.findItemById(map.getIdItem()),map.getQuantiteItem());
+            cara.getItems().add(pair);
         }
 
     }
@@ -724,7 +728,10 @@ public class Main extends Application {
     private void gameInterface(Map map) {
         try {
 
-
+            /*
+             *  TODO : Les combats , une fonction qui renvoie vrai si tu gagne et faux si tu pers :)
+             *  TODO : Si l'ennemi n'est pas léthal , mettre les HP à 1 , sinon rediriger vers l'écran en mode t'as perdu go au checkpoint
+             */
             //A faire qu'une fois
             if (!cara.getVisitedMap().contains(map)) {
                 modifsStatsAndGolds(map);
@@ -849,12 +856,12 @@ public class Main extends Application {
             alert.setContentText("Merci de vous connecter à internet");
             alert.showAndWait();
             gameInterface(map);
-        } catch (MapErrorException | NoMapFoundException e) {
+        } catch (MapErrorException | NoMapFoundException  | NoWeaponFoundException | NoArmorFoundException | NoItemFoundException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Les développeurs sont des tâches");
-            alert.setContentText("On as mal initialisé la map, sorry :'(");
+            alert.setTitle("Le développeur est une tâche");
+            alert.setContentText("J'ai mal initialisé la map, sorry :'(");
             alert.showAndWait();
-        } catch (SQLException | NoWeaponFoundException | NoArmorFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -933,6 +940,8 @@ public class Main extends Application {
             bottom.getChildren().addAll(ligneDuHaut, ligneDuBas);
             return bottom;
         }
+
+
     }
 
     private VBox buildCenter(Map map) {

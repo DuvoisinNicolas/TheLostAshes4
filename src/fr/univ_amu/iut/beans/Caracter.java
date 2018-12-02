@@ -30,6 +30,11 @@ public class Caracter {
     private List<Map> visitedMap = new ArrayList<>();
 
 
+    /**
+     * TODO : Bind les bonus de l'arme et de l'armure aux stats du personnage
+     */
+
+
     public Map getCurrentMap() {
         return currentMap;
     }
