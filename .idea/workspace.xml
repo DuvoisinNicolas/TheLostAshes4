@@ -9,16 +9,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java" line="93" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbbe13b3-875a-466b-a02e-35a1e2a2ae89" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/TheLostAshes4_jar/TheLostAshes4.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/TheLostAshes4_jar/TheLostAshes4.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/MapMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/MapMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Mappers/MapMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Mappers/MapMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Map.class" afterDir="false" />
-    </list>
+    <list default="true" id="fbbe13b3-875a-466b-a02e-35a1e2a2ae89" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -442,12 +433,12 @@
       <workItem from="1543522743455" duration="3390000" />
       <workItem from="1543690576783" duration="42000" />
       <workItem from="1543693383979" duration="5364000" />
-      <workItem from="1543742620646" duration="5676000" />
+      <workItem from="1543742620646" duration="6343000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83890000" />
+    <option name="totallyTimeSpent" value="84557000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -460,7 +451,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
@@ -472,11 +462,11 @@
       <window_info anchor="right" id="Maven Projects" order="6" weight="0.32995737" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28104576" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.26906317" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28104576" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.26906317" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30597016" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30597016" />
       <window_info anchor="right" id="Database" order="7" weight="0.32995737" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
