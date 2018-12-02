@@ -1,6 +1,7 @@
 package fr.univ_amu.iut.DAO;
 
 import fr.univ_amu.iut.Exceptions.NoConnectionException;
+import fr.univ_amu.iut.Exceptions.NoMapFoundException;
 import fr.univ_amu.iut.Exceptions.NoUserException;
 import fr.univ_amu.iut.Exceptions.NoWeaponFoundException;
 import fr.univ_amu.iut.Main;
@@ -27,8 +28,8 @@ public class DAOCara {
     }
 
     public Caracter insert (Caracter caracter, User user) throws Exception {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CARACTER (NAME, HP , CURR_HP, FCE, AGI, CHARI, END, MAG, ID_USER) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CARACTER (NAME, HP , CURR_HP, FCE, AGI, CHARI, END, MAG, ID_USER,CURR_MAP) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1,caracter.getName());
         preparedStatement.setInt(2,VALHPMAX);
         preparedStatement.setInt(3,VALHPMAX);
@@ -38,6 +39,7 @@ public class DAOCara {
         preparedStatement.setInt(7,caracter.getEND().get());
         preparedStatement.setInt(8,caracter.getMAG().get());
         preparedStatement.setInt(9,user.getIdUser());
+        preparedStatement.setInt(10,caracter.getCurrentMap().getIdMap());
         System.out.println(preparedStatement);
         preparedStatement.executeUpdate();
 
@@ -59,6 +61,7 @@ public class DAOCara {
         daoWeapon.obtainWeapon(caracter.getWeapon(),caracter);
         daoWeapon.equipWeapon(caracter.getWeapon(),caracter);
 
+        // Ajout de l'armure
         DAOArmor daoArmor = new DAOArmor();
         daoArmor.obtainArmor(caracter.getArmor(),caracter);
         daoArmor.equipArmor(caracter.getArmor(),caracter);
@@ -66,7 +69,7 @@ public class DAOCara {
         return caracter;
     }
 
-    public Caracter getMyCara (User user) throws SQLException, NoWeaponFoundException, NoConnectionException {
+    public Caracter getMyCara (User user) throws SQLException, NoMapFoundException {
         // Récupération du personnage
         Caracter caracter = new Caracter();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CARACTER WHERE ID_USER = ?");

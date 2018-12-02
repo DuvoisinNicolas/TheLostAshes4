@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,9 +26,26 @@ public class Caracter {
     private List<Armor> armors;
     private List<Spell> spells;
     private List<Pair<Item,Integer>> items;
-    /*
-    TODO: Current map
-     */
+    private Map currentMap;
+    private List<Map> visitedMap = new ArrayList<>();
+
+
+    public Map getCurrentMap() {
+        return currentMap;
+    }
+
+    public void setCurrentMap(Map currentMap) {
+        this.currentMap = currentMap;
+    }
+
+
+    public List<Map> getVisitedMap() {
+        return visitedMap;
+    }
+
+    public void setVisitedMap(List<Map> visitedMap) {
+        this.visitedMap = visitedMap;
+    }
 
     public List<Pair<Item, Integer>> getItems() {
         return items;

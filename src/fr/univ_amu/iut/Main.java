@@ -108,7 +108,7 @@ public class Main extends Application {
 
     }
 
-    private void initCaracter() throws NoConnectionException, SQLException, NoWeaponFoundException, NoItemFoundException {
+    private void initCaracter() throws NoConnectionException, SQLException, NoWeaponFoundException, NoItemFoundException, NoMapFoundException {
         DAOWeapon daoWeapon = new DAOWeapon();
         DAOSpell daoSpell = new DAOSpell();
         DAOArmor daoArmor = new DAOArmor();
@@ -567,11 +567,12 @@ public class Main extends Application {
                     cara.setSpells(chosenSpells);
                     cara.setWeapon(Weapon.findWeaponById(1));
                     cara.setArmor(Armor.findArmorById(1));
+                    cara.setCurrentMap(Map.getAllMaps().get(0));
                     cara = daoCara.insert(cara, user);
 
                     cara = daoCara.getMyCara(user);
 
-                    gameInterface(Map.getAllMaps().get(0));
+                    gameInterface(cara.getCurrentMap());
 
                 } catch (SQLException | NoWeaponFoundException e) {
                     e.printStackTrace();
@@ -722,10 +723,20 @@ public class Main extends Application {
      */
     private void gameInterface(Map map) {
         try {
+
+
+            //A faire qu'une fois
+            if (!cara.getVisitedMap().contains(map)) {
+                modifsStatsAndGolds(map);
+                obtenirArmeArmureItem(map);
+            }
+
+            // Ajout du statut de visité à la map
+            cara.getVisitedMap().add(map);
+            cara.setCurrentMap(map);
+
             // Toutes les modifs à faire vis à vis de la map
             map.setText(editTextMap(map));
-            modifsStatsAndGolds(map);
-            obtenirArmeArmureItem(map);
 
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();

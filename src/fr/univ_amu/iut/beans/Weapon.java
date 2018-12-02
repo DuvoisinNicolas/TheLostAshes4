@@ -1,6 +1,8 @@
 package fr.univ_amu.iut.beans;
 
 import fr.univ_amu.iut.Exceptions.NoWeaponFoundException;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +14,11 @@ public class Weapon {
     private int dmg;
     private int prec;
     private int price;
-    private int fce;
-    private int agi;
-    private int chari;
-    private int end;
-    private int mag;
+    private IntegerProperty fce = new SimpleIntegerProperty();
+    private IntegerProperty agi = new SimpleIntegerProperty();
+    private IntegerProperty chari = new SimpleIntegerProperty();
+    private IntegerProperty end = new SimpleIntegerProperty();
+    private IntegerProperty mag = new SimpleIntegerProperty();
     private static List<Weapon> allWeapons = new ArrayList<>();
 
 
@@ -70,43 +72,63 @@ public class Weapon {
     }
 
     public int getFce() {
-        return fce;
-    }
-
-    public void setFce(int fce) {
-        this.fce = fce;
+        return fce.get();
     }
 
     public int getAgi() {
-        return agi;
-    }
-
-    public void setAgi(int agi) {
-        this.agi = agi;
+        return agi.get();
     }
 
     public int getChari() {
-        return chari;
-    }
-
-    public void setChari(int chari) {
-        this.chari = chari;
+        return chari.get();
     }
 
     public int getEnd() {
-        return end;
-    }
-
-    public void setEnd(int end) {
-        this.end = end;
+        return end.get();
     }
 
     public int getMag() {
-        return mag;
+        return mag.get();
+    }
+
+    public void setFce(int fce) {
+        this.fce.set(fce);
+    }
+
+    public void setAgi(int agi) {
+        this.agi.set(agi);
+    }
+
+    public void setChari(int chari) {
+        this.chari.set(chari);
+    }
+
+    public void setEnd(int end) {
+        this.end.set(end);
     }
 
     public void setMag(int mag) {
-        this.mag = mag;
+        this.mag.set(mag);
+    }
+
+    public IntegerProperty fceProperty() {
+        return fce;
+    }
+
+    public IntegerProperty agiProperty() {
+        return agi;
+    }
+
+    public IntegerProperty chariProperty() {
+        return chari;
+    }
+
+    public IntegerProperty endProperty() {
+        return end;
+    }
+
+    public IntegerProperty magProperty() {
+        return mag;
     }
 
     public static List<Weapon> getAllWeapons() {

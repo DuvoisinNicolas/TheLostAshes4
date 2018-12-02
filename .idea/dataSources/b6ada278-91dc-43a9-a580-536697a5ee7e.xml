@@ -1325,186 +1325,190 @@
     <table id="333" parent="3" name="MAP">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="334" parent="3" name="MAPITEMS">
+    <table id="334" parent="3" name="SPELL">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="335" parent="3" name="SPELL">
+    <table id="335" parent="3" name="USER">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="336" parent="3" name="USER">
+    <table id="336" parent="3" name="WEAPON">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="337" parent="3" name="WEAPON">
+    <table id="337" parent="3" name="WEAPONINVENTORY">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="338" parent="3" name="WEAPONINVENTORY">
-      <Engine>InnoDB</Engine>
-    </table>
-    <column id="339" parent="326" name="ID_ARMOR">
+    <column id="338" parent="326" name="ID_ARMOR">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="340" parent="326" name="NAME">
+    <column id="339" parent="326" name="NAME">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="326" name="DEF">
+    <column id="340" parent="326" name="DEF">
       <Position>3</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="342" parent="326" name="PRICE">
+    <column id="341" parent="326" name="PRICE">
       <Position>4</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="326" name="FCE">
+    <column id="342" parent="326" name="FCE">
       <Position>5</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="326" name="AGI">
+    <column id="343" parent="326" name="AGI">
       <Position>6</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="345" parent="326" name="CHARI">
+    <column id="344" parent="326" name="CHARI">
       <Position>7</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="346" parent="326" name="END">
+    <column id="345" parent="326" name="END">
       <Position>8</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="326" name="MAG">
+    <column id="346" parent="326" name="MAG">
       <Position>9</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="348" parent="326" name="PRIMARY">
+    <key id="347" parent="326" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_ARMOR</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="349" parent="327" name="ID_CARA">
+    <column id="348" parent="327" name="ID_CARA">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="327" name="ID_ARMOR">
+    <column id="349" parent="327" name="ID_ARMOR">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="327" name="EQUIPED">
+    <column id="350" parent="327" name="EQUIPED">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="352" parent="327" name="Id_ArmorArmor">
+    <index id="351" parent="327" name="Id_ArmorArmor">
       <ColNames>ID_ARMOR</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="353" parent="327" name="PRIMARY">
+    <key id="352" parent="327" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_CARA
 ID_ARMOR</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="354" parent="327" name="Id_CaraArmor">
+    <foreign-key id="353" parent="327" name="Id_CaraArmor">
       <ColNames>ID_CARA</ColNames>
       <RefSchemaName>thelostashes4_db</RefSchemaName>
       <RefTableName>CARACTER</RefTableName>
       <RefColNames>ID_CARA</RefColNames>
     </foreign-key>
-    <foreign-key id="355" parent="327" name="Id_ArmorArmor">
+    <foreign-key id="354" parent="327" name="Id_ArmorArmor">
       <ColNames>ID_ARMOR</ColNames>
       <RefSchemaName>thelostashes4_db</RefSchemaName>
       <RefTableName>ARMOR</RefTableName>
       <RefColNames>ID_ARMOR</RefColNames>
     </foreign-key>
-    <column id="356" parent="328" name="ID_CARA">
+    <column id="355" parent="328" name="ID_CARA">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="328" name="NAME">
+    <column id="356" parent="328" name="NAME">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="358" parent="328" name="HP">
+    <column id="357" parent="328" name="HP">
       <Position>3</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="328" name="CURR_HP">
+    <column id="358" parent="328" name="CURR_HP">
       <Position>4</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="328" name="FCE">
+    <column id="359" parent="328" name="FCE">
       <Position>5</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="361" parent="328" name="AGI">
+    <column id="360" parent="328" name="AGI">
       <Position>6</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="362" parent="328" name="CHARI">
+    <column id="361" parent="328" name="CHARI">
       <Position>7</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="328" name="END">
+    <column id="362" parent="328" name="END">
       <Position>8</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="364" parent="328" name="MAG">
+    <column id="363" parent="328" name="MAG">
       <Position>9</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="328" name="GOLDS">
+    <column id="364" parent="328" name="GOLDS">
       <Position>10</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="366" parent="328" name="ID_USER">
+    <column id="365" parent="328" name="CURR_MAP">
       <Position>11</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="366" parent="328" name="ID_USER">
+      <Position>12</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
@@ -1954,202 +1958,162 @@ ID_SPELL</ColNames>
       <RefTableName>MAP</RefTableName>
       <RefColNames>ID_MAP</RefColNames>
     </foreign-key>
-    <column id="445" parent="334" name="ID_MAP">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="446" parent="334" name="ID_ITEM">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="447" parent="334" name="QUANTITY">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="448" parent="334" name="Id_ItemItemMap">
-      <ColNames>ID_ITEM</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="449" parent="334" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>ID_MAP
-ID_ITEM</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="450" parent="334" name="Id_ItemMap">
-      <ColNames>ID_MAP</ColNames>
-      <RefSchemaName>thelostashes4_db</RefSchemaName>
-      <RefTableName>MAP</RefTableName>
-      <RefColNames>ID_MAP</RefColNames>
-    </foreign-key>
-    <foreign-key id="451" parent="334" name="Id_ItemItemMap">
-      <ColNames>ID_ITEM</ColNames>
-      <RefSchemaName>thelostashes4_db</RefSchemaName>
-      <RefTableName>ITEM</RefTableName>
-      <RefColNames>ID_ITEM</RefColNames>
-    </foreign-key>
-    <column id="452" parent="335" name="ID_SPELL">
+    <column id="445" parent="334" name="ID_SPELL">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="453" parent="335" name="NAME">
+    <column id="446" parent="334" name="NAME">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="454" parent="335" name="DESCR">
+    <column id="447" parent="334" name="DESCR">
       <Position>3</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="455" parent="335" name="PRIMARY">
+    <key id="448" parent="334" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_SPELL</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="456" parent="336" name="ID_USER">
+    <column id="449" parent="335" name="ID_USER">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="457" parent="336" name="USERNAME">
+    <column id="450" parent="335" name="USERNAME">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="336" name="PWD">
+    <column id="451" parent="335" name="PWD">
       <Position>3</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="459" parent="336" name="MAIL">
+    <column id="452" parent="335" name="MAIL">
       <Position>4</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="460" parent="336" name="PRIMARY">
+    <key id="453" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_USER</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="461" parent="337" name="ID_WEAPON">
+    <column id="454" parent="336" name="ID_WEAPON">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="462" parent="337" name="NAME">
+    <column id="455" parent="336" name="NAME">
       <Position>2</Position>
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="463" parent="337" name="DMG">
+    <column id="456" parent="336" name="DMG">
       <Position>3</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="464" parent="337" name="PREC">
+    <column id="457" parent="336" name="PREC">
       <Position>4</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="465" parent="337" name="PRICE">
+    <column id="458" parent="336" name="PRICE">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="466" parent="337" name="FCE">
+    <column id="459" parent="336" name="FCE">
       <Position>6</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="467" parent="337" name="AGI">
+    <column id="460" parent="336" name="AGI">
       <Position>7</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="468" parent="337" name="CHARI">
+    <column id="461" parent="336" name="CHARI">
       <Position>8</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="469" parent="337" name="END">
+    <column id="462" parent="336" name="END">
       <Position>9</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="470" parent="337" name="MAG">
+    <column id="463" parent="336" name="MAG">
       <Position>10</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="471" parent="337" name="PRIMARY">
+    <key id="464" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_WEAPON</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="472" parent="338" name="ID_CARA">
+    <column id="465" parent="337" name="ID_CARA">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="473" parent="338" name="ID_WEAPON">
+    <column id="466" parent="337" name="ID_WEAPON">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="474" parent="338" name="EQUIPED">
+    <column id="467" parent="337" name="EQUIPED">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="475" parent="338" name="ID_WeaponWeapon">
+    <index id="468" parent="337" name="ID_WeaponWeapon">
       <ColNames>ID_WEAPON</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="476" parent="338" name="PRIMARY">
+    <key id="469" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_CARA
 ID_WEAPON</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="477" parent="338" name="Id_CaraWeapon">
+    <foreign-key id="470" parent="337" name="Id_CaraWeapon">
       <ColNames>ID_CARA</ColNames>
       <RefSchemaName>thelostashes4_db</RefSchemaName>
       <RefTableName>CARACTER</RefTableName>
       <RefColNames>ID_CARA</RefColNames>
     </foreign-key>
-    <foreign-key id="478" parent="338" name="ID_WeaponWeapon">
+    <foreign-key id="471" parent="337" name="ID_WeaponWeapon">
       <ColNames>ID_WEAPON</ColNames>
       <RefSchemaName>thelostashes4_db</RefSchemaName>
       <RefTableName>WEAPON</RefTableName>
