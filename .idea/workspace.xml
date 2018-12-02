@@ -7,36 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbbe13b3-875a-466b-a02e-35a1e2a2ae89" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoArmorFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoEnnemiFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoItemFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoSpellFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/EnnemiMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/ItemMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b6ada278-91dc-43a9-a580-536697a5ee7e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b6ada278-91dc-43a9-a580-536697a5ee7e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/TheLostAshes4_jar/TheLostAshes4.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/TheLostAshes4_jar/TheLostAshes4.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOEnnemi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOEnnemi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/MapMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/MapMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Armor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Ennemi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Ennemi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Spell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Spell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/DAO/DAOCara.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/DAO/DAOCara.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/DAO/DAOMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/DAO/DAOMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Mappers/MapMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/Mappers/MapMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Armor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Armor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Caracter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Caracter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/univ_amu/iut/beans/Map.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,11 +40,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="108" column="25" selection-start-line="108" selection-start-column="25" selection-end-line="108" selection-end-column="25" />
+            <state relative-caret-position="359">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
               <folding>
                 <element signature="method#start#0;class#Main#0" />
                 <element signature="method#connectionInterface#0;class#Main#0" />
@@ -176,18 +148,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DAOEnnemi.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOEnnemi.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Armor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Armor.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -196,6 +156,15 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DAOCara.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="473">
+              <caret line="102" column="92" selection-start-line="102" selection-start-column="92" selection-end-line="102" selection-end-column="92" />
             </state>
           </provider>
         </entry>
@@ -209,17 +178,81 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Caracter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Caracter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="189" column="18" selection-start-line="189" selection-start-column="18" selection-end-line="189" selection-end-column="18" />
+            <state relative-caret-position="476">
+              <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1056#1057#0" expanded="true" />
-                <element signature="e#1084#1085#0" expanded="true" />
-                <element signature="e#1145#1146#0" expanded="true" />
-                <element signature="e#1179#1180#0" expanded="true" />
+                <element signature="e#1076#1077#0" expanded="true" />
+                <element signature="e#1104#1105#0" expanded="true" />
+                <element signature="e#1165#1166#0" expanded="true" />
+                <element signature="e#1199#1200#0" expanded="true" />
+                <element signature="e#1229#1230#0" expanded="true" />
+                <element signature="e#1258#1259#0" expanded="true" />
+                <element signature="e#1299#1300#0" expanded="true" />
+                <element signature="e#1335#1336#0" expanded="true" />
+                <element signature="e#1366#1367#0" expanded="true" />
+                <element signature="e#1393#1394#0" expanded="true" />
+                <element signature="e#1433#1434#0" expanded="true" />
+                <element signature="e#1465#1466#0" expanded="true" />
+                <element signature="e#1503#1504#0" expanded="true" />
+                <element signature="e#1528#1529#0" expanded="true" />
+                <element signature="e#1561#1562#0" expanded="true" />
+                <element signature="e#1592#1593#0" expanded="true" />
+                <element signature="e#1631#1632#0" expanded="true" />
+                <element signature="e#1657#1658#0" expanded="true" />
+                <element signature="e#1692#1693#0" expanded="true" />
+                <element signature="e#1725#1726#0" expanded="true" />
+                <element signature="e#1764#1765#0" expanded="true" />
+                <element signature="e#1790#1791#0" expanded="true" />
+                <element signature="e#1825#1826#0" expanded="true" />
+                <element signature="e#1858#1859#0" expanded="true" />
+                <element signature="e#1899#1900#0" expanded="true" />
+                <element signature="e#1927#1928#0" expanded="true" />
+                <element signature="e#1966#1967#0" expanded="true" />
+                <element signature="e#2003#2004#0" expanded="true" />
+                <element signature="e#2042#2043#0" expanded="true" />
+                <element signature="e#2068#2069#0" expanded="true" />
+                <element signature="e#2103#2104#0" expanded="true" />
+                <element signature="e#2136#2137#0" expanded="true" />
+                <element signature="e#2175#2176#0" expanded="true" />
+                <element signature="e#2201#2202#0" expanded="true" />
+                <element signature="e#2236#2237#0" expanded="true" />
+                <element signature="e#2269#2270#0" expanded="true" />
+                <element signature="e#2310#2311#0" expanded="true" />
+                <element signature="e#2338#2339#0" expanded="true" />
+                <element signature="e#2377#2378#0" expanded="true" />
+                <element signature="e#2414#2415#0" expanded="true" />
+                <element signature="e#2444#2445#0" expanded="true" />
+                <element signature="e#2473#2474#0" expanded="true" />
+                <element signature="e#2514#2515#0" expanded="true" />
+                <element signature="e#2550#2551#0" expanded="true" />
+                <element signature="e#2592#2593#0" expanded="true" />
+                <element signature="e#2621#2622#0" expanded="true" />
+                <element signature="e#2662#2663#0" expanded="true" />
+                <element signature="e#2701#2702#0" expanded="true" />
+                <element signature="e#2734#2735#0" expanded="true" />
+                <element signature="e#2763#2764#0" expanded="true" />
+                <element signature="e#2807#2808#0" expanded="true" />
+                <element signature="e#2843#2844#0" expanded="true" />
+                <element signature="e#2874#2875#0" expanded="true" />
+                <element signature="e#2902#2903#0" expanded="true" />
+                <element signature="e#2943#2944#0" expanded="true" />
+                <element signature="e#2977#2978#0" expanded="true" />
+                <element signature="e#3017#3018#0" expanded="true" />
+                <element signature="e#3047#3048#0" expanded="true" />
+                <element signature="e#3099#3100#0" expanded="true" />
+                <element signature="e#3137#3138#0" expanded="true" />
+                <element signature="e#3175#3176#0" expanded="true" />
+                <element signature="e#3204#3205#0" expanded="true" />
+                <element signature="e#3253#3254#0" expanded="true" />
+                <element signature="e#3289#3290#0" expanded="true" />
+                <element signature="e#3327#3328#0" expanded="true" />
+                <element signature="e#3356#3357#0" expanded="true" />
+                <element signature="e#3405#3406#0" expanded="true" />
+                <element signature="e#3441#3442#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -268,7 +301,6 @@
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOSpell.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/ItemMapper.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoItemFoundException.java" />
-        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOItem.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOMap.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Mappers/MapMapper.java" />
@@ -277,15 +309,16 @@
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoEnnemiFoundException.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Exceptions/NoSpellFoundException.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOEnnemi.java" />
-        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Ennemi.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Spell.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/User.java" />
-        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Armor.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Item.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Map.java" />
         <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Weapon.java" />
+        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java" />
+        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java" />
+        <option value="$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java" />
       </list>
     </option>
   </component>
@@ -516,12 +549,12 @@
       <workItem from="1543522743455" duration="3390000" />
       <workItem from="1543690576783" duration="42000" />
       <workItem from="1543693383979" duration="5364000" />
-      <workItem from="1543742620646" duration="11598000" />
+      <workItem from="1543742620646" duration="12239000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89812000" />
+    <option name="totallyTimeSpent" value="90453000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -546,8 +579,8 @@
       <window_info anchor="right" id="Maven Projects" order="6" weight="0.32995737" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28104576" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.26906317" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28104576" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.26906317" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30597016" />
@@ -736,13 +769,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="76" column="9" selection-start-line="76" selection-start-column="9" selection-end-line="76" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/Password.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -904,20 +930,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="189" column="18" selection-start-line="189" selection-start-column="18" selection-end-line="189" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1056#1057#0" expanded="true" />
-            <element signature="e#1084#1085#0" expanded="true" />
-            <element signature="e#1145#1146#0" expanded="true" />
-            <element signature="e#1179#1180#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Armor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -1010,8 +1022,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="108" column="25" selection-start-line="108" selection-start-column="25" selection-end-line="108" selection-end-column="25" />
+        <state relative-caret-position="359">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
           <folding>
             <element signature="method#start#0;class#Main#0" />
             <element signature="method#connectionInterface#0;class#Main#0" />
@@ -1027,6 +1039,91 @@
             <element signature="method#initMapIfNoTest#0;class#Main#0" />
             <element signature="method#buildLabel3#0;class#Main#0" />
             <element signature="method#buildLabel2#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/DAO/DAOCara.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="473">
+          <caret line="102" column="92" selection-start-line="102" selection-start-column="92" selection-end-line="102" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/univ_amu/iut/beans/Caracter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1076#1077#0" expanded="true" />
+            <element signature="e#1104#1105#0" expanded="true" />
+            <element signature="e#1165#1166#0" expanded="true" />
+            <element signature="e#1199#1200#0" expanded="true" />
+            <element signature="e#1229#1230#0" expanded="true" />
+            <element signature="e#1258#1259#0" expanded="true" />
+            <element signature="e#1299#1300#0" expanded="true" />
+            <element signature="e#1335#1336#0" expanded="true" />
+            <element signature="e#1366#1367#0" expanded="true" />
+            <element signature="e#1393#1394#0" expanded="true" />
+            <element signature="e#1433#1434#0" expanded="true" />
+            <element signature="e#1465#1466#0" expanded="true" />
+            <element signature="e#1503#1504#0" expanded="true" />
+            <element signature="e#1528#1529#0" expanded="true" />
+            <element signature="e#1561#1562#0" expanded="true" />
+            <element signature="e#1592#1593#0" expanded="true" />
+            <element signature="e#1631#1632#0" expanded="true" />
+            <element signature="e#1657#1658#0" expanded="true" />
+            <element signature="e#1692#1693#0" expanded="true" />
+            <element signature="e#1725#1726#0" expanded="true" />
+            <element signature="e#1764#1765#0" expanded="true" />
+            <element signature="e#1790#1791#0" expanded="true" />
+            <element signature="e#1825#1826#0" expanded="true" />
+            <element signature="e#1858#1859#0" expanded="true" />
+            <element signature="e#1899#1900#0" expanded="true" />
+            <element signature="e#1927#1928#0" expanded="true" />
+            <element signature="e#1966#1967#0" expanded="true" />
+            <element signature="e#2003#2004#0" expanded="true" />
+            <element signature="e#2042#2043#0" expanded="true" />
+            <element signature="e#2068#2069#0" expanded="true" />
+            <element signature="e#2103#2104#0" expanded="true" />
+            <element signature="e#2136#2137#0" expanded="true" />
+            <element signature="e#2175#2176#0" expanded="true" />
+            <element signature="e#2201#2202#0" expanded="true" />
+            <element signature="e#2236#2237#0" expanded="true" />
+            <element signature="e#2269#2270#0" expanded="true" />
+            <element signature="e#2310#2311#0" expanded="true" />
+            <element signature="e#2338#2339#0" expanded="true" />
+            <element signature="e#2377#2378#0" expanded="true" />
+            <element signature="e#2414#2415#0" expanded="true" />
+            <element signature="e#2444#2445#0" expanded="true" />
+            <element signature="e#2473#2474#0" expanded="true" />
+            <element signature="e#2514#2515#0" expanded="true" />
+            <element signature="e#2550#2551#0" expanded="true" />
+            <element signature="e#2592#2593#0" expanded="true" />
+            <element signature="e#2621#2622#0" expanded="true" />
+            <element signature="e#2662#2663#0" expanded="true" />
+            <element signature="e#2701#2702#0" expanded="true" />
+            <element signature="e#2734#2735#0" expanded="true" />
+            <element signature="e#2763#2764#0" expanded="true" />
+            <element signature="e#2807#2808#0" expanded="true" />
+            <element signature="e#2843#2844#0" expanded="true" />
+            <element signature="e#2874#2875#0" expanded="true" />
+            <element signature="e#2902#2903#0" expanded="true" />
+            <element signature="e#2943#2944#0" expanded="true" />
+            <element signature="e#2977#2978#0" expanded="true" />
+            <element signature="e#3017#3018#0" expanded="true" />
+            <element signature="e#3047#3048#0" expanded="true" />
+            <element signature="e#3099#3100#0" expanded="true" />
+            <element signature="e#3137#3138#0" expanded="true" />
+            <element signature="e#3175#3176#0" expanded="true" />
+            <element signature="e#3204#3205#0" expanded="true" />
+            <element signature="e#3253#3254#0" expanded="true" />
+            <element signature="e#3289#3290#0" expanded="true" />
+            <element signature="e#3327#3328#0" expanded="true" />
+            <element signature="e#3356#3357#0" expanded="true" />
+            <element signature="e#3405#3406#0" expanded="true" />
+            <element signature="e#3441#3442#0" expanded="true" />
           </folding>
         </state>
       </provider>

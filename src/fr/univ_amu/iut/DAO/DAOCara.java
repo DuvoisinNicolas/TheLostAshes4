@@ -99,6 +99,9 @@ public class DAOCara {
         preparedStatement.setInt(8,caracter.getGolds().get());
         preparedStatement.setInt(9,caracter.getIdCara());
         preparedStatement.executeUpdate();
+        /*
+         * TODO : Sauvegarder aussi les armes , les armures , les items , et la map actuelle
+         */
     }
 
 }

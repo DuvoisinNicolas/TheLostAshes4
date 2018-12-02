@@ -25,6 +25,9 @@ public class Caracter {
     private List<Armor> armors;
     private List<Spell> spells;
     private List<Pair<Item,Integer>> items;
+    /*
+    TODO: Current map
+     */
 
     public List<Pair<Item, Integer>> getItems() {
         return items;
