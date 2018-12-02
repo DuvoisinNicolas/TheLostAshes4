@@ -91,7 +91,8 @@ public class DAOCara {
     }
 
     public void save (Caracter caracter) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=? , CURR_HP=? , FCE=? , AGI=? , CHARI=? , END=? , MAG=? , GOLDS=? WHERE ID_CARA=?");
+        //Actualisation du caracter
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE CARACTER SET HP=? , CURR_HP=? , FCE=? , AGI=? , CHARI=? , END=? , MAG=? , GOLDS=? , CURR_MAP =? WHERE ID_CARA=?");
         preparedStatement.setInt(1,caracter.getHP().get());
         preparedStatement.setInt(2,caracter.getCURRHP().get());
         preparedStatement.setInt(3,caracter.getFCE().get());
@@ -101,10 +102,10 @@ public class DAOCara {
         preparedStatement.setInt(7,caracter.getMAG().get());
         preparedStatement.setInt(8,caracter.getGolds().get());
         preparedStatement.setInt(9,caracter.getIdCara());
+        preparedStatement.setInt(10,caracter.getCurrentMap().getIdMap());
         preparedStatement.executeUpdate();
         /*
          * TODO : Sauvegarder aussi les armes , les armures , les items , et la map actuelle
          */
     }
-
 }

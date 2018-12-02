@@ -59,7 +59,6 @@ public class Main extends Application {
      * Taille et police des titres et des textes
      */
     private Font fontTitle = new Font("DejaVu Sans", 20);
-    private Font fontSubTitle = new Font("DejaVu Sans", 16);
     private Font fontText = new Font("DejaVu Sans", 12);
     private Font fontSubText = new Font("DejaVu Sans", 10);
 
@@ -108,7 +107,7 @@ public class Main extends Application {
 
     }
 
-    private void initCaracter() throws NoConnectionException, SQLException, NoWeaponFoundException, NoItemFoundException, NoMapFoundException {
+    private void initCaracter() throws NoConnectionException, SQLException, NoItemFoundException, NoMapFoundException {
         DAOWeapon daoWeapon = new DAOWeapon();
         DAOSpell daoSpell = new DAOSpell();
         DAOArmor daoArmor = new DAOArmor();
@@ -1161,9 +1160,7 @@ public class Main extends Application {
             }
         });
 
-        rectangle1.setOnMouseEntered(event -> {
-            rectangle1.setCursor(Cursor.HAND);
-        });
+        rectangle1.setOnMouseEntered(event -> rectangle1.setCursor(Cursor.HAND));
 
         Label label2 = new Label("");
         Label label3 = new Label("");
@@ -1187,18 +1184,14 @@ public class Main extends Application {
                 }
             });
 
-            rectangle1.setOnMouseEntered(event -> {
-                rectangle1.setCursor(Cursor.HAND);
-            });
+            rectangle1.setOnMouseEntered(event -> rectangle1.setCursor(Cursor.HAND));
 
         }
 
         if (cpt == 2) {
             if (itemUnlocking) {
                 label3 = new Label(map.getChoix3());
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
+                rectangle3.setOnMouseEntered(event -> rectangle3.setCursor(Cursor.HAND));
                 rectangle3.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap3()));
@@ -1209,9 +1202,7 @@ public class Main extends Application {
             }
             if (spellUnlocking) {
                 label4 = new Label(map.getChoix4());
-                rectangle4.setOnMouseEntered(event -> {
-                    rectangle4.setCursor(Cursor.HAND);
-                });
+                rectangle4.setOnMouseEntered(event -> rectangle4.setCursor(Cursor.HAND));
                 rectangle4.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap4()));
@@ -1227,9 +1218,7 @@ public class Main extends Application {
         else if (cpt == 3) {
             if (itemUnlocking && spellUnlocking) {
                 label3 = new Label(map.getChoix3());
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
+                rectangle3.setOnMouseEntered(event -> rectangle3.setCursor(Cursor.HAND));
                 rectangle3.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap3()));
@@ -1238,9 +1227,7 @@ public class Main extends Application {
                     }
                 });
                 label4 = new Label(map.getChoix4());
-                rectangle4.setOnMouseEntered(event -> {
-                    rectangle4.setCursor(Cursor.HAND);
-                });
+                rectangle4.setOnMouseEntered(event -> rectangle4.setCursor(Cursor.HAND));
                 rectangle4.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap4()));
@@ -1251,9 +1238,7 @@ public class Main extends Application {
             } else if (itemUnlocking) {
                 label2 = new Label(map.getChoix2());
                 label3 = new Label(map.getChoix3());
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
+                rectangle3.setOnMouseEntered(event -> rectangle3.setCursor(Cursor.HAND));
                 rectangle3.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap3()));
@@ -1264,9 +1249,7 @@ public class Main extends Application {
             } else if (spellUnlocking) {
                 label2 = new Label(map.getChoix2());
                 label4 = new Label(map.getChoix4());
-                rectangle4.setOnMouseEntered(event -> {
-                    rectangle4.setCursor(Cursor.HAND);
-                });
+                rectangle4.setOnMouseEntered(event -> rectangle4.setCursor(Cursor.HAND));
                 rectangle4.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap4()));
@@ -1278,9 +1261,7 @@ public class Main extends Application {
                 label2 = new Label(map.getChoix2());
                 label3 = new Label(map.getChoix3());
                 if (enoughtGolds2) {
-                    rectangle2.setOnMouseEntered(event -> {
-                        rectangle2.setCursor(Cursor.HAND);
-                    });
+                    rectangle2.setOnMouseEntered(event -> rectangle2.setCursor(Cursor.HAND));
                     rectangle2.setOnMouseClicked(event -> {
                         try {
                             gameInterface(Map.findMapById(map.getMap2()));
@@ -1302,9 +1283,7 @@ public class Main extends Application {
             buildLabel3(map, rectangle3, enoughtGolds3);
 
             if (enoughtGolds4) {
-                rectangle4.setOnMouseEntered(event -> {
-                    rectangle4.setCursor(Cursor.HAND);
-                });
+                rectangle4.setOnMouseEntered(event -> rectangle4.setCursor(Cursor.HAND));
                 rectangle4.setOnMouseClicked(event -> {
                     try {
                         gameInterface(Map.findMapById(map.getMap4()));
@@ -1323,9 +1302,7 @@ public class Main extends Application {
 
     private void buildLabel3(Map map, Rectangle rectangle3, boolean enoughtGolds3) {
         if (enoughtGolds3) {
-            rectangle3.setOnMouseEntered(event -> {
-                rectangle3.setCursor(Cursor.HAND);
-            });
+            rectangle3.setOnMouseEntered(event -> rectangle3.setCursor(Cursor.HAND));
             rectangle3.setOnMouseClicked(event -> {
                 try {
                     gameInterface(Map.findMapById(map.getMap3()));
@@ -1338,9 +1315,7 @@ public class Main extends Application {
 
     private void buildLabel2(Map map, Rectangle rectangle2, boolean enoughtGolds2) {
         if (enoughtGolds2) {
-            rectangle2.setOnMouseEntered(event -> {
-                rectangle2.setCursor(Cursor.HAND);
-            });
+            rectangle2.setOnMouseEntered(event -> rectangle2.setCursor(Cursor.HAND));
             rectangle2.setOnMouseClicked(event -> {
                 try {
                     gameInterface(Map.findMapById(map.getMap2()));

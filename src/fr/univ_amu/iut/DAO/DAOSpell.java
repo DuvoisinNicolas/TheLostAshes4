@@ -18,7 +18,7 @@ public class DAOSpell {
     private Connection connection;
 
 
-    public DAOSpell() throws SQLException, NoConnectionException {
+    public DAOSpell() throws NoConnectionException {
         connection = UniqueConnection.getInstance().getConnection();
     }
 
