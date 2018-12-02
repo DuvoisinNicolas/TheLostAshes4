@@ -14,6 +14,7 @@ public class EnnemiMapper {
         ennemi.setDmg(resultSet.getInt("DMG"));
         ennemi.setPrec(resultSet.getInt("PREC"));
         ennemi.setDef(resultSet.getInt("DEF"));
+        ennemi.setLethal(resultSet.getBoolean("LETHAL"));
         return ennemi;
     }
 }

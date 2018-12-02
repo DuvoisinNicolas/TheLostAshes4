@@ -731,6 +731,7 @@ public class Main extends Application {
             /*
              *  TODO : Les combats , une fonction qui renvoie vrai si tu gagne et faux si tu pers :)
              *  TODO : Si l'ennemi n'est pas léthal , mettre les HP à 1 , sinon rediriger vers l'écran en mode t'as perdu go au checkpoint
+             *  TODO : Fait le dans le if connard au fait
              */
             //A faire qu'une fois
             if (!cara.getVisitedMap().contains(map)) {

@@ -12,6 +12,7 @@ public class Ennemi {
     private int dmg;
     private int prec;
     private int def;
+    private boolean lethal;
     private static ArrayList<Ennemi> allEnnemis;
 
     public static Ennemi findItemById (int idEnnemi) throws NoEnnemiFoundException {
@@ -77,6 +78,14 @@ public class Ennemi {
 
     public void setDef(int def) {
         this.def = def;
+    }
+
+    public boolean isLethal() {
+        return lethal;
+    }
+
+    public void setLethal(boolean lethal) {
+        this.lethal = lethal;
     }
 
     @Override
