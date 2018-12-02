@@ -20,6 +20,8 @@ public class Map {
     private int INT;
     private int END;
     private int CHARI;
+    private int idRequiredSpell;
+    private int idRequiredItem;
     private String testStat;
     private String choix1;
     private String choix2;
@@ -39,6 +41,22 @@ public class Map {
             }
         }
         throw new NoMapFoundException();
+    }
+
+    public int getIdRequiredSpell() {
+        return idRequiredSpell;
+    }
+
+    public void setIdRequiredSpell(int idRequiredSpell) {
+        this.idRequiredSpell = idRequiredSpell;
+    }
+
+    public int getIdRequiredItem() {
+        return idRequiredItem;
+    }
+
+    public void setIdRequiredItem(int idRequiredItem) {
+        this.idRequiredItem = idRequiredItem;
     }
 
     public static ArrayList<Map> getAllMaps() {

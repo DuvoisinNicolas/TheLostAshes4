@@ -23,6 +23,8 @@ public class MapMapper {
         map.setEND(resultSet.getInt("END"));
         map.setCHARI(resultSet.getInt("CHARI"));
         map.setTestStat(resultSet.getString("TESTSTAT"));
+        map.setIdRequiredItem(resultSet.getInt("REQUIREDITEM"));
+        map.setIdRequiredSpell(resultSet.getInt("REQUIREDSPELL"));
         map.setChoix1(resultSet.getString("CHOIX1"));
         map.setChoix2(resultSet.getString("CHOIX2"));
         map.setChoix3(resultSet.getString("CHOIX3"));
