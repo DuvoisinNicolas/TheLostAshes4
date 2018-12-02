@@ -2,6 +2,7 @@ package fr.univ_amu.iut.beans;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +24,15 @@ public class Caracter {
     private List<Weapon> weapons;
     private List<Armor> armors;
     private List<Spell> spells;
+    private List<Pair<Item,Integer>> items;
+
+    public List<Pair<Item, Integer>> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Pair<Item, Integer>> items) {
+        this.items = items;
+    }
 
     public int getIdCara() {
         return idCara;
@@ -174,5 +184,28 @@ public class Caracter {
     public int hashCode() {
 
         return Objects.hash(idCara, name, HP, CURRHP, FCE, AGI, CHARI, END, MAG, golds, idUser);
+    }
+
+    @Override
+    public String toString() {
+        return "Caracter{" +
+                "idCara=" + idCara +
+                ", name='" + name + '\'' +
+                ", HP=" + HP +
+                ", CURRHP=" + CURRHP +
+                ", FCE=" + FCE +
+                ", AGI=" + AGI +
+                ", CHARI=" + CHARI +
+                ", END=" + END +
+                ", MAG=" + MAG +
+                ", golds=" + golds +
+                ", idUser=" + idUser +
+                ", weapon=" + weapon +
+                ", armor=" + armor +
+                ", weapons=" + weapons +
+                ", armors=" + armors +
+                ", spells=" + spells +
+                ", items=" + items +
+                '}';
     }
 }

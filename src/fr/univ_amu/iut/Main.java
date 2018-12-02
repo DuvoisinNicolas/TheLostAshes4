@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -95,21 +96,24 @@ public class Main extends Application {
         DAOWeapon daoWeapon = new DAOWeapon();
         DAOArmor daoArmor = new DAOArmor();
         DAOSpell daoSpell = new DAOSpell();
+        DAOItem daoItem = new DAOItem();
+        DAOEnnemi daoEnnemi = new DAOEnnemi();
 
         Map.setAllMaps(daoMap.findAll());
         Weapon.setAllWeapons(daoWeapon.findAll());
         Armor.setAllArmors(daoArmor.findAll());
         Spell.setAllSpells(daoSpell.findAll());
-        /*
-         * TODO : Objets , Ennemis
-         */
+        Item.setAllItems(daoItem.findAll());
+        Ennemi.setAllEnnemis(daoEnnemi.findAll());
+
     }
 
-    private void initCaracter() throws NoConnectionException, SQLException, NoWeaponFoundException {
+    private void initCaracter() throws NoConnectionException, SQLException, NoWeaponFoundException, NoItemFoundException {
         DAOWeapon daoWeapon = new DAOWeapon();
         DAOSpell daoSpell = new DAOSpell();
         DAOArmor daoArmor = new DAOArmor();
         DAOCara daoCara = new DAOCara();
+        DAOItem daoItem = new DAOItem();
 
         cara = daoCara.getMyCara(user);
         cara.setArmor(daoArmor.getEquipedArmor(cara));
@@ -117,11 +121,7 @@ public class Main extends Application {
         cara.setWeapons(daoWeapon.getMyWeapons(cara));
         cara.setWeapon(daoWeapon.getEquipedWeapon(cara));
         cara.setSpells(daoSpell.findByCara(cara));
-
-        /*
-         * TODO : Objets
-         */
-
+        cara.setItems(daoItem.findCaraItems(cara));
     }
 
     @Override
@@ -468,11 +468,7 @@ public class Main extends Application {
                     cara.setCHARI(charismeProperty.get());
                     cara.setEND(endProperty.get());
                     cara.setMAG(magieProperty.get());
-                    try {
-                        interfaceChoixSorts();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    interfaceChoixSorts();
                 } else {
                     Alert alert2 = new Alert(Alert.AlertType.WARNING);
                     alert2.setTitle("Erreur");
@@ -489,13 +485,11 @@ public class Main extends Application {
 
     /**
      * Interface de choix des sorts
-     *
-     * @throws SQLException
      */
-    private void interfaceChoixSorts() throws SQLException {
+    private void interfaceChoixSorts() {
         try {
 
-            DAOSpell daoSpell = new DAOSpell();
+            DAOCara daoCara = new DAOCara();
 
             root.getChildren().clear();
             root.setBackground(new Background(new BackgroundImage(new Image("0.png", 800, 600, false, false),
@@ -570,8 +564,6 @@ public class Main extends Application {
             Button benjamin = new Button("C'est parti !");
             benjamin.setOnAction(event -> {
                 try {
-                    DAOCara daoCara = new DAOCara();
-
                     cara.setSpells(chosenSpells);
                     cara.setWeapon(Weapon.findWeaponById(1));
                     cara.setArmor(Armor.findArmorById(1));
@@ -659,9 +651,11 @@ public class Main extends Application {
 
 
     private boolean checkItem(Map map) {
-        /**
-         * TODO : items
-         */
+        for (Pair<Item,Integer> item : cara.getItems()) {
+            if (item.getKey().getIdItem() == map.getIdRequiredItem()) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -711,6 +705,16 @@ public class Main extends Application {
         return true;
     }
 
+    private void obtenirArmeArmureItem(Map map) throws NoWeaponFoundException, NoArmorFoundException {
+        if (map.getIdWeapon() != 0) {
+            cara.getWeapons().add(Weapon.findWeaponById(map.getIdWeapon()));
+        }
+        if (map.getIdArmor() != 0) {
+            cara.getArmors().add(Armor.findArmorById(map.getIdArmor()));
+        }
+
+    }
+
     /**
      * Interface du jeu
      *
@@ -721,6 +725,7 @@ public class Main extends Application {
             // Toutes les modifs à faire vis à vis de la map
             map.setText(editTextMap(map));
             modifsStatsAndGolds(map);
+            obtenirArmeArmureItem(map);
 
             DAOUser daoUser = new DAOUser();
             root.getChildren().clear();
@@ -728,7 +733,8 @@ public class Main extends Application {
             //Permet de choisir le fond d'écran qu'il faut
 
             int cpt = 0;
-            /**
+
+            /*
              * Vérification des items , spell et golds requis
              */
             boolean itemUnlocking = checkItem(map);
@@ -837,10 +843,11 @@ public class Main extends Application {
             alert.setTitle("Les développeurs sont des tâches");
             alert.setContentText("On as mal initialisé la map, sorry :'(");
             alert.showAndWait();
-        } catch (SQLException e) {
+        } catch (SQLException | NoWeaponFoundException | NoArmorFoundException e) {
             e.printStackTrace();
         }
     }
+
 
 
     private VBox buildBottom(Map map, int cpt, boolean spellUnlocking, boolean itemUnlocking, boolean enoughtGolds1, boolean enoughtGolds2, boolean enoughtGolds3, boolean enoughtGolds4) {
@@ -883,7 +890,7 @@ public class Main extends Application {
         if (map.getTestStat() == null) {
             initMapIfNoTest(map, cpt, button2, button3, button4, rectangle1, rectangle2, rectangle3, rectangle4, label2, label3, label4, spellUnlocking, itemUnlocking, enoughtGolds1, enoughtGolds2, enoughtGolds3, enoughtGolds4);
         } else {
-            initMapWithTest(map, button2, button3, button4, rectangle1, rectangle2, rectangle3, rectangle4, label2, label3, label4);
+            initMapWithTest(map, button2, button3, button4, rectangle1, rectangle2, rectangle3, rectangle4);
         }
 
         String os = System.getProperty("os.name").toLowerCase();
@@ -1087,7 +1094,7 @@ public class Main extends Application {
         return left;
     }
 
-    private void initMapWithTest(Map map, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4) {
+    private void initMapWithTest(Map map, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4) {
         int random = (int) (Math.random() * 10);
         boolean sucess = false;
 
@@ -1137,9 +1144,9 @@ public class Main extends Application {
             rectangle1.setCursor(Cursor.HAND);
         });
 
-        label2 = new Label("");
-        label3 = new Label("");
-        label4 = new Label("");
+        Label label2 = new Label("");
+        Label label3 = new Label("");
+        Label label4 = new Label("");
 
 
         button2.getChildren().addAll(label2, rectangle2);
@@ -1149,7 +1156,7 @@ public class Main extends Application {
 
     private void initMapIfNoTest(Map map, int cpt, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4, Label label2, Label label3, Label label4, boolean spellUnlocking, boolean itemUnlocking, boolean enoughtGolds1, boolean enoughtGolds2, boolean enoughtGolds3, boolean enoughtGolds4) {
 
-        // Vérification de l'argent
+        // Verification de l'argent
         if (enoughtGolds1) {
             rectangle1.setOnMouseClicked(event -> {
                 try {
@@ -1193,18 +1200,7 @@ public class Main extends Application {
                 });
             } else  {
                 label2 = new Label(map.getChoix2());
-                if (enoughtGolds2) {
-                    rectangle2.setOnMouseEntered(event -> {
-                        rectangle2.setCursor(Cursor.HAND);
-                    });
-                    rectangle2.setOnMouseClicked(event -> {
-                        try {
-                            gameInterface(Map.findMapById(map.getMap2()));
-                        } catch (NoMapFoundException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
+                buildLabel2(map, rectangle2, enoughtGolds2);
             }
         }
         else if (cpt == 3) {
@@ -1272,18 +1268,7 @@ public class Main extends Application {
                         }
                     });
 
-                    if (enoughtGolds3) {
-                        rectangle3.setOnMouseEntered(event -> {
-                            rectangle3.setCursor(Cursor.HAND);
-                        });
-                        rectangle3.setOnMouseClicked(event -> {
-                            try {
-                                gameInterface(Map.findMapById(map.getMap3()));
-                            } catch (NoMapFoundException e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
+                    buildLabel3(map, rectangle3, enoughtGolds3);
                 }
             }
         } else if (cpt == 4) {
@@ -1291,31 +1276,9 @@ public class Main extends Application {
             label3 = new Label(map.getChoix3());
             label4 = new Label(map.getChoix4());
 
-            if (enoughtGolds2) {
-                rectangle2.setOnMouseEntered(event -> {
-                    rectangle2.setCursor(Cursor.HAND);
-                });
-                rectangle2.setOnMouseClicked(event -> {
-                    try {
-                        gameInterface(Map.findMapById(map.getMap2()));
-                    } catch (NoMapFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
+            buildLabel2(map, rectangle2, enoughtGolds2);
 
-            if (enoughtGolds3) {
-                rectangle3.setOnMouseEntered(event -> {
-                    rectangle3.setCursor(Cursor.HAND);
-                });
-                rectangle3.setOnMouseClicked(event -> {
-                    try {
-                        gameInterface(Map.findMapById(map.getMap3()));
-                    } catch (NoMapFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
+            buildLabel3(map, rectangle3, enoughtGolds3);
 
             if (enoughtGolds4) {
                 rectangle4.setOnMouseEntered(event -> {
@@ -1337,8 +1300,35 @@ public class Main extends Application {
         button4.getChildren().addAll(label4,rectangle4);
     }
 
+    private void buildLabel3(Map map, Rectangle rectangle3, boolean enoughtGolds3) {
+        if (enoughtGolds3) {
+            rectangle3.setOnMouseEntered(event -> {
+                rectangle3.setCursor(Cursor.HAND);
+            });
+            rectangle3.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(Map.findMapById(map.getMap3()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
 
-
+    private void buildLabel2(Map map, Rectangle rectangle2, boolean enoughtGolds2) {
+        if (enoughtGolds2) {
+            rectangle2.setOnMouseEntered(event -> {
+                rectangle2.setCursor(Cursor.HAND);
+            });
+            rectangle2.setOnMouseClicked(event -> {
+                try {
+                    gameInterface(Map.findMapById(map.getMap2()));
+                } catch (NoMapFoundException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
 
 
 }

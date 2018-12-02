@@ -14,6 +14,8 @@ public class Map {
     private int idWeapon;
     private int idArmor;
     private int idEnnemi;
+    private int idItem;
+    private int quantiteItem;
     private int golds;
     private int FCE;
     private int AGI;
@@ -129,6 +131,22 @@ public class Map {
 
     public void setIdEnnemi(int idEnnemi) {
         this.idEnnemi = idEnnemi;
+    }
+
+    public int getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(int idItem) {
+        this.idItem = idItem;
+    }
+
+    public int getQuantiteItem() {
+        return quantiteItem;
+    }
+
+    public void setQuantiteItem(int quantiteItem) {
+        this.quantiteItem = quantiteItem;
     }
 
     public int getGolds() {
@@ -251,5 +269,11 @@ public class Map {
         this.map4 = map4;
     }
 
-
+    @Override
+    public String toString() {
+        return "Map{" +
+                "idMap=" + idMap +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

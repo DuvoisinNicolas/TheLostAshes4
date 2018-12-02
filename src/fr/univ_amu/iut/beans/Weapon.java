@@ -116,4 +116,14 @@ public class Weapon {
     public static void setAllWeapons(List<Weapon> allWeapons) {
         Weapon.allWeapons = allWeapons;
     }
+
+    @Override
+    public String toString() {
+        return "Weapon{" +
+                "idWeapon=" + idWeapon +
+                ", name='" + name + '\'' +
+                ", dmg=" + dmg +
+                ", prec=" + prec +
+                '}';
+    }
 }

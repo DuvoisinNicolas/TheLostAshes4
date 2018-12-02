@@ -1,5 +1,6 @@
 package fr.univ_amu.iut.beans;
 
+import fr.univ_amu.iut.Exceptions.NoArmorFoundException;
 import fr.univ_amu.iut.Exceptions.NoWeaponFoundException;
 
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ public class Armor {
     private static ArrayList<Armor> allArmors = new ArrayList<>();
 
 
-    public static Armor findArmorById (int idArmor) throws NoWeaponFoundException {
+    public static Armor findArmorById (int idArmor) throws NoArmorFoundException {
         for (Armor armor : Armor.getAllArmors()) {
             if (armor.getIdArmor() == idArmor) {
                 return armor;
             }
         }
-        throw new NoWeaponFoundException();
+        throw new NoArmorFoundException();
     }
 
     public static ArrayList<Armor> getAllArmors() {
@@ -105,5 +106,14 @@ public class Armor {
 
     public void setMag(int mag) {
         this.mag = mag;
+    }
+
+    @Override
+    public String toString() {
+        return "Armor{" +
+                "idArmor=" + idArmor +
+                ", name='" + name + '\'' +
+                ", def=" + def +
+                '}';
     }
 }

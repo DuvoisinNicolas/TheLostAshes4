@@ -62,9 +62,7 @@ public class DAOCara {
         DAOArmor daoArmor = new DAOArmor();
         daoArmor.obtainArmor(caracter.getArmor(),caracter);
         daoArmor.equipArmor(caracter.getArmor(),caracter);
-        /**
-         * TODO: Insérer l'armure et les objets
-         */
+
         return caracter;
     }
 
@@ -78,34 +76,8 @@ public class DAOCara {
             caracter = CaracterMapper.mapRow(resultSet1);
         }
 
-        // Récupération de l'arme équipée
-        PreparedStatement preparedStatement1 = connection.prepareStatement("SELECT ID_WEAPON FROM WEAPONINVENTORY WHERE ID_CARA = ? AND EQUIPED=?");
-        preparedStatement1.setInt(1,caracter.getIdCara());
-        preparedStatement1.setInt(2,1);
-        ResultSet resultSet2 = preparedStatement1.executeQuery();
-        if (resultSet2.next()) {
-            caracter.setWeapon(Weapon.findWeaponById(resultSet2.getInt("ID_WEAPON")));
-        }
-
-        // Récupération des armes de l'inventaire
-        ArrayList<Weapon> weapons = new ArrayList<>();
-        PreparedStatement preparedStatement2 = connection.prepareStatement("SELECT ID_WEAPON FROM WEAPONINVENTORY WHERE ID_CARA = ?");
-        preparedStatement2.setInt(1,caracter.getIdCara());
-        ResultSet resultSet3 = preparedStatement2.executeQuery();
-        while (resultSet3.next()) {
-            weapons.add(Weapon.findWeaponById(resultSet2.getInt("ID_WEAPON")));
-        }
-        caracter.setWeapons(weapons);
-
-        // Récupération des sorts appris du type
-        DAOSpell daoSpell = new DAOSpell();
-        caracter.setSpells(daoSpell.findByCara(caracter));
-
         return caracter;
 
-        /**
-         * TODO: Ajouter l'initalisation de l'armure et compagnie
-         */
     }
 
     public boolean hasACara (User user) throws SQLException {

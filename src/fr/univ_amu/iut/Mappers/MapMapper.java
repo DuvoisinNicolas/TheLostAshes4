@@ -16,6 +16,8 @@ public class MapMapper {
         map.setIdWeapon(resultSet.getInt("ID_WEAPON"));
         map.setIdArmor(resultSet.getInt("ID_ARMOR"));
         map.setIdEnnemi(resultSet.getInt("ID_ENNEMI"));
+        map.setIdItem(resultSet.getInt("ID_ITEM"));
+        map.setQuantiteItem(resultSet.getInt("ITEM_QUANTITY"));
         map.setGolds(resultSet.getInt("GOLDS"));
         map.setFCE(resultSet.getInt("FCE"));
         map.setAGI(resultSet.getInt("AGI"));

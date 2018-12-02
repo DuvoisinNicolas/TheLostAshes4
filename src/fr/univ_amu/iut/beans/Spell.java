@@ -1,5 +1,7 @@
 package fr.univ_amu.iut.beans;
 
+import fr.univ_amu.iut.Exceptions.NoSpellFoundException;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,6 +12,15 @@ public class Spell {
     private String descr;
 
     private static ArrayList<Spell> allSpells = new ArrayList<>();
+
+    public static Spell findItemById(int idSpell) throws NoSpellFoundException {
+        for (Spell spell : Spell.getAllSpells()) {
+            if (spell.getIdSpell() == idSpell) {
+                return spell;
+            }
+        }
+        throw new NoSpellFoundException();
+    }
 
     public static ArrayList<Spell> getAllSpells() {
         return allSpells;
@@ -56,5 +67,14 @@ public class Spell {
     @Override
     public int hashCode() {
         return Objects.hash(idSpell, name, descr);
+    }
+
+    @Override
+    public String toString() {
+        return "Spell{" +
+                "idSpell=" + idSpell +
+                ", name='" + name + '\'' +
+                ", descr='" + descr + '\'' +
+                '}';
     }
 }
