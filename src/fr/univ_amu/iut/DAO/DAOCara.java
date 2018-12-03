@@ -8,10 +8,8 @@ import fr.univ_amu.iut.Main;
 import fr.univ_amu.iut.Mappers.CaracterMapper;
 import fr.univ_amu.iut.Mappers.UserMapper;
 import fr.univ_amu.iut.UniqueConnection;
-import fr.univ_amu.iut.beans.Caracter;
-import fr.univ_amu.iut.beans.Spell;
-import fr.univ_amu.iut.beans.User;
-import fr.univ_amu.iut.beans.Weapon;
+import fr.univ_amu.iut.beans.*;
+import javafx.util.Pair;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -116,12 +114,35 @@ public class DAOCara {
             preparedStatement2.setInt(1, caracter.getIdCara());
             preparedStatement2.setInt(2, weapon.getIdWeapon());
             preparedStatement2.setBoolean(3, caracter.getWeapon() == weapon);
-            //preparedStatement2.executeUpdate();
+            preparedStatement2.executeUpdate();
         }
 
+        // Suppression des anciennes armures
+        PreparedStatement preparedStatement3 = connection.prepareStatement("DELETE FROM ARMORINVENTORY WHERE ID_CARA = ?");
+        preparedStatement3.setInt(1,caracter.getIdCara());
+        preparedStatement3.executeUpdate();
 
-        /*
-         * TODO : Sauvegarder aussiles armures , les items , et la map actuelle
-         */
+        //Ajout des armes
+        for (Armor armor : caracter.getArmors()) {
+            PreparedStatement preparedStatement4 = connection.prepareStatement("INSERT INTO ARMORINVENTORY (ID_CARA, ID_ARMOR, EQUIPED) VALUES (?,?,?)");
+            preparedStatement4.setInt(1, caracter.getIdCara());
+            preparedStatement4.setInt(2, armor.getIdArmor());
+            preparedStatement4.setBoolean(3, caracter.getArmor() == armor);
+            preparedStatement4.executeUpdate();
+        }
+
+        //Suppression des anciens items
+        PreparedStatement preparedStatment5 = connection.prepareStatement("DELETE FROM ITEMINVENTORY WHERE ID_CARA = ?");
+        preparedStatment5.setInt(1,caracter.getIdCara());
+        preparedStatment5.executeUpdate();
+
+        //Ajout des items
+        for (Pair<Item,Integer> item : caracter.getItems()) {
+            PreparedStatement preparedStatement6 = connection.prepareStatement("INSERT INTO ITEMINVENTORY (ID_CARA, ID_ITEM , QUANTITY) VALUES (?,?,?)");
+            preparedStatement6.setInt(1, caracter.getIdCara());
+            preparedStatement6.setInt(2, item.getKey().getIdItem());
+            preparedStatement6.setInt(3,item.getValue());
+            preparedStatement6.executeUpdate();
+        }
     }
 }

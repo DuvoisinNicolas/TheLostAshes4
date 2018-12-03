@@ -713,6 +713,9 @@ public class Main extends Application {
         if (map.getIdItem() != 0) {
             Pair<Item,Integer> pair = new Pair<>(Item.findItemById(map.getIdItem()),map.getQuantiteItem());
             cara.getItems().add(pair);
+            /*
+             * TODO : Si l'objet existe déja faut juste augmenter sa quantité
+             */
         }
 
     }

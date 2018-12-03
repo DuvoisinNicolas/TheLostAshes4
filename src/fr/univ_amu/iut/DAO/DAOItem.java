@@ -29,7 +29,7 @@ public class DAOItem {
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<Pair<Item,Integer>> list = new ArrayList<>();
         while (resultSet.next()) {
-            Pair<Integer, Integer> pair = new Pair<>(resultSet.getInt("ID_ITEM"),resultSet.getInt("QUANTITE"));
+            Pair<Integer, Integer> pair = new Pair<>(resultSet.getInt("ID_ITEM"),resultSet.getInt("QUANTITY"));
             idItem.add(pair);
         }
         for (Pair<Integer, Integer> item : idItem) {
