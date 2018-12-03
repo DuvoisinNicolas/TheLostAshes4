@@ -113,7 +113,7 @@ public class DAOCara {
             PreparedStatement preparedStatement2 = connection.prepareStatement("INSERT INTO WEAPONINVENTORY (ID_CARA, ID_WEAPON, EQUIPED) VALUES (?,?,?)");
             preparedStatement2.setInt(1, caracter.getIdCara());
             preparedStatement2.setInt(2, weapon.getIdWeapon());
-            preparedStatement2.setBoolean(3, caracter.getWeapon() == weapon);
+            preparedStatement2.setBoolean(3, caracter.getWeapon().getIdWeapon() == weapon.getIdWeapon());
             preparedStatement2.executeUpdate();
         }
 
@@ -127,7 +127,7 @@ public class DAOCara {
             PreparedStatement preparedStatement4 = connection.prepareStatement("INSERT INTO ARMORINVENTORY (ID_CARA, ID_ARMOR, EQUIPED) VALUES (?,?,?)");
             preparedStatement4.setInt(1, caracter.getIdCara());
             preparedStatement4.setInt(2, armor.getIdArmor());
-            preparedStatement4.setBoolean(3, caracter.getArmor() == armor);
+            preparedStatement4.setBoolean(3, caracter.getArmor().getIdArmor() == armor.getIdArmor());
             preparedStatement4.executeUpdate();
         }
 
