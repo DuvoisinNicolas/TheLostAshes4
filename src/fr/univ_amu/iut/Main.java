@@ -59,6 +59,7 @@ public class Main extends Application {
      * Taille et police des titres et des textes
      */
     private Font fontTitle = new Font("DejaVu Sans", 20);
+    private Font fontSubTitle = new Font("DejaVu Sans",16);
     private Font fontText = new Font("DejaVu Sans", 12);
     private Font fontSubText = new Font("DejaVu Sans", 10);
 
@@ -1127,18 +1128,6 @@ public class Main extends Application {
         return left;
     }
 
-    private void interfaceInventaire() {
-        root.getChildren().clear();
-    }
-
-    private void interfaceSorts() {
-        root.getChildren().clear();
-    }
-
-    private void interfaceArmurerie() {
-        root.getChildren().clear();
-    }
-
 
     private void initMapWithTest(Map map, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4) {
         int random = (int) (Math.random() * 10);
@@ -1353,4 +1342,50 @@ public class Main extends Application {
     }
 
 
+    private void interfaceInventaire() {
+        root.getChildren().clear();
+    }
+
+    private void interfaceSorts() {
+        root.getChildren().clear();
+        root.setBackground(new Background(new BackgroundImage(new Image("0.png", 800, 600, false, false),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+        VBox center = new VBox();
+        center.setPadding(new Insets(150,0,0,200));
+        for (Spell spell : cara.getSpells()) {
+            HBox spellBox = new HBox();
+            spellBox.setSpacing(20);
+            Label label = new Label(spell.getName());
+            label.setFont(fontSubTitle);
+            label.setPadding(new Insets(5,0,0,0));
+            Label labelSpellEffect = new Label(spell.getDescr());
+            labelSpellEffect.setFont(fontText);
+            Button useSpell = new Button("Lancer");
+            useSpell.setOnAction(event -> {
+                /*
+                 * TODO: Gérer les sorts
+                 */
+            });
+            VBox spellBoxFinal = new VBox();
+            spellBoxFinal.getChildren().addAll(label,labelSpellEffect);
+            spellBox.getChildren().addAll(spellBoxFinal,useSpell);
+            center.getChildren().addAll(spellBox);
+        }
+        Button retour = new Button("Retour");
+        center.getChildren().add(retour);
+
+        retour.setOnAction(event -> {
+            gameInterface(cara.getCurrentMap());
+        });
+        root.setCenter(center);
+        /*
+         * TODO : Continuer à aligner les trucs
+         */
+    }
+
+    private void interfaceArmurerie() {
+        root.getChildren().clear();
+    }
+    
 }
