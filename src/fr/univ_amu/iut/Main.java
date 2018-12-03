@@ -604,10 +604,16 @@ public class Main extends Application {
      * @param map Map actuelle
      * @return String
      */
-    private String editTextMap(Map map) {
+    private String editTextMap(Map map) throws NoWeaponFoundException, NoArmorFoundException {
         String betterStr = map.getText().replace("#NOM", cara.getName());
+        if (map.getIdWeapon() != 0) {
+            betterStr = betterStr.replace("#ARME",Weapon.findWeaponById(map.getIdWeapon()).getName());
+        }
+        if (map.getIdArmor() != 0) {
+            betterStr = betterStr.replace("#ARMURE",Armor.findArmorById(map.getIdArmor()).getName());
+        }
         /*
-         * TODO:Replacer le texte pour le nom des armes , des armures
+         * TODO:Replacer le texte encore
          */
         return betterStr;
     }
@@ -1105,17 +1111,34 @@ public class Main extends Application {
 
 
         // Bouton Inventaire
-        Button inventaire = new Button("Inventaire");
+        Button armurerie = new Button("Armurerie");
+        armurerie.setOnAction(event -> interfaceArmurerie());
 
         // Bouton Sorts
         Button sorts = new Button("Sorts");
+        sorts.setOnAction(event -> interfaceSorts());
 
         // Bouton Consommables
-        Button conso = new Button("Objets");
+        Button inventaire = new Button("Inventaire");
+        inventaire.setOnAction(event -> interfaceInventaire());
 
-        left.getChildren().addAll(usernameText, hp, force, agilite, intel, end, chari, golds, armeNom, armureNom, inventaire, sorts, conso);
+
+        left.getChildren().addAll(usernameText, hp, force, agilite, intel, end, chari, golds, armeNom, armureNom, inventaire, sorts, armurerie);
         return left;
     }
+
+    private void interfaceInventaire() {
+        root.getChildren().clear();
+    }
+
+    private void interfaceSorts() {
+        root.getChildren().clear();
+    }
+
+    private void interfaceArmurerie() {
+        root.getChildren().clear();
+    }
+
 
     private void initMapWithTest(Map map, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4) {
         int random = (int) (Math.random() * 10);
