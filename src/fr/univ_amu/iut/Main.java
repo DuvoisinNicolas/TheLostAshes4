@@ -1096,10 +1096,12 @@ public class Main extends Application {
 
         Label goldsText = new Label();
         goldsText.setFont(fontText);
-        goldsText.setPadding(new Insets(2, 0, 0, 5));
+        goldsText.setPadding(new Insets(2, 0, 50, 5));
         goldsText.textProperty().bind(cara.getGolds().asString());
         golds.getChildren().addAll(goldsImage, goldsText);
 
+
+        /*
         // Arme
 
         Label armeNom = new Label(cara.getWeapon().getName());
@@ -1110,6 +1112,7 @@ public class Main extends Application {
         Label armureNom = new Label(cara.getArmor().getName());
         armureNom.setPadding(new Insets(10, 0, 20, 0));
 
+        */
 
         // Bouton Inventaire
         Button armurerie = new Button("Armurerie");
@@ -1124,7 +1127,7 @@ public class Main extends Application {
         inventaire.setOnAction(event -> interfaceInventaire());
 
 
-        left.getChildren().addAll(usernameText, hp, force, agilite, intel, end, chari, golds, armeNom, armureNom, inventaire, sorts, armurerie);
+        left.getChildren().addAll(usernameText, hp, force, agilite, intel, end, chari, golds,/* armeNom, armureNom,*/ armurerie, inventaire, sorts);
         return left;
     }
 
@@ -1351,29 +1354,44 @@ public class Main extends Application {
         root.setBackground(new Background(new BackgroundImage(new Image("0.png", 800, 600, false, false),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
+        HBox top = new HBox();
+        Label labeltop = new Label("Sorts");
+        labeltop.setFont(fontTitle);
+        top.setAlignment(Pos.CENTER);
+        top.setPadding(new Insets(30,0,0,0));
+        top.getChildren().add(labeltop);
+        root.setTop(top);
+
         VBox center = new VBox();
-        center.setPadding(new Insets(150,0,0,200));
+        center.setPadding(new Insets(80,0,0,169));
         for (Spell spell : cara.getSpells()) {
             HBox spellBox = new HBox();
-            spellBox.setSpacing(20);
             Label label = new Label(spell.getName());
             label.setFont(fontSubTitle);
-            label.setPadding(new Insets(5,0,0,0));
+            label.setPadding(new Insets(20,0,0,0));
             Label labelSpellEffect = new Label(spell.getDescr());
+            labelSpellEffect.setPadding(new Insets(5,0,0,0));
             labelSpellEffect.setFont(fontText);
+            HBox javafxcapue = new HBox();
+            javafxcapue.setPadding(new Insets(25,0,0,0));
             Button useSpell = new Button("Lancer");
             useSpell.setOnAction(event -> {
                 /*
                  * TODO: Gérer les sorts
                  */
             });
+            javafxcapue.getChildren().add(useSpell);
             VBox spellBoxFinal = new VBox();
+            spellBoxFinal.setMinWidth(400);
             spellBoxFinal.getChildren().addAll(label,labelSpellEffect);
-            spellBox.getChildren().addAll(spellBoxFinal,useSpell);
+            spellBox.getChildren().addAll(spellBoxFinal,javafxcapue);
             center.getChildren().addAll(spellBox);
         }
         Button retour = new Button("Retour");
-        center.getChildren().add(retour);
+        HBox javafxcapue = new HBox();
+        javafxcapue.getChildren().add(retour);
+        javafxcapue.setPadding(new Insets(50,0,0,200));
+        center.getChildren().add(javafxcapue);
 
         retour.setOnAction(event -> {
             gameInterface(cara.getCurrentMap());
