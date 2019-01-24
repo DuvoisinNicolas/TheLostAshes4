@@ -654,7 +654,6 @@ public class Main extends Application {
         }
     }
 
-
     private boolean checkItem(Map map) {
         for (Pair<Item,Integer> item : cara.getItems()) {
             if (item.getKey().getIdItem() == map.getIdRequiredItem()) {
@@ -672,7 +671,6 @@ public class Main extends Application {
         }
         return false;
     }
-
 
     private boolean checkIfEnoughtMoney(Map map, int numero) throws NoMapFoundException {
         switch (numero) {
@@ -719,7 +717,19 @@ public class Main extends Application {
         }
         if (map.getIdItem() != 0) {
             Pair<Item,Integer> pair = new Pair<>(Item.findItemById(map.getIdItem()),map.getQuantiteItem());
-            cara.getItems().add(pair);
+            boolean exists = false;
+            for (Pair<Item,Integer> pair2 : cara.getItems()) {
+                if (pair.getKey().equals(pair2.getKey())) {
+                    Pair<Item, Integer> pair3 = new Pair<>(pair2.getKey(),pair.getValue() + pair2.getValue());
+                    cara.getItems().add(pair3);
+                    cara.getItems().remove(pair2);
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists){
+                cara.getItems().add(pair);
+            }
             /*
              * TODO : Si l'objet existe déja faut juste augmenter sa quantité
              */
@@ -880,8 +890,6 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-
 
     private VBox buildBottom(Map map, int cpt, boolean spellUnlocking, boolean itemUnlocking, boolean enoughtGolds1, boolean enoughtGolds2, boolean enoughtGolds3, boolean enoughtGolds4) {
         StackPane button1 = new StackPane();
@@ -1131,7 +1139,6 @@ public class Main extends Application {
         return left;
     }
 
-
     private void initMapWithTest(Map map, StackPane button2, StackPane button3, StackPane button4, Rectangle rectangle1, Rectangle rectangle2, Rectangle rectangle3, Rectangle rectangle4) {
         int random = (int) (Math.random() * 10);
         boolean sucess = false;
@@ -1343,7 +1350,6 @@ public class Main extends Application {
             });
         }
     }
-
 
     private void interfaceInventaire() {
         root.getChildren().clear();

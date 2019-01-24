@@ -99,8 +99,9 @@ public class DAOCara {
         preparedStatement.setInt(6,caracter.getEND().get());
         preparedStatement.setInt(7,caracter.getMAG().get());
         preparedStatement.setInt(8,caracter.getGolds().get());
-        preparedStatement.setInt(9,caracter.getIdCara());
-        preparedStatement.setInt(10,caracter.getCurrentMap().getIdMap());
+        preparedStatement.setInt(9,caracter.getCurrentMap().getIdMap());
+        preparedStatement.setInt(10,caracter.getIdCara());
+        System.out.println(preparedStatement);
         preparedStatement.executeUpdate();
 
         // Suppression des anciennes armes
